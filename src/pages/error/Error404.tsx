@@ -5,12 +5,12 @@ import { PageBreadcrumb } from '@/components'
 import { useEffect } from 'react'
 
 //images
+import { useAuthContext } from '@/common'
 import authImg from '@/assets/images/auth-img.jpg'
-import logo from '@/assets/images/logo.png'
-import logoDark from '@/assets/images/logo-dark.png'
 import errorImg from '@/assets/images/svg/404.svg'
 
 const Error404 = () => {
+	const { globalSetting } = useAuthContext()
 	useEffect(() => {
 		if (document.body) {
 			document.body.classList.add('authentication-bg', 'position-relative')
@@ -38,10 +38,10 @@ const Error404 = () => {
 										<div className="d-flex flex-column h-100">
 											<div className="auth-brand p-4">
 												<Link to="/" className="logo-light">
-													<Image src={logo} alt="logo" height={22} />
+													<Image src={globalSetting?.logo1} alt="logo" height={22} />
 												</Link>
 												<Link to="index.html" className="logo-dark">
-													<img src={logoDark} alt="dark logo" height={22} />
+													<img src={globalSetting?.logo1} alt="dark logo" height={22} />
 												</Link>
 											</div>
 											<div className="p-4 my-auto">

@@ -6,6 +6,9 @@ const SettingServices = {
 	saveAbout: async (body: any) => {
 		return requests.post('/settings/about-us', body, {})
 	},
+	saveSettings: async (body: any) => {
+		return requests.post('/settings/setting', body, {})
+	},
 	saveLogos: async (body: any) => {
 		return requests.post('/settings/logo', body, {
 			headers: {
@@ -25,6 +28,12 @@ const SettingServices = {
 	},
 	getAddresses: async () => {
 		return requests.get('/public/adresses')
+	},
+	getVisarequests: async () => {
+		return requests.get('/all-visa-requests')
+	},
+	getTravelrequests: async () => {
+		return requests.get('/all-travel-requests')
 	},
 }
 

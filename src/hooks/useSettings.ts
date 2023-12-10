@@ -38,7 +38,8 @@ const useSettings = () => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
-		} else if (location.pathname === '/settings/logo') {
+		} 
+		if (location.pathname === '/settings/logo') {
 			const data = new FormData()
 			data.append('logo1', logo1)
 			data.append('logo2', logo2)
@@ -55,7 +56,8 @@ const useSettings = () => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
-		} else if (location.pathname === '/settings/images') {
+		}
+		if (location.pathname === '/settings/images') {
 			const formdata = new FormData()
 			if (image1) {
 				formdata.append('image1', image1)
@@ -87,6 +89,18 @@ const useSettings = () => {
 				})
 				.catch((err) => {
 					errorNotification(err.message)
+					setLoading(false)
+				})
+		} 
+		if (location.pathname === '/settings/general') {
+			SettingServices.saveSettings(body)
+				.then((response) => {
+					forceUpdate()
+					successNotification(response.data.message)
+					setLoading(false)
+				})
+				.catch((err) => {
+					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
 		}

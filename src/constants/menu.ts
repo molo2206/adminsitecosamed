@@ -207,12 +207,47 @@ const MENU_ITEMS: MenuItemTypes[] = [
 			},
 		],
 	},
+
+	{
+		key: 'demandes',
+		label: 'Demandes',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		permissions: { ressource: 'Requests', action: 'read' },
+		children: [
+			{
+				key: 'demandes',
+				label: 'VisaFacility',
+				isTitle: false,
+				icon: 'ri-pages-line',
+				url: '/demandes/visa',
+				parentKey: 'countries',
+				permissions: { ressource: 'Requests', action: 'read' },
+			},
+			{
+				key: 'demandes',
+				label: 'TravelAsk',
+				isTitle: false,
+				icon: 'ri-pages-line',
+				url: '/demandes/voyage',
+				permissions: { ressource: 'Requests', action: 'read' },
+			},
+		],
+	},
 	{
 		key: 'about-us',
 		label: 'About us',
 		isTitle: false,
 		icon: 'ri-pages-line',
 		url: '/settings/about-us',
+		permissions: { ressource: 'Settings', action: 'read' },
+	},
+	{
+		key: 'settings',
+		label: 'General settings',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		url: '/settings/general',
 		permissions: { ressource: 'Settings', action: 'read' },
 	},
 	{

@@ -34,8 +34,11 @@ const ListBooks = React.lazy(
 	() => import('../pages/books/ListBooks')
 )
 const ListMembers = React.lazy(() => import('../pages/membres/ListMembers'))
+const Visa = React.lazy(() => import('../pages/demandes/Visa'))
+const Travel = React.lazy(() => import('../pages/demandes/Travel'))
 const About = React.lazy(() => import('../pages/settings/About'))
 const SettingLogo = React.lazy(() => import('../pages/settings/SettingLogo'))
+const General = React.lazy(() => import('../pages/settings/General'))
 const SettingImage = React.lazy(() => import('../pages/settings/SettingImage'))
 const Addresses = React.lazy(() => import('../pages/settings/Addresses'))
 const CreateEvent = React.lazy(() => import('../pages/events/CreateEvent'))
@@ -53,76 +56,6 @@ const RoleHasPermissions = React.lazy(
 	() => import('../pages/roles/RoleHasPermissions')
 )
 
-// // base ui
-// const Accordions = React.lazy(() => import('../pages/ui/Accordions'))
-// const Alerts = React.lazy(() => import('../pages/ui/Alerts'))
-// const Avatars = React.lazy(() => import('../pages/ui/Avatars'))
-// const Badges = React.lazy(() => import('../pages/ui/Badges'))
-// const Breadcrumb = React.lazy(() => import('../pages/ui/Breadcrumb'))
-// const Buttons = React.lazy(() => import('../pages/ui/Buttons'))
-// const Cards = React.lazy(() => import('../pages/ui/Cards'))
-// const Carousel = React.lazy(() => import('../pages/ui/Carousel'))
-// const Collapse = React.lazy(() => import('../pages/ui/Collapse'))
-// const Dropdowns = React.lazy(() => import('../pages/ui/Dropdowns'))
-// const EmbedVideo = React.lazy(() => import('../pages/ui/EmbedVideo'))
-// const Grid = React.lazy(() => import('../pages/ui/Grid'))
-// const Links = React.lazy(() => import('../pages/ui/Links'))
-// const ListGroup = React.lazy(() => import('../pages/ui/ListGroup'))
-// const Modals = React.lazy(() => import('../pages/ui/Modals'))
-// const Notifications = React.lazy(() => import('../pages/ui/Notifications'))
-// const Offcanvas = React.lazy(() => import('../pages/ui/Offcanvas'))
-// const Placeholders = React.lazy(() => import('../pages/ui/Placeholders'))
-// const Pagination = React.lazy(() => import('../pages/ui/Pagination'))
-// const Popovers = React.lazy(() => import('../pages/ui/Popovers'))
-// const Progress = React.lazy(() => import('../pages/ui/Progress'))
-// const Spinners = React.lazy(() => import('../pages/ui/Spinners'))
-// const Tabs = React.lazy(() => import('../pages/ui/Tabs'))
-// const Tooltips = React.lazy(() => import('../pages/ui/Tooltips'))
-// const Typography = React.lazy(() => import('../pages/ui/Typography'))
-// const Utilities = React.lazy(() => import('../pages/ui/Utilities'))
-
-// // extended ui
-// const Portlets = React.lazy(() => import('../pages/extended/Portlets'))
-// const RangeSlider = React.lazy(() => import('../pages/extended/RangeSlider'))
-// const Scrollbar = React.lazy(() => import('../pages/extended/ScrollBar'))
-
-// // // icons
-// const RemixIcons = React.lazy(() => import('../pages/ui/icons/RemixIcons'))
-// const BootstrapIcons = React.lazy(
-// 	() => import('../pages/ui/icons/BootstrapIcons')
-// )
-// const MaterialIcons = React.lazy(
-// 	() => import('../pages/ui/icons/MaterialIcons')
-// )
-
-// charts
-// const ApexCharts = React.lazy(() => import('../pages/charts/ApexCharts'))
-// const SparklineCharts = React.lazy(
-// 	() => import('../pages/charts/SparklinesCharts')
-// )
-// const ChartJs = React.lazy(() => import('../pages/charts/ChartJsCharts'))
-
-// // // forms
-// const BasicElements = React.lazy(
-// 	() => import('../pages/ui/forms/BasicElements')
-// )
-// const FormAdvanced = React.lazy(() => import('../pages/ui/forms/FormAdvanced'))
-// const Validation = React.lazy(() => import('../pages/ui/forms/Validation'))
-// const Wizard = React.lazy(() => import('../pages/ui/forms/Wizard'))
-// const FileUploads = React.lazy(() => import('../pages/ui/forms/FileUploads'))
-// const Editors = React.lazy(() => import('../pages/ui/forms/Editors'))
-// const ImageCrop = React.lazy(() => import('../pages/ui/forms/ImageCrop'))
-// const Editable = React.lazy(() => import('../pages/ui/forms/Editable'))
-
-// // // tables
-// const BasicTables = React.lazy(() => import('../pages/ui/tables/BasicTables'))
-// const DataTables = React.lazy(() => import('../pages/ui/tables/DataTables'))
-
-// // // maps
-// const GoogleMaps = React.lazy(() => import('../pages/ui/maps/GoogleMaps'))
-// const VectorMaps = React.lazy(() => import('../pages/ui/maps/VectorMaps'))
-
-// // error
 const Error404 = React.lazy(() => import('../pages/error/Error404'))
 
 const Error500 = React.lazy(() => import('../pages/error/Error500'))
@@ -270,6 +203,27 @@ const otherRoutes: RoutesProps[] = [
 		path: '/settings/addresses',
 		name: 'Addresses',
 		element: <Addresses />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Settings', action: 'read' },
+	},
+	{
+		path: '/demandes/visa',
+		name: 'Visa',
+		element: <Visa />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Requests', action: 'read' },
+	},
+	{
+		path: '/demandes/voyage',
+		name: 'Travel',
+		element: <Travel />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Requests', action: 'read' },
+	},
+	{
+		path: '/settings/general',
+		name: 'Settings',
+		element: <General />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Settings', action: 'read' },
 	},

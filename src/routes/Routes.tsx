@@ -33,8 +33,7 @@ const AllRoutes = (props: IRoutesProps) => {
 			<Routes>
 				<Route>
 					{publicProtectedFlattenRoutes.map((route, idx) => (
-						<Route
-							path={route.path}
+						<Route path={route.path}
 							element={
 								<DefaultLayout {...props}>{route.element}</DefaultLayout>
 							}

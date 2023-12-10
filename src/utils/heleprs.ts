@@ -34,5 +34,5 @@ export function checkPermission(ressource: any, access: string) {
 		)
 	}
 }
-export const BASE_URL = 'http://localhost:8000/api'
-//export const BASE_URLL = "https://apidici.wafrisystem.com/api";
+//export const BASE_URL = 'http://localhost:8000/api'
+export const BASE_URL = "https://apidici.wafrisystem.com/api";

@@ -34,7 +34,7 @@ const CreateEvent = () => {
 		country: '',
 		image: null,
 		category: '',
-		city:''
+		city: '',
 	})
 
 	const methods = useForm({
@@ -91,8 +91,15 @@ const CreateEvent = () => {
 			valide = false
 		}
 		if (!inputs.image) {
-			hanldeError('Cover date is required', 'image')
+			hanldeError('Cover is required', 'image')
 			valide = false
+		} else {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = inputs?.image?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				hanldeError('Cover image is too big (max 5 mb) ', 'image')
+				valide = false
+			}
 		}
 
 		if (valide) {
@@ -100,7 +107,6 @@ const CreateEvent = () => {
 		}
 	}
 
-	
 	return (
 		<>
 			<PageBreadcrumb title="Create Event" subName={t('About')} />
@@ -181,11 +187,13 @@ const CreateEvent = () => {
 													key="select"
 													errors={'Samuel'}>
 													<option defaultValue="selected">...</option>
-													{data?.find((item:any) => item?.id === inputs?.country)?.city?.map((item: any, index: any) => (
-														<option key={index} value={item.id}>
-															{item.name}
-														</option>
-													))}
+													{data
+														?.find((item: any) => item?.id === inputs?.country)
+														?.city?.map((item: any, index: any) => (
+															<option key={index} value={item.id}>
+																{item.name}
+															</option>
+														))}
 												</FormInput>
 											</Col>
 										</Row>
@@ -221,7 +229,8 @@ const CreateEvent = () => {
 										</FormInput>
 									</li>
 									<li className="list-group-item">
-										<CustomInput multiple={undefined}
+										<CustomInput
+											multiple={undefined}
 											accept={undefined}
 											onChangeCapture={undefined}
 											name="title"
@@ -343,11 +352,12 @@ const CreateEvent = () => {
 										</Row>
 									</li>
 									<li className="list-group-item">
-										<CustomInput multiple={undefined}
+										<CustomInput
+											multiple={undefined}
 											invalid={undefined}
 											accept={undefined}
 											name="image"
-											label={t('Cover')}
+											label={t('Cover') + ' (850 X 550)'}
 											placeholder=""
 											type="file"
 											className="form-control"

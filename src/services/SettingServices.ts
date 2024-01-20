@@ -20,6 +20,7 @@ const SettingServices = {
 		return requests.post('/settings/images', body, {
 			headers: {
 				'Content-Type': 'multipart/formdata',
+				Accept:"application/json"
 			},
 		})
 	},
@@ -34,6 +35,10 @@ const SettingServices = {
 	},
 	getTravelrequests: async () => {
 		return requests.get('/all-travel-requests')
+	},
+
+	_one_request: async (id: any) => {
+		return requests.get('/demande/' + id)
 	},
 }
 

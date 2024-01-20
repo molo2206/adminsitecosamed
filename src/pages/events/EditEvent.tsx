@@ -22,18 +22,12 @@ import { PageBreadcrumb } from '@/components'
 const EditEvent = () => {
 	const { id } = useParams()
 	const navigation = useNavigate()
-	const {
-		languages,
-		changePageLang,
-		pageLang,
-		lang,
-	} = useAuthContext()
-	const {  loading } = useSettings()
+	const { languages, changePageLang, pageLang, lang } = useAuthContext()
+	const { loading } = useSettings()
 	const { data, loading: loadingCountry } = useAsync(CountryServices.getCountry)
-	const {
-		data: event,
-		error: errorEvent,
-	} = useAsync(() => EventServices.oneEvent(id))
+	const { data: event, error: errorEvent } = useAsync(() =>
+		EventServices.oneEvent(id)
+	)
 
 	if (errorEvent || !event) {
 		navigation('/', { replace: true })
@@ -55,7 +49,7 @@ const EditEvent = () => {
 			country: '',
 			image: null,
 			category: '',
-			city:''
+			city: '',
 		})
 
 	useEffect(() => {
@@ -124,6 +118,14 @@ const EditEvent = () => {
 			valide = false
 		}
 
+		if (inputs.image) {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = inputs?.image?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				hanldeError('Cover image is too big (max 5 mb) ', 'image')
+				valide = false
+			}
+		}
 
 		if (valide) {
 			createEvent(inputs)
@@ -144,7 +146,7 @@ const EditEvent = () => {
 										<Row>
 											<Col lg={6}>
 												<FormInput
-												invalid={undefined}
+													invalid={undefined}
 													name="select"
 													style={{
 														height: 50,
@@ -158,7 +160,7 @@ const EditEvent = () => {
 													errors={err}
 													value={pageLang}>
 													<option defaultValue="selected">...</option>
-													{languages?.map((item:any, index:any) => (
+													{languages?.map((item: any, index: any) => (
 														<option key={index} value={item.iso}>
 															{item.name}
 														</option>
@@ -167,7 +169,7 @@ const EditEvent = () => {
 											</Col>
 											<Col lg={6}>
 												<FormInput
-												invalid={undefined}
+													invalid={undefined}
 													name="select"
 													style={{
 														height: 50,
@@ -184,7 +186,7 @@ const EditEvent = () => {
 													key="select"
 													errors={'Samuel'}>
 													<option defaultValue="selected">...</option>
-													{data?.map((item:any, index:any) => (
+													{data?.map((item: any, index: any) => (
 														<option key={index} value={item.id}>
 															{item.name}
 														</option>
@@ -210,18 +212,20 @@ const EditEvent = () => {
 													key="select"
 													errors={'Samuel'}>
 													<option defaultValue="selected">...</option>
-													{data?.find((item:any) => item?.id === inputs?.country)?.city?.map((item: any, index: any) => (
-														<option key={index} value={item.id}>
-															{item.name}
-														</option>
-													))}
+													{data
+														?.find((item: any) => item?.id === inputs?.country)
+														?.city?.map((item: any, index: any) => (
+															<option key={index} value={item.id}>
+																{item.name}
+															</option>
+														))}
 												</FormInput>
 											</Col>
 										</Row>
 									</li>
 									<li className="list-group-item">
 										<FormInput
-										invalid={undefined}
+											invalid={undefined}
 											name="select"
 											style={{
 												height: 50,
@@ -239,7 +243,7 @@ const EditEvent = () => {
 											errors={'Samuel'}
 											control={control}>
 											<option defaultValue="selected">...</option>
-											{categories?.map((item:any, index:any) => (
+											{categories?.map((item: any, index: any) => (
 												<option key={index} value={item.id}>
 													{
 														showingTranslateValue(item?.translations, lang)
@@ -250,10 +254,11 @@ const EditEvent = () => {
 										</FormInput>
 									</li>
 									<li className="list-group-item">
-										<CustomInput multiple={undefined}
-										accept={undefined}
-										onChangeCapture={undefined}
-										invalid={undefined}
+										<CustomInput
+											multiple={undefined}
+											accept={undefined}
+											onChangeCapture={undefined}
+											invalid={undefined}
 											name="title"
 											label={t('Title')}
 											placeholder=""
@@ -300,12 +305,11 @@ const EditEvent = () => {
 														/\d/,
 													]}
 													label="Start Date"
-													name=''
-													placeholder=''
+													name=""
+													placeholder=""
 													accept={undefined}
 													errors={errors.debut}
 													value={inputs.debut}
-												
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'debut')
 													}
@@ -327,12 +331,11 @@ const EditEvent = () => {
 														/\d/,
 													]}
 													label="End Date"
-													name=''
-													placeholder=''
+													name=""
+													placeholder=""
 													accept={undefined}
 													errors={errors.fin}
 													value={inputs.fin}
-												
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'fin')
 													}
@@ -347,12 +350,11 @@ const EditEvent = () => {
 													style={{ height: 50 }}
 													mask={[/\d/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/]}
 													label="Time In"
-													name=''
-													placeholder=''
+													name=""
+													placeholder=""
 													accept={undefined}
 													errors={errors.in}
 													value={inputs.in}
-												
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'in')
 													}
@@ -363,12 +365,11 @@ const EditEvent = () => {
 													style={{ height: 50 }}
 													mask={[/\d/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/]}
 													label="Time Out"
-													name=''
-													placeholder=''
+													name=""
+													placeholder=""
 													accept={undefined}
 													errors={errors.out}
 													value={inputs.out}
-													
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'out')
 													}
@@ -377,10 +378,11 @@ const EditEvent = () => {
 										</Row>
 									</li>
 									<li className="list-group-item">
-										<CustomInput multiple={undefined}
-										accept={undefined}
+										<CustomInput
+											multiple={undefined}
+											accept={undefined}
 											name="image"
-											label={t('Cover')}
+											label={t('Cover') + '(850 X 550)'}
 											placeholder=""
 											type="file"
 											className="form-control"

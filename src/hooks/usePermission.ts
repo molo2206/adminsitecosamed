@@ -18,7 +18,7 @@ const usePermission = () => {
 		setLoading(true)
 		if (isEdit) {
 			PermissionServices.update(body, selected?.id)
-				.then((response) => {
+				.then((response:any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -26,13 +26,13 @@ const usePermission = () => {
 					setSelected(null)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
 		} else {
 			PermissionServices.create(body)
-				.then((response) => {
+				.then((response:any) => {
 					setIsEdit(false)
 					setSelected(null)
 					forceUpdate()
@@ -40,7 +40,7 @@ const usePermission = () => {
 					setLoading(false)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})

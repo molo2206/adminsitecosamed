@@ -20,7 +20,7 @@ const useCountry = () => {
 		setLoading(true)
 		if (isEdit) {
 			CountryServices.update(body, selected?.id)
-				.then((response) => {
+				.then((response:any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -28,13 +28,13 @@ const useCountry = () => {
 					setSelected(null)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
 		} else {
 			CountryServices.create(body)
-				.then((response) => {
+				.then((response:any) => {
 					setIsEdit(false)
 					setSelected(null)
 					forceUpdate()
@@ -42,7 +42,7 @@ const useCountry = () => {
 					setLoading(false)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
@@ -52,7 +52,7 @@ const useCountry = () => {
 		setLoading(true)
 		if (isEdit) {
 			CountryServices.updateCity(body, selected?.id)
-				.then((response) => {
+				.then((response:any) => {
 					setInputs({})
 					forceUpdate()
 					successNotification(response.data.message)
@@ -61,13 +61,13 @@ const useCountry = () => {
 					setSelected(null)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
 		} else {
 			CountryServices.createCity(body)
-				.then((response) => {
+				.then((response:any) => {
 					setInputs({
 						country_id:"",
 						name:""
@@ -79,7 +79,7 @@ const useCountry = () => {
 					setLoading(false)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})

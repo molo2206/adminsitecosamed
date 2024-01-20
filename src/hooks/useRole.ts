@@ -20,7 +20,7 @@ const useRole = () => {
 		setLoading(true)
 		if (isEdit) {
 			RoleServices.update(body, selected?.id)
-				.then((response) => {
+				.then((response:any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -28,13 +28,13 @@ const useRole = () => {
 					setSelected(null)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
 		} else {
 			RoleServices.create(body)
-				.then((response) => {
+				.then((response:any) => {
 					setIsEdit(false)
 					setSelected(null)
 					forceUpdate()
@@ -42,7 +42,7 @@ const useRole = () => {
 					setLoading(false)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
@@ -67,7 +67,7 @@ const useRole = () => {
 		}
 		setLoading(true)
 		RoleServices.setPermissions(data)
-			.then((response) => {
+			.then((response:any) => {
 				forceUpdate()
 				successNotification(response.data.message)
 				setSelectedRole(null)

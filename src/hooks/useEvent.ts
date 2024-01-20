@@ -41,37 +41,63 @@ const useEvent = () => {
 			location.pathname === `/events/edit/${location.pathname.split('/')[3]}`
 		) {
 			EventServices.update(formdata, location.pathname.split('/')[3])
-				.then((response) => {
-					forceUpdate()
-					successNotification(response.data.message)
+				.then((response: any) => {
 					setLoading(false)
-					setIsEdit(false)
-					setSelected(null)
-					setImage(null)
-					setImageUrl(null)
-					closeModal()
-					navigation('/events/list', { replace: true })
+					if (response?.status === 200) {
+						forceUpdate()
+						successNotification(response.data.message)
+						
+						setIsEdit(false)
+						setSelected(null)
+						setImage(null)
+						setImageUrl(null)
+						closeModal()
+						navigation('/events/list', { replace: true })
+					} else {
+						errorNotification(
+							'An error occured, please verify the image dimensions'
+						)
+					}
 				})
 				.catch((err) => {
-					errorNotification(err ? err.response.data.message : err.message)
+					errorNotification(
+						err?.response
+							? err.response.data.message
+							: err.message
+							? err.message
+							: 'An error ocurred verifiy your image dimensions'
+					)
 					setLoading(false)
 				})
 		}
 		if (location.pathname === '/events/create') {
 			EventServices.create(formdata)
-				.then((response) => {
-					setIsEdit(false)
-					setSelected(null)
-					forceUpdate()
-					successNotification(response.data.message)
+				.then((response: any) => {
 					setLoading(false)
-					setImage(null)
-					setImageUrl(null)
-					closeModal()
-					navigation('/events/list', { replace: true })
+					if (response?.status === 200) {
+						forceUpdate()
+						successNotification(response.data.message)
+						setLoading(false)
+						setIsEdit(false)
+						setSelected(null)
+						setImage(null)
+						setImageUrl(null)
+						closeModal()
+						navigation('/events/list', { replace: true })
+					} else {
+						errorNotification(
+							'An error occured, please verify the image dimensions'
+						)
+					}
 				})
 				.catch((err) => {
-					errorNotification(err ? err.response.data.message : err.message)
+					errorNotification(
+						err?.response
+							? err.response.data.message
+							: err.message
+							? err.message
+							: 'An error ocurred verifiy your image dimensions'
+					)
 					setLoading(false)
 					console.log(err)
 				})

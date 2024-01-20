@@ -19,6 +19,14 @@ const useTestimonials = () => {
 	const [loading, setLoading] = useState(false)
 
 	const saveData = (body: any) => {
+		if (image) {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = image?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				errorNotification('Image is too big (max 5 mb)')
+				return
+			}
+		}
 		const formdata = new FormData()
 		formdata.append('name', body?.name)
 		formdata.append('message', body?.message)
@@ -31,7 +39,7 @@ const useTestimonials = () => {
 		setLoading(true)
 		if (isEdit) {
 			TeamServices.updateTestimonials(formdata, selected?.id)
-				.then((response) => {
+				.then((response:any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -47,7 +55,7 @@ const useTestimonials = () => {
 				})
 		} else {
 			TeamServices.createTestimonials(formdata)
-				.then((response) => {
+				.then((response:any) => {
 					setIsEdit(false)
 					setSelected(null)
 					forceUpdate()
@@ -78,7 +86,7 @@ const useTestimonials = () => {
 		setLoading(true)
 		if (isEdit) {
 			TeamServices.updateBook(formdata, selected?.id)
-				.then((response) => {
+				.then((response:any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -94,7 +102,7 @@ const useTestimonials = () => {
 				})
 		} else {
 			TeamServices.createBook(formdata)
-				.then((response) => {
+				.then((response:any) => {
 					setIsEdit(false)
 					setSelected(null)
 					forceUpdate()

@@ -6,6 +6,7 @@ const TeamServices = {
 	create: async (body: any) => {
 		return requests.post(`/team`, body, {
 			headers: {
+				Accept:'application/json',
 				'Content-Type': 'multipart/formdata',
 			},
 		})
@@ -13,6 +14,7 @@ const TeamServices = {
 	update: async (body: any, id: string) => {
 		return requests.post(`/team/${id}`, body, {
 			headers: {
+				
 				'Content-Type': 'multipart/formdata',
 			},
 		})

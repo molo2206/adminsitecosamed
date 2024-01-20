@@ -1,3 +1,4 @@
+import moment from "moment"
 export function getAllowedRoutes(routes: any, user: any) {
 	let userInfo: any = localStorage?.getItem('_DICI_AUTH')
 		? JSON.parse(localStorage?.getItem('_DICI_AUTH') || '')
@@ -34,5 +35,9 @@ export function checkPermission(ressource: any, access: string) {
 		)
 	}
 }
+
+export const date_format = (data:any) => {
+	return moment(data).format('DD/MM/YYYY')
+}
 //export const BASE_URL = 'http://localhost:8000/api'
-export const BASE_URL = "https://apidici.wafrisystem.com/api";
+export const BASE_URL = "https://backend.diciinternational.org/api";

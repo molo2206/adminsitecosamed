@@ -38,7 +38,7 @@ const useMedia = () => {
 		setLoading(true)
 		if (isEdit) {
 			MediaServices.update(formdata, selected?.id)
-				.then((response) => {
+				.then((response:any) => {
 					setInputs({})
 					forceUpdate()
 					successNotification(response.data.message)
@@ -49,13 +49,13 @@ const useMedia = () => {
 					setImageUrl(null)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
 		} else {
 			MediaServices.create(formdata)
-				.then((response) => {
+				.then((response:any) => {
 					setInputs({})
 					setIsEdit(false)
 					setSelected(null)
@@ -66,7 +66,7 @@ const useMedia = () => {
 					setImageUrl(null)
 					closeModal()
 				})
-				.catch((err) => {
+				.catch((err:any) => {
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})

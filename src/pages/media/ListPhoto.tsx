@@ -168,8 +168,8 @@ const ListPhoto = () => {
 						key="select"
 						errors={errors.country_id}>
 						<option defaultValue="selected">...</option>
-						{countries?.map((item: any, index: any) => (
-							<option key={index} value={item.id}>
+						{countries?.map((item: any) => (
+							<option key={item.id} value={item.id}>
 								{item.name}
 							</option>
 						))}
@@ -194,8 +194,8 @@ const ListPhoto = () => {
 						<option defaultValue="selected">...</option>
 						{countries
 							?.find((item: any) => item?.id === inputs?.country_id)
-							?.city?.map((item: any, index: any) => (
-								<option key={index} value={item.id}>
+							?.city?.map((item: any) => (
+								<option key={item.id} value={item.id}>
 									{item.name}
 								</option>
 							))}
@@ -218,8 +218,8 @@ const ListPhoto = () => {
 						key="select"
 						errors={errors.country_id}>
 						<option defaultValue="selected">...</option>
-						{categories?.map((item: any, index: any) => (
-							<option key={index} value={item.id}>
+						{categories?.map((item: any) => (
+							<option key={item.id} value={item.id}>
 								{showingTranslateValue(item?.translations, lang)?.name}
 							</option>
 						))}

@@ -59,6 +59,14 @@ const EditService = () => {
 			hanldeError('Description is required', 'description')
 			valide = false
 		}
+		if (inputs.image) {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = inputs?.image?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				hanldeError('Cover image is too big (max 5 mb) ', 'image')
+				valide = false
+			}
+		}
 
 		if (valide) {
 			createService(inputs)
@@ -163,7 +171,7 @@ const EditService = () => {
 											multiple={undefined}
 											accept={undefined}
 											name="image"
-											label={t('Cover')}
+											label={t('Cover') + " (850 X 550)"}
 											placeholder=""
 											type="file"
 											className="form-control"

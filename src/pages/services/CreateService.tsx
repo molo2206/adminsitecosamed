@@ -38,6 +38,13 @@ const CreateService = () => {
 		if (!inputs.image) {
 			hanldeError('Cover date is required', 'image')
 			valide = false
+		} else {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = inputs?.image?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				hanldeError('Cover image is too big (max 5 mb) ', 'image')
+				valide = false
+			}
 		}
 
 		if (valide) {
@@ -145,7 +152,7 @@ const CreateService = () => {
 											invalid={undefined}
 											accept={undefined}
 											name="image"
-											label={t('Cover')}
+											label={t('Cover') + ' (850 X 550)'}
 											placeholder=""
 											type="file"
 											className="form-control"

@@ -13,29 +13,34 @@ const useTeam = () => {
 		selected,
 		image,
 		setImage,
-		setImageUrl
+		setImageUrl,
 	} = useAuthContext()
 	const [loading, setLoading] = useState(false)
 
 	const createTeam = (body: any) => {
+		if (image) {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = image?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				errorNotification('Image is too big (max 5 mb)')
+				return
+			}
+		}
 		const formdata = new FormData()
 		formdata.append('full_name', body?.full_name)
 		formdata.append('email', body?.email)
 		formdata.append('fonction', body?.fonction)
-		if(image){
+		formdata.append('facebook', body?.facebook)
+		formdata.append('twitter', body?.twitter)
+		formdata.append('instagram', body?.instagram)
+		formdata.append('linkedin', body?.linkedin)
+		if (image) {
 			formdata.append('image', image)
 		}
-		// formdata.append('liens_sociaux',selectedType?.map((item:any) => {
-		// 	return {
-		// 		item
-		// 	}
-		// }))
-
-
 		setLoading(true)
 		if (isEdit) {
 			TeamServices.update(formdata, selected?.id)
-				.then((response) => {
+				.then((response: any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -51,27 +56,33 @@ const useTeam = () => {
 				})
 		} else {
 			TeamServices.create(formdata)
-				.then((response) => {
-					setIsEdit(false)
-					setSelected(null)
-					forceUpdate()
-					successNotification(response.data.message)
+				.then((response: any) => {
 					setLoading(false)
-					setImage(null)
-					setImageUrl(null)
-					closeModal()
+					if (response?.status === 200) {
+						setIsEdit(false)
+						setSelected(null)
+						forceUpdate()
+						successNotification(response.data.message)
+
+						setImage(null)
+						setImageUrl(null)
+						closeModal()
+					} else {
+						errorNotification(
+							'An error occured, please verify the image dimensions'
+						)
+					}
 				})
 				.catch((err) => {
-					errorNotification(err ? err.response.data.message : err.message)
+					errorNotification(err ? err.response?.data?.message : err?.message)
 					setLoading(false)
 				})
 		}
 	}
 
-
 	return {
 		loading,
-		createTeam
+		createTeam,
 	}
 }
 

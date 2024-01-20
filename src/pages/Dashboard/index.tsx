@@ -3,6 +3,8 @@ import Statistics from './Statistics'
 import Projects from './Projects'
 import useAsync from '@/hooks/useAsync'
 import DashboardServices from '@/services/DashboardServices'
+import WeeklySelesChart from './WeeklySelesChart'
+import YearlySelesChart from './YearlySelesChart'
 
 // componets
 import { PageBreadcrumb } from '@/components'
@@ -65,14 +67,14 @@ const Dashboard = () => {
 						})}
 					</Row>
 
-					{/* <Row>
+					<Row>
 						<Col lg={8}>
-							<WeeklySelesChart />
+							<WeeklySelesChart data={data?.donation} />
 						</Col>
 						<Col lg={4}>
-							<YearlySelesChart />
+							<YearlySelesChart data={data?.donation_year}/>
 						</Col>
-					</Row> */}
+					</Row>
 
 					<Row>
 						{/* <Col xl={4}>

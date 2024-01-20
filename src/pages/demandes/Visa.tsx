@@ -2,6 +2,7 @@ import { Card, Col, Row } from 'react-bootstrap'
 import { Column } from 'react-table'
 import { Employee } from '../ui/tables/types'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
+import { Link } from 'react-router-dom'
 import 'rsuite/dist/rsuite-no-reset.min.css'
 import { useAuthContext } from '@/common'
 import SettingServices from '@/services/SettingServices'
@@ -10,8 +11,7 @@ import { Table } from '@/components'
 import { PageBreadcrumb } from '@/components'
 
 const Visa = () => {
-	const {
-	} = useAuthContext()
+	const {} = useAuthContext()
 	const { data, loading } = useAsync(() => SettingServices.getVisarequests())
 
 	const columns: ReadonlyArray<Column> = [
@@ -28,8 +28,11 @@ const Visa = () => {
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
-			Cell: ({ cell }:any) => (
-				<img className="avatar avatar-sm" src={cell?.row?.original?.user?.image} />
+			Cell: ({ cell }: any) => (
+				<img
+					className="avatar avatar-sm"
+					src={cell?.row?.original?.user?.image}
+				/>
 			),
 		},
 		{
@@ -53,21 +56,22 @@ const Visa = () => {
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
-			Cell: ({ cell }:any) => (
-				<button className='btn btn-outline-success'>
+			Cell: ({ cell }: any) => (
+				<Link
+					to={`/demande/${cell?.row?.original?.id}`}
+					className="btn btn-outline-success">
 					<span>Voir</span>
-				</button>
+				</Link>
 			),
-		}
+		},
 	]
-
-
-
-
 
 	return (
 		<>
-			<PageBreadcrumb title="Demande de facilitation de visa" subName="Demande de facilitation de visa" />
+			<PageBreadcrumb
+				title="Demande de facilitation de visa"
+				subName="Demande de facilitation de visa"
+			/>
 
 			<Row className="mt-10">
 				<Col>
@@ -78,9 +82,7 @@ const Visa = () => {
 							</div>
 						)}
 
-						<Card.Header className="d-flex justify-content-between align-items-center">
-							
-						</Card.Header>
+						<Card.Header className="d-flex justify-content-between align-items-center"></Card.Header>
 						<Card.Body>
 							<Table<Employee>
 								columns={columns}

@@ -36,6 +36,7 @@ const ListBooks = React.lazy(
 const ListMembers = React.lazy(() => import('../pages/membres/ListMembers'))
 const Visa = React.lazy(() => import('../pages/demandes/Visa'))
 const Travel = React.lazy(() => import('../pages/demandes/Travel'))
+const DetailDemande = React.lazy(() => import('../pages/demandes/DetailDemande'))
 const About = React.lazy(() => import('../pages/settings/About'))
 const SettingLogo = React.lazy(() => import('../pages/settings/SettingLogo'))
 const General = React.lazy(() => import('../pages/settings/General'))
@@ -217,6 +218,13 @@ const otherRoutes: RoutesProps[] = [
 		path: '/demandes/voyage',
 		name: 'Travel',
 		element: <Travel />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Requests', action: 'read' },
+	},
+	{
+		path: '/demande/:id',
+		name: 'Request',
+		element: <DetailDemande />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Requests', action: 'read' },
 	},

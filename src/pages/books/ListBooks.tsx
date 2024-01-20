@@ -101,7 +101,11 @@ const ListBooks = () => {
 							Edit
 						</Button>
 
-						<Button onClick={() => handleDelete(cell?.row?.original)} variant={'outline-danger'}>Delete</Button>
+						<Button
+							onClick={() => handleDelete(cell?.row?.original)}
+							variant={'outline-danger'}>
+							Delete
+						</Button>
 					</Col>
 				</Row>
 			),
@@ -156,13 +160,19 @@ const ListBooks = () => {
 			if (!inputs.image) {
 				hanldeError('Cover is required', 'image')
 				valide = false
+			} else {
+				const MAX_FILE_SIZE = 5120 // 5MB
+				const fileSizeKiloBytes = inputs?.image?.size / 1024
+				if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+					hanldeError('Cover image is too big (max 5 mb) ', 'image')
+					valide = false
+				}
 			}
 			if (!inputs.file) {
 				hanldeError('File is required', 'file')
 				valide = false
 			}
 		}
-		
 
 		if (valide) {
 			saveBook(inputs)
@@ -191,7 +201,8 @@ const ListBooks = () => {
 								className="avatar avatar-lg"
 							/>
 							<br />
-							<span className="text-center">Cover</span>
+							<span className="text-center">Cover</span><br/>
+							{errors?.image && <small className='text-danger'>{errors?.image}</small>}
 						</span>
 
 						<input

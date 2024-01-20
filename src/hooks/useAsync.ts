@@ -5,7 +5,7 @@ const useAsync = (asyncFunction: any) => {
 	const [data, setData] = useState<any>([] || {})
 	const [error, setError] = useState('')
 	const [loading, setLoading] = useState(true)
-	const { refresh} = useAuthContext()
+	const { refresh } = useAuthContext()
 
 	useEffect(() => {
 		let unmounted = false
@@ -19,9 +19,9 @@ const useAsync = (asyncFunction: any) => {
 					setError('')
 					setLoading(false)
 				}
-			} catch (err:any) {
+			} catch (err: any) {
 				if (!unmounted) {
-					setError(err.message);
+					setError(err.message)
 					if (axios.isCancel(err)) {
 						setError(err)
 						setLoading(false)

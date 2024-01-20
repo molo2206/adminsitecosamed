@@ -47,7 +47,7 @@ const SettingImage = () => {
 												onChangeCapture={undefined}
 												onFocus={undefined}
 												name="name"
-												label={'Image 1'}
+												label={'Image 1 (400 X 540)'}
 												placeholder=""
 												type="file"
 												className="form-control"
@@ -69,7 +69,7 @@ const SettingImage = () => {
 												onChangeCapture={undefined}
 												onFocus={undefined}
 												name="name"
-												label={'Image 2'}
+												label={'Image 2 (850 X 550)'}
 												placeholder=""
 												type="file"
 												accept="image/jpeg,image/png"
@@ -95,7 +95,7 @@ const SettingImage = () => {
 												onChangeCapture={undefined}
 												onFocus={undefined}
 												name="name"
-												label={'Image 3'}
+												label={'Image 3 (850 X 550)'}
 												placeholder=""
 												type="file"
 												className="form-control"
@@ -117,7 +117,7 @@ const SettingImage = () => {
 												onChangeCapture={undefined}
 												onFocus={undefined}
 												name="name"
-												label={'Image 4'}
+												label={'Image 4 (850 X 550)'}
 												placeholder=""
 												type="file"
 												accept="image/jpeg,image/png"
@@ -143,7 +143,7 @@ const SettingImage = () => {
 												onChangeCapture={undefined}
 												onFocus={undefined}
 												name="name"
-												label={'Image 5'}
+												label={'Image 5 (850 X 550)'}
 												placeholder=""
 												type="file"
 												className="form-control"

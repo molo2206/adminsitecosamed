@@ -149,7 +149,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		label: 'Gallery',
 		isTitle: false,
 		icon: 'ri-pages-line',
-		permissions: { ressource: 'Photos', action: 'read' },
+		//permissions: { ressource: 'Photos', action: 'read' },
 		children: [
 			{
 				key: 'photos',
@@ -217,7 +217,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		children: [
 			{
 				key: 'demandes',
-				label: 'VisaFacility',
+				label: 'Visa',
 				isTitle: false,
 				icon: 'ri-pages-line',
 				url: '/demandes/visa',
@@ -226,7 +226,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 			},
 			{
 				key: 'demandes',
-				label: 'TravelAsk',
+				label: 'Travel',
 				isTitle: false,
 				icon: 'ri-pages-line',
 				url: '/demandes/voyage',

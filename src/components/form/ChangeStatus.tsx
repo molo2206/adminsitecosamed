@@ -31,67 +31,73 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 			}
 			if (location.pathname === '/events/list') {
 				const response = await EventServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
 			if (location.pathname === '/team') {
 				const response = await TeamServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
 			if (location.pathname === '/testimonials/list') {
 				const response = await TeamServices.statusTesti(
 					{ status: newStatus },
 					id
 				)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
 			if (location.pathname === '/books/list') {
 				const response = await TeamServices.statusBooks(
 					{ status: newStatus },
 					id
 				)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
 			if (location.pathname === '/category') {
 				const response = await CategoryServices.status(
 					{ status: newStatus },
 					id
 				)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
 			if (location.pathname === '/services/list') {
 				const response = await ServiceServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
-      if (location.pathname === '/users') {
+			if (location.pathname === '/users') {
 				const response = await UserServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
-      if (location.pathname === '/countries') {
+			if (location.pathname === '/countries') {
 				const response = await CountryServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
-      if (location.pathname === '/cities') {
-				const response = await CountryServices.statusCity({ status: newStatus }, id)
+			if (location.pathname === '/cities') {
+				const response = await CountryServices.statusCity(
+					{ status: newStatus },
+					id
+				)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
-      if (location.pathname === '/roles') {
+			if (location.pathname === '/roles') {
 				const response = await RoleServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
-      if (location.pathname === '/ressources') {
-				const response = await PermissionServices.status({ status: newStatus }, id)
+			if (location.pathname === '/ressources') {
+				const response = await PermissionServices.status(
+					{ status: newStatus },
+					id
+				)
+				successNotification(response?.data?.message)
 				forceUpdate()
-				successNotification(response.data.message)
 			}
 		} catch (err: any) {
 			errorNotification(err ? err.response.data.message : err.message)

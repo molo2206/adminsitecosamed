@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next'
 import CustomButton from '@/components/form/CustomButton'
 import useTeam from '@/hooks/useTeam'
 import useAsync from '@/hooks/useAsync'
-import { Typeahead } from 'react-bootstrap-typeahead'
 import { Button } from 'react-bootstrap'
 import { Table } from '@/components'
 import { PageBreadcrumb } from '@/components'
@@ -30,8 +29,6 @@ const ListTeam = () => {
 		isEdit,
 		selected,
 		isOpen,
-		setSelectedType,
-		selectedType,
 		toggleModal,
 		closeModal,
 		setImage,
@@ -46,18 +43,22 @@ const ListTeam = () => {
 		enableReinitialize: true,
 
 		initialValues: {
-			social: {
-				facebook: '',
-				twitter: '',
-			},
 			full_name: isEdit ? selected?.full_name : '',
 			fonction: isEdit ? selected?.fonction : '',
 			email: isEdit ? selected?.email : '',
+			facebook: isEdit ? selected?.facebook : '',
+			twitter: isEdit ? selected?.twitter : '',
+			instagram: isEdit ? selected?.instagram : '',
+			linkedin: isEdit ? selected?.linkedin : '',
 		},
 		validationSchema: Yup.object({
 			full_name: Yup.string().required('Full Name is required'),
 			fonction: Yup.string().required('Fonction is required'),
 			email: Yup.string().required('email is required'),
+			facebook: Yup.string().required('facebook is required'),
+			twitter: Yup.string().required('twitter is required'),
+			instagram: Yup.string().required('instagram is required'),
+			linkedin: Yup.string().required('linkedin is required'),
 		}),
 		onSubmit: (values) => {
 			createTeam(values)
@@ -135,16 +136,16 @@ const ListTeam = () => {
 							Edit
 						</Button>
 
-						<Button onClick={() => handleDelete(cell?.row?.original)} variant={'outline-danger'}>Delete</Button>
+						<Button
+							onClick={() => handleDelete(cell?.row?.original)}
+							variant={'outline-danger'}>
+							Delete
+						</Button>
 					</Col>
 				</Row>
 			),
 		},
 	]
-
-	const onChangeSingleSelection = (selected: any) => {
-		setSelectedType(selected)
-	}
 
 	useEffect(() => {
 		if (isEdit) {
@@ -181,9 +182,9 @@ const ListTeam = () => {
 						validation.handleSubmit()
 						return false
 					}}>
-					<div className="mt-2 mb-4 d-flex justify-content-center align-items-center">
+					<div className="mt-2 mx-auto d-flex justify-content-center align-items-center">
 						<span
-							className="d-block relative"
+							className="d-block justify-content-center text-center align-items-center mx-auto relative"
 							onClick={pickImage}
 							role="button">
 							<img
@@ -194,6 +195,8 @@ const ListTeam = () => {
 								}
 								className="avatar avatar-lg"
 							/>
+							<br />
+							<small className="text-center">(540 X 640)</small>
 						</span>
 
 						<input
@@ -204,6 +207,7 @@ const ListTeam = () => {
 							className="d-none"
 						/>
 					</div>
+					<div className="mb-4 mx-auto"></div>
 
 					<CustomInput
 						multiple={undefined}
@@ -264,63 +268,87 @@ const ListTeam = () => {
 						}
 						errors={validation.errors.fonction}
 					/>
-					<div className="mb-1">
-						<label className="form-label">Social links</label>
-						<Typeahead
-							id="the-basics"
-							labelKey={'label'}
-							multiple
-							onChange={onChangeSingleSelection}
-							options={[
-								{
-									value: 'facebook',
-									label: 'facebook',
-								},
-								{
-									value: 'twitter',
-									label: 'Twitter',
-								},
-								{
-									value: 'linkedin',
-									label: 'Linkedin',
-								},
-								{
-									value: 'instagram',
-									label: 'Instagram',
-								},
-							]}
-							selected={selectedType}
-						/>
-					</div>
-					{selectedType?.length > 0 &&
-						selectedType?.map((item: any) => (
-							<div>
-								<Row>
-									<CustomInput
-										multiple={undefined}
-										onFocus={undefined}
-										accept={undefined}
-										onChangeCapture={undefined}
-										name="fonction"
-										label={'Fonction'}
-										placeholder=""
-										type="text"
-										className="form-control"
-										onChange={validation.handleChange}
-										onBlur={validation.handleBlur}
-										value={validation.values.fonction || ''}
-										invalid={
-											validation.touched.fonction && validation.errors.fonction
-												? true
-												: false
-										}
-										errors={validation.errors.fonction}
-									/>
-								</Row>
-							</div>
-						))}
+					<CustomInput
+						multiple={undefined}
+						onFocus={undefined}
+						accept={undefined}
+						onChangeCapture={undefined}
+						name="facebook"
+						label={'Facebook'}
+						placeholder=""
+						type="text"
+						className="form-control"
+						onChange={validation.handleChange}
+						onBlur={validation.handleBlur}
+						value={validation.values.facebook || ''}
+						invalid={
+							validation.touched.facebook && validation.errors.facebook
+								? true
+								: false
+						}
+						errors={validation.errors.facebook}
+					/>
+					<CustomInput
+						multiple={undefined}
+						onFocus={undefined}
+						accept={undefined}
+						onChangeCapture={undefined}
+						name="instagram"
+						label={'Instagram'}
+						placeholder=""
+						type="text"
+						className="form-control"
+						onChange={validation.handleChange}
+						onBlur={validation.handleBlur}
+						value={validation.values.instagram || ''}
+						invalid={
+							validation.touched.instagram && validation.errors.instagram
+								? true
+								: false
+						}
+						errors={validation.errors.instagram}
+					/>
+					<CustomInput
+						multiple={undefined}
+						onFocus={undefined}
+						accept={undefined}
+						onChangeCapture={undefined}
+						name="twitter"
+						label={'Twitter'}
+						placeholder=""
+						type="text"
+						className="form-control"
+						onChange={validation.handleChange}
+						onBlur={validation.handleBlur}
+						value={validation.values.twitter || ''}
+						invalid={
+							validation.touched.twitter && validation.errors.twitter
+								? true
+								: false
+						}
+						errors={validation.errors.twitter}
+					/>
+					<CustomInput
+						multiple={undefined}
+						onFocus={undefined}
+						accept={undefined}
+						onChangeCapture={undefined}
+						name="linkedin"
+						label={'Linkedin'}
+						placeholder=""
+						type="text"
+						className="form-control"
+						onChange={validation.handleChange}
+						onBlur={validation.handleBlur}
+						value={validation.values.linkedin || ''}
+						invalid={
+							validation.touched.linkedin && validation.errors.linkedin
+								? true
+								: false
+						}
+						errors={validation.errors.linkedin}
+					/>
 
-					{/** button  */}
 					<CustomButton
 						loading={loadingForm}
 						label={isEdit ? 'Update' : 'Save'}

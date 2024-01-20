@@ -39,7 +39,7 @@ const useUsers = () => {
 				},
 				selected?.id
 			)
-				.then((response) => {
+				.then((response:any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -54,7 +54,7 @@ const useUsers = () => {
 				})
 		} else {
 			UserServices.create(data)
-				.then((response) => {
+				.then((response:any) => {
 					setIsEdit(false)
 					setSelectedRole(null)
 					setSelected(null)
@@ -74,7 +74,7 @@ const useUsers = () => {
 	const update_profile = (body: any) => {
 		setLoading(true)
 		AuthServices._updateProfile(body)
-			.then((response) => {
+			.then((response:any) => {
 				saveUser(response.data.data)
 				setIsEdit(false)
 				setSelectedRole(null)
@@ -91,7 +91,7 @@ const useUsers = () => {
 	const update_password = (body: any) => {
 		setLoading(true)
 		AuthServices._updatePassword(body)
-			.then((response) => {
+			.then((response:any) => {
 				setInputs({
 					old_password: '',
 					new_password: '',
@@ -113,7 +113,7 @@ const useUsers = () => {
 		const formdata = new FormData()
 		formdata.append('image', body)
 		AuthServices._updateImage(formdata)
-			.then((response) => {
+			.then((response:any) => {
 				saveUser(response.data.data)
 				setIsEdit(false)
 				setSelectedRole(null)

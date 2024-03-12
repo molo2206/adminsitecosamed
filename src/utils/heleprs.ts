@@ -40,4 +40,4 @@ export const date_format = (data:any) => {
 	return moment(data).format('DD/MM/YYYY')
 }
 //export const BASE_URL = 'http://localhost:8000/api'
-export const BASE_URL = "https://backend.diciinternational.org/api";
+export const BASE_URL = "http://127.0.0.1:8000/api";

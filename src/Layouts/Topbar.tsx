@@ -2,17 +2,9 @@ import { Image } from 'react-bootstrap'
 import { ThemeSettings, useThemeContext } from '@/common'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '@/common'
-// assets
-import logo from '@/assets/images/logo.png'
-import logoSm from '@/assets/images/logo-sm.png'
-import logoDark from '@/assets/images/logo-dark.png'
-
 
 // components
-import {
-	LanguageDropdown,
-	ProfileDropdown,
-} from '@/components'
+import { LanguageDropdown, ProfileDropdown } from '@/components'
 import { useThemeCustomizer } from '@/components'
 import { useViewport } from '@/hooks'
 /**
@@ -130,11 +122,7 @@ const Topbar = ({ toggleMenu, navOpen }: TopbarProps) => {
 		}
 	}
 
-
-
-	const { user } = useAuthContext()
-
-
+	const { user, globalSetting } = useAuthContext()
 
 	return (
 		<>
@@ -146,19 +134,19 @@ const Topbar = ({ toggleMenu, navOpen }: TopbarProps) => {
 							{/* Logo light */}
 							<Link to="/" className="logo-light">
 								<span className="logo-lg">
-									<Image src={logo} alt="logo" />
+									<Image src={globalSetting?.logo1} alt="logo" />
 								</span>
 								<span className="logo-sm">
-									<Image src={logoSm} alt="small logo" />
+									<Image src={globalSetting?.logo1} alt="small logo" />
 								</span>
 							</Link>
 							{/* Logo Dark */}
 							<Link to="/" className="logo-dark">
 								<span className="logo-lg">
-									<img src={logoDark} alt="dark logo" />
+									<img src={globalSetting?.logo1} alt="dark logo" />
 								</span>
 								<span className="logo-sm">
-									<img src={logoSm} alt="small logo" />
+									<img src={globalSetting?.logo1} alt="small logo" />
 								</span>
 							</Link>
 						</div>

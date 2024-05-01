@@ -37,7 +37,7 @@ export default function useLogin() {
 	
 			})
 			.catch((err: any) => {
-				//console.log(err)
+				console.log(err)
 				errorNotification(err ? err.response.data.message : err.message)
 				setLoading(false)
 				// if (error.response) {

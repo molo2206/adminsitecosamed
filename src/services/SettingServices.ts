@@ -12,14 +12,14 @@ const SettingServices = {
 	saveLogos: async (body: any) => {
 		return requests.post('/settings/logo', body, {
 			headers: {
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
 	saveImages: async (body: any) => {
 		return requests.post('/settings/images', body, {
 			headers: {
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 				Accept:"application/json"
 			},
 		})

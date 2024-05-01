@@ -7,7 +7,7 @@ import moment from 'moment'
 import { CustomCardPortlet } from '@/components'
 
 interface Props {
-	data:any
+	data:any|[]
 }
 const YearlySelesChart = ({data}:Props) => {
 
@@ -59,7 +59,7 @@ const YearlySelesChart = ({data}:Props) => {
 		series: [
 			{
 				name: 'Donations',
-				data: [...data?.map(({amount}:any) => amount)],
+				data: data?.map(({amount}:any) => amount),
 			}
 		],
 		chart: {
@@ -79,7 +79,7 @@ const YearlySelesChart = ({data}:Props) => {
 			size: 3,
 		},
 		xaxis: {
-			categories: [...data?.map(({year}:any) => year)],
+			categories: data?.map(({year}:any) => year),
 		},
 		legend: {
 			show: false,

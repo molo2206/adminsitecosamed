@@ -3,6 +3,12 @@ import { Route, RouteProps } from 'react-router-dom'
 
 // components
 import PrivateRoute from './PrivateRoute'
+import CreateBlogs from '@/pages/blog/CreateBlogs'
+import ListBlogs from '@/pages/blog/ListBlogs'
+import EditBlogs from '@/pages/blog/EditBlogs'
+import ListBulletins from '@/pages/bulletin/ListBulletins'
+import CreateBulletins from '@/pages/bulletin/CreateBulletins'
+import EditBulletin from '@/pages/bulletin/EditBulletin'
 
 // lazy load all the views
 
@@ -21,7 +27,9 @@ const ProfilePages = React.lazy(() => import('../pages/other/Profile/'))
 
 const MaintenancePages = React.lazy(() => import('../pages/other/Maintenance'))
 const ListService = React.lazy(() => import('../pages/services/ListService'))
-const CreateService = React.lazy(() => import('../pages/services/CreateService'))
+const CreateService = React.lazy(
+	() => import('../pages/services/CreateService')
+)
 const EditService = React.lazy(() => import('../pages/services/EditService'))
 
 const ListPhoto = React.lazy(() => import('../pages/media/ListPhoto'))
@@ -29,14 +37,17 @@ const ListVideo = React.lazy(() => import('../pages/media/ListVideo'))
 const ListRoles = React.lazy(() => import('../pages/roles/ListRoles'))
 const ListTeam = React.lazy(() => import('../pages/team/ListTeam'))
 const ListEvent = React.lazy(() => import('../pages/events/ListEvent'))
-const ListTestimonials = React.lazy(() => import('../pages/testimonials/ListTestimonials'))
-const ListBooks = React.lazy(
-	() => import('../pages/books/ListBooks')
+const ListTestimonials = React.lazy(
+	() => import('../pages/testimonials/ListTestimonials')
 )
+const ListBooks = React.lazy(() => import('../pages/books/ListBooks'))
+
 const ListMembers = React.lazy(() => import('../pages/membres/ListMembers'))
 const Visa = React.lazy(() => import('../pages/demandes/Visa'))
 const Travel = React.lazy(() => import('../pages/demandes/Travel'))
-const DetailDemande = React.lazy(() => import('../pages/demandes/DetailDemande'))
+const DetailDemande = React.lazy(
+	() => import('../pages/demandes/DetailDemande')
+)
 const About = React.lazy(() => import('../pages/settings/About'))
 const SettingLogo = React.lazy(() => import('../pages/settings/SettingLogo'))
 const General = React.lazy(() => import('../pages/settings/General'))
@@ -71,7 +82,7 @@ export interface RoutesProps {
 	header?: string
 	roles?: string[]
 	children?: RoutesProps[]
-	permissions:any
+	permissions: any
 }
 
 // dashboards
@@ -80,21 +91,21 @@ const dashboardRoutes: RoutesProps = {
 	name: 'Dashboards',
 	icon: 'home',
 	header: 'Navigation',
-	permissions:"",
+	permissions: '',
 	children: [
 		{
 			path: '/',
 			name: 'Root',
 			element: <Dashboard />,
 			route: PrivateRoute,
-			permissions:""
+			permissions: '',
 		},
 		{
 			path: '/dashboard',
 			name: 'Dashboard',
 			element: <Dashboard />,
 			route: PrivateRoute,
-			permissions:""
+			permissions: '',
 		},
 	],
 }
@@ -106,9 +117,7 @@ const customPagesRoutes = {
 	icon: 'pages',
 	header: 'Custom',
 	permissions: { ressource: 'Events', action: 'read' },
-	
 }
-
 
 const otherRoutes: RoutesProps[] = [
 	{
@@ -118,7 +127,6 @@ const otherRoutes: RoutesProps[] = [
 		permissions: { ressource: 'Events', action: 'read' },
 		element: <ListRoles />,
 		route: PrivateRoute,
-		
 	},
 	{
 		path: '/ressources',
@@ -127,6 +135,29 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListRessources />,
 		permissions: { ressource: 'Permissions', action: 'read' },
 		route: PrivateRoute,
+	},
+	{
+		path: '/bulletins/list',
+		name: 'Bulletins',
+		icon: 'list',
+		element: <ListBulletins />,
+		permissions: { ressource: 'Permissions', action: 'read' },
+		route: PrivateRoute,
+	},
+	{
+		path: '/bulletins/create',
+		name: 'Bulletins',
+		icon: 'list',
+		element: <CreateBulletins />,
+		permissions: { ressource: 'Permissions', action: 'read' },
+		route: PrivateRoute,
+	},
+	{
+		path: '/bulletins/edit/:id',
+		name: 'Edit Bulletins',
+		element: <EditBulletin />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Bulletins', action: 'update' },
 	},
 	{
 		path: '/roles/permissions',
@@ -149,7 +180,7 @@ const otherRoutes: RoutesProps[] = [
 		name: 'Profile',
 		element: <ProfilePages />,
 		route: PrivateRoute,
-		permissions: "",
+		permissions: '',
 	},
 	{
 		path: '/category',
@@ -185,6 +216,27 @@ const otherRoutes: RoutesProps[] = [
 		element: <About />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Settings', action: 'read' },
+	},
+	{
+		path: '/blog/create',
+		name: 'BLog',
+		element: <CreateBlogs />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Blogs', action: 'read' },
+	},
+	{
+		path: '/blog/edit/:id',
+		name: 'Edit Blog',
+		element: <EditBlogs />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Blogs', action: 'update' },
+	},
+	{
+		path: '/blog/listblog',
+		name: 'Listblog',
+		element: <ListBlogs />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Blogs', action: 'read' },
 	},
 	{
 		path: '/settings/logo',
@@ -321,35 +373,35 @@ const authRoutes: RoutesProps[] = [
 		name: 'Login',
 		element: <Login />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 	{
 		path: '/auth/register',
 		name: 'Register',
 		element: <Register />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 	{
 		path: '/auth/logout',
 		name: 'Logout',
 		element: <Logout />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 	{
 		path: '/auth/forgot-password',
 		name: 'Forgot Password',
 		element: <ForgotPassword />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 	{
 		path: '/auth/lock-screen',
 		name: 'Lock Screen',
 		element: <LockScreen />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 ]
 
@@ -360,29 +412,28 @@ const otherPublicRoutes = [
 		name: 'Error - 404',
 		element: <Error404 />,
 		route: Route,
-		permissions:""
-		
+		permissions: '',
 	},
 	{
 		path: 'pages/error-404',
 		name: 'Error - 404',
 		element: <Error404 />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 	{
 		path: 'pages/error-500',
 		name: 'Error - 500',
 		element: <Error500 />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 	{
 		path: '/pages/maintenance',
 		name: 'Maintenance',
 		element: <MaintenancePages />,
 		route: Route,
-		permissions:""
+		permissions: '',
 	},
 ]
 

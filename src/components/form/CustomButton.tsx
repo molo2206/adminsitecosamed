@@ -21,7 +21,7 @@ const CustomButton = (props: PortletProps) => {
         </Button>
 	) : (
 		<Button
-			variant="primary"
+			variant="success"
 			className="w-100"
 			type="submit"
 			disabled={props.loading}

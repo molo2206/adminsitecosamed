@@ -3,19 +3,19 @@ import { Column } from 'react-table'
 import { Link } from 'react-router-dom'
 import { Employee } from '../ui/tables/types'
 import { useEffect } from 'react'
-import 'react-bootstrap-typeahead/css/Typeahead.css'
-import 'rsuite/dist/rsuite-no-reset.min.css'
-import ChangeStatus from '@/components/form/ChangeStatus'
-import EventServices from '@/services/EventServices'
 import { useAuthContext } from '@/common'
 import { useTranslation } from 'react-i18next'
 import useAsync from '@/hooks/useAsync'
 import { showingTranslateValue } from '@/utils/heleprs'
+import ChangeStatus from '@/components/form/ChangeStatus'
+import 'react-bootstrap-typeahead/css/Typeahead.css'
+import 'rsuite/dist/rsuite-no-reset.min.css'
 import { Button } from 'react-bootstrap'
 import { Table } from '@/components'
+import BlogServices from '@/services/BlogsServices'
 import { PageBreadcrumb } from '@/components'
 
-const ListEvent = () => {
+function ListBlogs() {
 	const { t } = useTranslation()
 	const {
 		handleUpdateNavigate,
@@ -25,8 +25,8 @@ const ListEvent = () => {
 		lang,
 		setImageUrl,
 	} = useAuthContext()
-	const { data, loading } = useAsync(() => EventServices.getEvent())
-
+	const { data, loading } = useAsync(() => BlogServices.getBlog())
+	console.log(data)
 	const columns: ReadonlyArray<Column> = [
 		{
 			Header: 'Image',
@@ -38,6 +38,7 @@ const ListEvent = () => {
 				<img className="avatar avatar-sm" src={cell?.row?.original?.image} />
 			),
 		},
+
 		{
 			Header: 'Title',
 			accessor: 'title',
@@ -54,37 +55,55 @@ const ListEvent = () => {
 			),
 		},
 		{
-			Header: 'Country',
-			accessor: 'country_id',
+			Header: 'Category',
+			accessor: 'category_id',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
 			Cell: ({ cell }: any) => (
-				<span>{cell?.row?.original?.country?.name}</span>
+				<span>
+					{
+						showingTranslateValue(
+							cell?.row?.original?.category?.translations,
+							lang
+						)?.name
+					}
+				</span>
 			),
 		},
 		{
-			Header: 'City',
-			accessor: 'city_id',
+			Header: 'Author',
+			accessor: 'author',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
-			Cell: ({ cell }: any) => <span>{cell?.row?.original?.city?.name}</span>,
+			Cell: ({ cell }: any) => (
+				<span>{cell?.row?.original?.author?.full_name}</span>
+			),
 		},
 		{
-			Header: 'Start',
-			accessor: 'debut',
+			Header: 'Documentation',
+			accessor: 'documentation',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
+			Cell: ({ cell }: any) => (
+				<span>
+					{
+						showingTranslateValue(cell?.row?.original?.translations, lang)
+							?.documentation
+					}
+				</span>
+			),
 		},
 		{
-			Header: 'End',
-			accessor: 'fin',
+			Header: 'Publication date',
+			accessor: 'publication_date',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
 		},
+
 		{
 			Header: 'Status',
 			accessor: 'status',
@@ -112,7 +131,7 @@ const ListEvent = () => {
 							onClick={() =>
 								handleUpdateNavigate(
 									cell?.row?.original,
-									'/events/edit/' + cell?.row?.original?.id
+									'/blog/edit/' + cell?.row?.original?.id
 								)
 							}
 							style={{
@@ -132,7 +151,6 @@ const ListEvent = () => {
 			),
 		},
 	]
-
 	useEffect(() => {
 		if (isEdit) {
 			// setSelectedType(
@@ -144,10 +162,9 @@ const ListEvent = () => {
 			setImageUrl(selected?.image)
 		}
 	}, [isEdit])
-
 	return (
 		<>
-			<PageBreadcrumb title="Event" subName="Event" />
+			<PageBreadcrumb title="List blog" subName="Blogs" />
 			<Row></Row>
 			<Row className="mt-10">
 				<Col>
@@ -159,14 +176,14 @@ const ListEvent = () => {
 						)}
 
 						<Card.Header className="d-flex justify-content-between align-items-center">
-							<h4 className="header-title">{t('Events')}</h4>
+							<h4 className="header-title">{t('Blogs')}</h4>
 							<Link
-								to={'/events/create'}
+								to={'/blog/create'}
 								style={{
 									marginRight: 20,
 								}}
 								className={'btn btn-outline-primary'}>
-								Create Event
+								Create Blog
 							</Link>
 						</Card.Header>
 						<Card.Body>
@@ -185,4 +202,4 @@ const ListEvent = () => {
 	)
 }
 
-export default ListEvent
+export default ListBlogs

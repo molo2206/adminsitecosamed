@@ -86,7 +86,7 @@ const useEvent = () => {
 						navigation('/events/list', { replace: true })
 					} else {
 						errorNotification(
-							'An error occured, please verify the image dimensions'
+							response.data
 						)
 					}
 				})

@@ -10,8 +10,8 @@ import YearlySelesChart from './YearlySelesChart'
 import { PageBreadcrumb } from '@/components'
 
 const Dashboard = () => {
-	const { data, loading } = useAsync(DashboardServices.getStatistics)
-
+	const { data, loading } = useAsync(()=>DashboardServices.getStatistics())
+    console.log(data);
 	const statistics = [
 		{
 			title: 'Team',
@@ -87,6 +87,7 @@ const Dashboard = () => {
 					</Row>
 					
 				</>
+
 			)}
 		</>
 	)

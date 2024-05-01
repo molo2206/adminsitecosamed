@@ -36,6 +36,7 @@ const useSettings = () => {
 				})
 				.catch((err) => {
 					errorNotification(err ? err.response.data.message : err.message)
+					
 					setLoading(false)
 				})
 		}
@@ -53,6 +54,7 @@ const useSettings = () => {
 					setLoading(false)
 				})
 				.catch((err) => {
+					// console.log(err.response);
 					errorNotification(err ? err.response.data.message : err.message)
 					setLoading(false)
 				})
@@ -114,8 +116,9 @@ const useSettings = () => {
 					setLoading(false)
 				})
 				.catch((err) => {
-					errorNotification(err ? err.response.data.message : err.message)
-					setLoading(false)
+					// errorNotification(err ? err.response.data.message : err.message)
+					// setLoading(false)
+					console.log(err.response)	
 				})
 		}
 	}

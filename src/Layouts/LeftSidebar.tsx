@@ -4,6 +4,7 @@ import SimpleBar from 'simplebar-react'
 import { useAuthContext } from '@/common'
 import { MENU_ITEMS } from '@/constants/menu'
 import { getAllowedRoutes } from '@/utils/heleprs'
+import Logo from '../assets/images/auth_logo.jpg'
 
 /* Sidebar content */
 const SideBarContent = () => {
@@ -23,19 +24,21 @@ const LeftSidebar = () => {
 				{/* Brand Logo Light */}
 				<Link to="/" className="logo logo-light">
 					<span className="logo-lg">
-						<img src={globalSetting?.logo1} alt="logo" />
+						<img src={globalSetting?.logo1} alt="logo" height="100"/>
+						{/* <img src={Logo} alt="logo" /> */}
 					</span>
 					<span className="logo-sm">
-						<img src={globalSetting?.logo1} alt="small logo" />
+						<img src={globalSetting?.logo1} alt="logo" height="100"/>
 					</span>
 				</Link>
 				{/* Brand Logo Dark */}
 				<a href="index.html" className="logo logo-dark">
 					<span className="logo-lg">
-						<img src={globalSetting?.logo1} alt="dark logo" />
+						<img src={globalSetting?.logo1} alt="logo" height="100" />
 					</span>
 					<span className="logo-sm">
-						<img src={globalSetting?.logo1} alt="small logo" />
+						<img src={globalSetting?.logo1} alt="logo" height="100"/>
+						{/* <img src={Logo} alt="small logo" /> */}
 					</span>
 				</a>
 				{/* Sidebar -left */}

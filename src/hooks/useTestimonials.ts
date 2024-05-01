@@ -113,8 +113,7 @@ const useTestimonials = () => {
 					closeModal()
 				})
 				.catch((err) => {
-					errorNotification(err ? err.response.data.message : err.message)
-					setLoading(false)
+					console.log(err)
 				})
 		}
 	}

@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react'
 
 //images
-import authImg from '@/assets/images/auth-img.jpg'
+import authImg from '@/assets/images/auth_img.jpg'
 import { useAuthContext } from '@/common'
 import { Card, Col, Container, Image, Row } from 'react-bootstrap'
 
@@ -60,10 +60,10 @@ const AuthLayout = ({
 										<div className="d-flex flex-column h-100">
 											<div className="auth-brand p-4">
 												<a href="#" className="logo-light">
-													<Image src={globalSetting?.logo1} alt="logo" height="22" />
+													<Image src={globalSetting?.logo1} alt="logo" height="100" />
 												</a>
 												<a href="#" className="logo-dark">
-													<Image src={globalSetting?.logo2} alt="dark logo" height="22" />
+													<Image src={globalSetting?.logo2} alt="dark logo" height="100" />
 												</a>
 											</div>
 											<div

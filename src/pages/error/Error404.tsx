@@ -32,7 +32,7 @@ const Error404 = () => {
 							<div className="card overflow-hidden">
 								<Row className="g-0">
 									<Col lg={6} className="d-none d-lg-block p-2">
-										<Image src={authImg} fluid className="rounded h-100" />
+										<Image src={errorImg} fluid className="rounded h-100" />
 									</Col>
 									<div className="col-lg-6">
 										<div className="d-flex flex-column h-100">
@@ -57,7 +57,7 @@ const Error404 = () => {
 														Don't worry... it happens to the best of us.
 													</p>
 												</div>
-												<Link to="/" className="btn btn-soft-primary w-100">
+												<Link to="/" className="btn btn-primary w-100">
 													<i className="ri-home-4-line me-1" /> Back to Home
 												</Link>
 											</div>

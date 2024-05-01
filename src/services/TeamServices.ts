@@ -7,7 +7,7 @@ const TeamServices = {
 		return requests.post(`/team`, body, {
 			headers: {
 				Accept:'application/json',
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
@@ -15,7 +15,7 @@ const TeamServices = {
 		return requests.post(`/team/${id}`, body, {
 			headers: {
 				
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
@@ -41,7 +41,7 @@ const TeamServices = {
 	updateTestimonials: async (body: any, id: string) => {
 		return requests.post(`/testimonials/${id}`, body, {
 			headers: {
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
@@ -54,7 +54,7 @@ const TeamServices = {
 	updateBook: async (body: any, id: string) => {
 		return requests.post(`/books/${id}`, body, {
 			headers: {
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
@@ -67,19 +67,22 @@ const TeamServices = {
 	createTestimonials: async (body: any) => {
 		return requests.post(`/testimonials`, body, {
 			headers: {
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
 	createBook: async (body: any) => {
 		return requests.post(`/books`, body, {
 			headers: {
-				'Content-Type': 'multipart/formdata',
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
 	getAdminBooks: async () => {
 		return requests.get(`/books`)
+	},
+	getAdminBulletins: async () => {
+		return requests.get(`/bulletins`)
 	},
 }
 

@@ -51,6 +51,7 @@ const ListTeam = () => {
 			instagram: isEdit ? selected?.instagram : '',
 			linkedin: isEdit ? selected?.linkedin : '',
 		},
+
 		validationSchema: Yup.object({
 			full_name: Yup.string().required('Full Name is required'),
 			fonction: Yup.string().required('Fonction is required'),
@@ -60,9 +61,11 @@ const ListTeam = () => {
 			instagram: Yup.string().required('instagram is required'),
 			linkedin: Yup.string().required('linkedin is required'),
 		}),
+
 		onSubmit: (values) => {
 			createTeam(values)
 		},
+		
 	})
 
 	const columns: ReadonlyArray<Column> = [

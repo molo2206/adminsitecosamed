@@ -7,7 +7,7 @@ import { CustomCardPortlet } from '@/components'
 
 
 interface Props {
-	data:any
+	data:any|[]
 }
 const WeeklySelesChart = ({data}:Props) => {
 
@@ -15,7 +15,7 @@ const WeeklySelesChart = ({data}:Props) => {
 		series: [
 			{
 				name: 'Donation',
-				data: [...data?.map(({amount}:any) => amount)],
+				data:data?.map((object:any) => object?.amount),
 			}
 		],
 		chart: {
@@ -40,7 +40,7 @@ const WeeklySelesChart = ({data}:Props) => {
 		},
 		colors: ['#3bc0c3', '#1a2942', '#d1d7d973'],
 		xaxis: {
-			categories: [...data?.map(({month}:any) => month)],
+			categories: data?.map(({month}:any) => month),
 		},
 		yaxis: {
 			title: {

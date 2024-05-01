@@ -66,7 +66,7 @@ const ForgotPassword = () => {
 					/>
 					<div className="mb-0 text-start">
 						<Button
-							variant="soft-primary"
+							variant="success"
 							className="w-100"
 							type="submit"
 							disabled={loading}

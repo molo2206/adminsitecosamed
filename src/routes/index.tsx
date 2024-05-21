@@ -9,6 +9,7 @@ import EditBlogs from '@/pages/blog/EditBlogs'
 import ListBulletins from '@/pages/bulletin/ListBulletins'
 import CreateBulletins from '@/pages/bulletin/CreateBulletins'
 import EditBulletin from '@/pages/bulletin/EditBulletin'
+import Offres from '@/pages/offres/Offres'
 
 // lazy load all the views
 
@@ -342,6 +343,13 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListBooks />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Books', action: 'read' },
+	},
+	{
+		path: '/offres/create',
+		name: 'Offres List',
+		element: <Offres />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Offres', action: 'read' },
 	},
 	{
 		path: '/members/list',

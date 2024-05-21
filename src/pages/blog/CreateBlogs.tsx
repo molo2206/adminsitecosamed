@@ -5,7 +5,7 @@ import { FormInput } from '@/components'
 import useBlogs from '@/hooks/useBlogs'
 import { useForm } from 'react-hook-form'
 import CustomButton from '@/components/form/CustomButton'
-import CustomMaskInput from '@/components/form/CustomMaskInput'
+import TeamServices from '@/services/TeamServices'
 import CategoryServices from '@/services/CategoryServices'
 import { useTranslation } from 'react-i18next'
 import CustomEditor from '@/components/form/CustomEditor'
@@ -21,9 +21,12 @@ function CreateBlogs() {
 	const { data: categories, loading: loadingCat } = useAsync(() =>
 		CategoryServices.getCategoryType('Blog')
 	)
+	const { data: teams, loading: loadingTeams } = useAsync(() =>
+		TeamServices.getTeam()
+	)
 	const { createBlogs, loading: loadingForm } = useBlogs()
 	const { t } = useTranslation()
-	
+
 	const { inputs, errors, handleOnChange, hanldeError } = useValidation({
 		title: '',
 		description: '',
@@ -199,50 +202,51 @@ function CreateBlogs() {
 									<li className="list-group-item">
 										<Row>
 											<Col lg={6}>
-												<CustomMaskInput
-													name=""
+												<CustomInput
+													multiple={undefined}
+													accept={undefined}
+													onChangeCapture={undefined}
+													name="publication_date"
+													label={t('Publication Date')}
 													placeholder=""
-													accept={''}
-													style={{ height: 50 }}
-													mask={[
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														/\d/,
-														/\d/,
-													]}
-													label="Publication date"
+													type="date"
+													className="form-control"
 													errors={errors.publication_date}
 													value={inputs.publication_date}
+													onFocus={() => {
+														hanldeError(null, 'publication_date')
+													}}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'publication_date')
 													}
 												/>
 											</Col>
 											<Col lg={6}>
-												<CustomInput
-													multiple={undefined}
-													accept={undefined}
-													onChangeCapture={undefined}
-													name="author"
-													label={t('Author')}
-													placeholder=""
-													type="text"
-													className="form-control"
-													errors={errors.author}
-													value={inputs.author}
-													onFocus={() => {
-														hanldeError(null, 'author')
+												<FormInput
+													invalid={undefined}
+													name="select"
+													style={{
+														height: 50,
 													}}
+													label="Select Author"
+													type="select"
+													containerClass="mb-3"
+													className="form-select"
+													value={inputs.author}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'author')
 													}
-												/>
+													register={register}
+													key="select"
+													errors={'error: ' + errors}
+													control={control}>
+													<option defaultValue="selected">...</option>
+													{teams?.map((item: any, index: any) => (
+														<option key={index} value={item.id}>
+															{item.full_name}
+														</option>
+													))}
+												</FormInput>
 											</Col>
 										</Row>
 									</li>
@@ -295,6 +299,11 @@ function CreateBlogs() {
 							</div>
 						)}
 						{loadingCat && (
+							<div className="card-disabled">
+								<div className="card-portlets-loader"></div>
+							</div>
+						)}
+						{loadingTeams && (
 							<div className="card-disabled">
 								<div className="card-portlets-loader"></div>
 							</div>

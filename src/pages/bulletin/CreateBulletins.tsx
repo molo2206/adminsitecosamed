@@ -73,7 +73,7 @@ function CreateBulletins() {
 	const { data: teams, loading: loadingCat } = useAsync(() =>
 		TeamServices.getTeam()
 	)
-  const { createBulletins, loading: loadingForm } = useBulletins()
+	const { createBulletins, loading: loadingForm } = useBulletins()
 
 	const { t } = useTranslation()
 	const { inputs, errors, handleOnChange, hanldeError } = useValidation({
@@ -84,7 +84,7 @@ function CreateBulletins() {
 		author: '',
 		image: null,
 		month: '',
-    file :null,
+		file: null,
 	})
 
 	const methods = useForm({
@@ -234,26 +234,20 @@ function CreateBulletins() {
 									<li className="list-group-item">
 										<Row>
 											<Col lg={4}>
-												<CustomMaskInput
+												<CustomInput
+													multiple={undefined}
+													accept={undefined}
+													onChangeCapture={undefined}
 													name=""
+													label={t('Date create')}
 													placeholder=""
-													accept={''}
-													style={{ height: 50 }}
-													mask={[
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														/\d/,
-														/\d/,
-													]}
-													label="Date create"
-													errors={errors.publication_date}
-													value={inputs.publication_date}
+													type="date"
+													className="form-control"
+													errors={errors.created}
+													value={inputs.created}
+													onFocus={() => {
+														hanldeError(null, 'created')
+													}}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'created')
 													}

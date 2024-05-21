@@ -28,29 +28,6 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		icon: 'ri-dashboard-3-line',
 	},
 	{
-		key: 'events',
-		label: 'Events',
-		isTitle: false,
-		icon: 'ri-pages-line',
-		permissions: { ressource: 'Events', action: 'read' },
-		children: [
-			{
-				key: 'events-list',
-				label: 'Events list',
-				url: '/events/list',
-				parentKey: 'events',
-				permissions: { ressource: 'Events', action: 'read' },
-			},
-			{
-				key: 'create-events',
-				label: 'Create Event',
-				url: '/events/create',
-				parentKey: 'events',
-				permissions: { ressource: 'Events', action: 'create' },
-			},
-		],
-	},
-	{
 		key: 'bulettin',
 		label: 'Bulletins',
 		isTitle: false,
@@ -67,11 +44,65 @@ const MENU_ITEMS: MenuItemTypes[] = [
 			{
 				key: 'create-bulletins',
 				label: 'Create Bulletins',
-				url: '/events/create',
+				url: '/bulletins/create',
 				parentKey: 'bulletins',
 				permissions: { ressource: 'Bulletins', action: 'create' },
 			},
 		],
+	},
+	{
+		key: 'blog',
+		label: 'BLogs',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		permissions: { ressource: 'Blogs', action: 'read' },
+		children: [
+			{
+				key: 'blog-list',
+				label: 'Blog list',
+				url: '/blog/listblog',
+				parentKey: 'blog',
+				permissions: { ressource: 'Blogs', action: 'read' },
+			},
+			{
+				key: 'create-blog',
+				label: 'Create Blog',
+				url: '/blog/create',
+				parentKey: 'blog',
+				permissions: { ressource: 'Blogs', action: 'create' },
+			},
+		],
+	},
+	{
+		key: 'offres',
+		label: 'Offres d\'emploi',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		permissions: { ressource: 'Offres', action: 'read' },
+		children: [
+			// {
+			// 	key: 'offres-list',
+			// 	label: 'Offres list',
+			// 	url: '/offres/list',
+			// 	parentKey: 'offres',
+			// 	permissions: { ressource: 'Offres', action: 'read' },
+			// },
+			{
+				key: 'create-offres',
+				label: 'Create Offres',
+				url: '/offres/create',
+				parentKey: 'offres',
+				permissions: { ressource: 'Offres', action: 'create' },
+			},
+		],
+	},
+	{
+		key: 'books',
+		label: 'Documents',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		permissions: { ressource: 'Books', action: 'read' },
+		url: '/books/list',
 	},
 	{
 		key: 'rapport',
@@ -120,6 +151,29 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		],
 	},
 	{
+		key: 'events',
+		label: 'Events',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		permissions: { ressource: 'Events', action: 'read' },
+		children: [
+			{
+				key: 'events-list',
+				label: 'Events list',
+				url: '/events/list',
+				parentKey: 'events',
+				permissions: { ressource: 'Events', action: 'read' },
+			},
+			{
+				key: 'create-events',
+				label: 'Create Event',
+				url: '/events/create',
+				parentKey: 'events',
+				permissions: { ressource: 'Events', action: 'create' },
+			},
+		],
+	},
+	{
 		key: 'projet',
 		label: 'Projets',
 		isTitle: false,
@@ -150,29 +204,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		url: '/team',
 		permissions: { ressource: 'Team', action: 'read' },
 	},
-	{
-		key: 'blog',
-		label: 'BLogs',
-		isTitle: false,
-		icon: 'ri-pages-line',
-		permissions: { ressource: 'Blogs', action: 'read' },
-		children: [
-			{
-				key: 'blog-list',
-				label: 'Blog list',
-				url: '/blog/listblog',
-				parentKey: 'blog',
-				permissions: { ressource: 'Blogs', action: 'read' },
-			},
-			{
-				key: 'create-blog',
-				label: 'Create Blog',
-				url: '/blog/create',
-				parentKey: 'blog',
-				permissions: { ressource: 'Blogs', action: 'create' },
-			},
-		],
-	},
+
 	{
 		key: 'members',
 		label: 'Members',
@@ -196,14 +228,6 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		icon: 'ri-pages-line',
 		permissions: { ressource: 'Testimonials', action: 'read' },
 		url: '/testimonials/list',
-	},
-	{
-		key: 'books',
-		label: 'Books',
-		isTitle: false,
-		icon: 'ri-pages-line',
-		permissions: { ressource: 'Books', action: 'read' },
-		url: '/books/list',
 	},
 	{
 		key: 'categories',

@@ -25,6 +25,7 @@ const CustomEditor = ({ value, onFocus, onChange, error, label }: Props) => {
 			],
 			['direction', { align: [] }],
 			['link'],
+			['image'],
 			['clean'],
 		],
 	}

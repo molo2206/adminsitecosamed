@@ -38,7 +38,7 @@ export default function useLogin() {
 			})
 			.catch((err: any) => {
 				console.log(err)
-				errorNotification(err ? err.response.data.message : err.message)
+				errorNotification("Mot de passe ou email incorrect")
 				setLoading(false)
 				// if (error.response) {
 				// 	// The request was made and the server responded with a status code

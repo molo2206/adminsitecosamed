@@ -4,7 +4,6 @@ import SimpleBar from 'simplebar-react'
 import { useAuthContext } from '@/common'
 import { MENU_ITEMS } from '@/constants/menu'
 import { getAllowedRoutes } from '@/utils/heleprs'
-import Logo from '../assets/images/auth_logo.jpg'
 
 /* Sidebar content */
 const SideBarContent = () => {

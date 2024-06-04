@@ -5,7 +5,6 @@ import { FormInput } from '@/components'
 import useBlogs from '@/hooks/useBlogs'
 import { useForm } from 'react-hook-form'
 import CustomButton from '@/components/form/CustomButton'
-import CustomMaskInput from '@/components/form/CustomMaskInput'
 import CategoryServices from '@/services/CategoryServices'
 import { useTranslation } from 'react-i18next'
 import CustomEditor from '@/components/form/CustomEditor'
@@ -16,22 +15,33 @@ import useValidation from '@/hooks/useValidation'
 import { PageBreadcrumb } from '@/components'
 import { useNavigate, useParams } from 'react-router-dom'
 import useAsync from '@/hooks/useAsync'
+import TeamServices from '@/services/TeamServices'
 import Error404 from '../error/Error404'
 import { useEffect } from 'react'
+
 function EditBlogs() {
 	const { id } = useParams()
 	const navigation = useNavigate()
-	const { languages, changePageLang, pageLang, lang } = useAuthContext()
+	const { languages, changePageLang, pageLang, lang, imageUrl, setImageUrl } =
+		useAuthContext()
 	const { loading } = useSettings()
-	const { data: event, error: errorEvent } = useAsync(() =>
+
+	const { data: blog, error: errorBlog } = useAsync(() =>
 		BlogServices.oneBlog(id)
+	)
+	const { data: teams, loading: loadingTeams } = useAsync(() =>
+		TeamServices.getTeam()
 	)
 
 	const { data: categories, loading: loadingCat } = useAsync(() =>
 		CategoryServices.getCategoryType('Blog')
 	)
-	const { createBlogs, loading: loadingForm } = useBlogs()
+
+	if (errorBlog || !blog) {
+		navigation('/', { replace: true })
+	}
 	const { t } = useTranslation()
+	const { createBlogs, loading: loadingForm } = useBlogs()
 	const { inputs, errors, handleOnChange, hanldeError, setInputs } =
 		useValidation({
 			title: '',
@@ -39,16 +49,23 @@ function EditBlogs() {
 			documentation: '',
 			image: null,
 			category: '',
+			author: '',
 		})
 	useEffect(() => {
 		setInputs({
-			title: showingTranslateValue(event?.translations, pageLang)?.title || '',
+			title: showingTranslateValue(blog?.translations, pageLang)?.title || '',
 			description:
-				showingTranslateValue(event?.translations, pageLang)?.description || '',
+				showingTranslateValue(blog?.translations, pageLang)?.description || '',
+			publication_date: blog?.publication_date || '',
 			image: null,
-			category: event?.category_id || '',
+			category: blog?.category_id || '',
+			documentation:
+				showingTranslateValue(blog?.translations, pageLang)?.documentation ||
+				'',
+			author: blog?.author || '',
 		})
-	}, [event, pageLang])
+	}, [blog, pageLang])
+
 	const methods = useForm({
 		defaultValues: {
 			password: 'password',
@@ -110,7 +127,7 @@ function EditBlogs() {
 			createBlogs(inputs)
 		}
 	}
-	return errorEvent ? (
+	return errorBlog ? (
 		// navigation('/', { replace: true })
 		<Error404 />
 	) : (
@@ -216,56 +233,67 @@ function EditBlogs() {
 									</li>
 									<li className="list-group-item">
 										<Row>
-											<Col lg={6}>
-												<CustomMaskInput
+										<Col lg={6}>
+												<CustomInput
+													multiple={undefined}
+													accept={undefined}
+													onChangeCapture={undefined}
 													name=""
+													label={t('Date create')}
 													placeholder=""
-													accept={''}
-													style={{ height: 50 }}
-													mask={[
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														/\d/,
-														/\d/,
-													]}
-													label="Publication date"
+													type="date"
+													className="form-control"
 													errors={errors.publication_date}
 													value={inputs.publication_date}
+													onFocus={() => {
+														hanldeError(null, 'publication_date')
+													}}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'publication_date')
 													}
 												/>
 											</Col>
 											<Col lg={6}>
-												<CustomInput
-													multiple={undefined}
-													accept={undefined}
-													onChangeCapture={undefined}
-													name="author"
-													label={t('Author')}
-													placeholder=""
-													type="text"
-													className="form-control"
-													errors={errors.author}
-													value={inputs.author}
-													onFocus={() => {
-														hanldeError(null, 'author')
+												<FormInput
+													invalid={undefined}
+													name="select"
+													style={{
+														height: 50,
 													}}
+													label="Select Author"
+													type="select"
+													containerClass="mb-3"
+													className="form-select"
+													value={inputs.author}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'author')
 													}
-												/>
+													// register={register}
+													key="select"
+													errors={'error: ' + errors}
+													control={control}>
+													<option defaultValue="selected">...</option>
+													{teams?.map((item: any, index: any) => (
+														<option key={index} value={item.id}>
+															{item?.full_name}
+														</option>
+													))}
+												</FormInput>
 											</Col>
 										</Row>
 									</li>
 
 									<li className="list-group-item">
+										<span
+											className="d-block justify-content-center text-center  align-items-center mx-auto relative"
+											role="button">
+											<img
+												src={imageUrl ? imageUrl : blog?.image}
+												className="avatar avatar-lg"
+											/>
+											<br />
+											<small className="text-center">(540 X 640)</small>
+										</span>
 										<CustomInput
 											multiple={undefined}
 											invalid={undefined}
@@ -279,9 +307,10 @@ function EditBlogs() {
 											onFocus={() => {
 												hanldeError(null, 'image')
 											}}
-											onChangeCapture={(e: any) =>
+											onChangeCapture={(e: any) => {
+												setImageUrl(URL.createObjectURL(e.target.files[0]))
 												handleOnChange(e.target.files[0], 'image')
-											}
+											}}
 										/>
 									</li>
 									<li className="list-group-item">
@@ -313,6 +342,11 @@ function EditBlogs() {
 							</div>
 						)}
 						{loadingCat && (
+							<div className="card-disabled">
+								<div className="card-portlets-loader"></div>
+							</div>
+						)}
+						{loadingTeams && (
 							<div className="card-disabled">
 								<div className="card-portlets-loader"></div>
 							</div>

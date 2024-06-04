@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 
 //images
 import { useAuthContext } from '@/common'
-import authImg from '@/assets/images/auth-img.jpg'
 import errorImg from '@/assets/images/svg/404.svg'
 
 const Error404 = () => {

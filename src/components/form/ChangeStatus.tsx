@@ -10,6 +10,9 @@ import UserServices from '@/services/UserServices'
 import CategoryServices from '@/services/CategoryServices'
 import { useLocation } from 'react-router-dom'
 import { useAuthContext } from '@/common'
+import BlogServices from '@/services/BlogsServices'
+import BulletinsService from '@/services/BulletinsService'
+import OffresServices from '@/services/OffresServices'
 interface StatusPprops {
 	status: any
 	id: string
@@ -34,6 +37,24 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 				successNotification(response?.data?.message)
 				forceUpdate()
 			}
+			if (location.pathname === '/blog/listblog') {
+				const response = await BlogServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
+				forceUpdate()
+			}
+
+			if (location.pathname === '/bulletins/list') {
+				const response = await BulletinsService.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
+				forceUpdate()
+			}
+
+			if (location.pathname === '/offres/create') {
+				const response = await OffresServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
+				forceUpdate()
+			}
+			
 			if (location.pathname === '/team') {
 				const response = await TeamServices.status({ status: newStatus }, id)
 				successNotification(response?.data?.message)

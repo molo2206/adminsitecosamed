@@ -14,14 +14,14 @@ const OffresServices = {
 		return requests.get(`/offres/${id}`)
 	},
 	update: async (body: any, id: string) => {
-		return requests.post(`/offres/${id}`, body, {
+		return requests.post(`/offre/${id}`, body, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
 	status: async (body: any, id: string) => {
-		return requests.put(`/offres/${id}`, body, {})
+		return requests.post(`/offres/${id}`, body, {})
 	},
 	delete: async (id: string) => {
 		return requests.delete(`/offres/${id}`)

@@ -11,6 +11,9 @@ import PermissionServices from '@/services/PermissionServices'
 import TeamServices from '@/services/TeamServices'
 import { useState } from 'react'
 import { useAuthContext } from '@/common'
+import BlogServices from '@/services/BlogsServices'
+import BulletinsService from '@/services/BulletinsService'
+import OffresServices from '@/services/OffresServices'
 interface Props {
 	isOpen: any
 	close: any
@@ -36,6 +39,29 @@ const DeleteModal = ({ isOpen, close }: Props) => {
 				toggleModalDelete()
                 setIsLoading(false)
 			}
+			if (location.pathname === '/blog/listblog') {
+				const response: any = await BlogServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+			if (location.pathname === '/bulletins/list') {
+				const response: any = await BulletinsService.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+
+			if (location.pathname === '/offres/create') {
+				const response: any = await OffresServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+
 			if (location.pathname === '/team') {
 				const response: any = await TeamServices.delete(selected?.id)
 				forceUpdate()

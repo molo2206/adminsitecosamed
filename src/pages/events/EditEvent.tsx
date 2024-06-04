@@ -36,6 +36,7 @@ const EditEvent = () => {
 	const { data: categories, loading: loadingCat } = useAsync(() =>
 		CategoryServices.getCategoryType('Event')
 	)
+
 	const { createEvent, loading: loadingForm } = useEvent()
 	const { t } = useTranslation()
 	const { inputs, errors, handleOnChange, hanldeError, setInputs } =

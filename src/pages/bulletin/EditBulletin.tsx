@@ -2,31 +2,22 @@ import { Card, Col, Row, Form } from 'react-bootstrap'
 import CustomInput from '@/components/form/CustomInput'
 import { useAuthContext } from '@/common'
 import { FormInput } from '@/components'
-import useBlogs from '@/hooks/useBlogs'
+import useBulletins from '@/hooks/useBulletins'
 import { useForm } from 'react-hook-form'
 import CustomButton from '@/components/form/CustomButton'
-import CustomMaskInput from '@/components/form/CustomMaskInput'
-import CategoryServices from '@/services/CategoryServices'
 import { useTranslation } from 'react-i18next'
 import CustomEditor from '@/components/form/CustomEditor'
 import useSettings from '@/hooks/useSettings'
-import BlogServices from '@/services/BlogsServices'
+import BulletinsService from '@/services/BulletinsService'
 import { showingTranslateValue } from '@/utils/heleprs'
 import useValidation from '@/hooks/useValidation'
 import { PageBreadcrumb } from '@/components'
-import { useNavigate, useParams } from 'react-router-dom'
 import useAsync from '@/hooks/useAsync'
-import Error404 from '../error/Error404'
 import { useEffect } from 'react'
+import TeamServices from '@/services/TeamServices'
+import { useNavigate, useParams } from 'react-router-dom'
 
 function EditBulletin() {
-	const { id } = useParams()
-	const navigation = useNavigate()
-	const { languages, changePageLang, pageLang, lang } = useAuthContext()
-	const { loading } = useSettings()
-	const { data: event, error: errorEvent } = useAsync(() =>
-		BlogServices.oneBlog(id)
-	)
 	const years = [
 		{
 			name: '2023',
@@ -80,28 +71,57 @@ function EditBulletin() {
 			name: 'December',
 		},
 	]
-	const { data: teams, loading: loadingCat } = useAsync(() =>
+	const { id } = useParams()
+	const navigation = useNavigate()
+	const { languages, changePageLang, pageLang } =
+		useAuthContext()
+	const { loading } = useSettings()
+
+	const { data: bulletin, error: errorBulletin } = useAsync(() =>
+		BulletinsService.oneBulletin(id)
+	)
+	const { data: teams, loading: loadingTeams } = useAsync(() =>
 		TeamServices.getTeam()
 	)
-	const { createBlogs, loading: loadingForm } = useBlogs()
+
+	if (errorBulletin || !bulletin) {
+		navigation('/', { replace: true })
+	}
 	const { t } = useTranslation()
+	const { createBulletins, loading: loadingForm } = useBulletins()
 	const { inputs, errors, handleOnChange, hanldeError, setInputs } =
 		useValidation({
 			title: '',
 			description: '',
-			documentation: '',
+			year: '',
+			created: '',
+			author: '',
 			image: null,
-			category: '',
+			month: '',
+			file: null,
 		})
 	useEffect(() => {
 		setInputs({
-			title: showingTranslateValue(event?.translations, pageLang)?.title || '',
+			title:
+				showingTranslateValue(bulletin?.translations, pageLang)?.title || '',
 			description:
-				showingTranslateValue(event?.translations, pageLang)?.description || '',
+				showingTranslateValue(bulletin?.translations, pageLang)?.description ||
+				'',
+			created:
+				showingTranslateValue(bulletin?.translations, pageLang)?.created || '',
 			image: null,
-			category: event?.category_id || '',
+			year: showingTranslateValue(bulletin?.translations, pageLang)?.year || '',
+			month:
+				showingTranslateValue(bulletin?.translations, pageLang)?.month || '',
+			file: null,
+			category: bulletin?.category_id || '',
+			documentation:
+				showingTranslateValue(bulletin?.translations, pageLang)
+					?.documentation || '',
+			author: bulletin?.author || '',
 		})
-	}, [event, pageLang])
+	}, [bulletin, pageLang])
+
 	const methods = useForm({
 		defaultValues: {
 			password: 'password',
@@ -110,7 +130,6 @@ function EditBulletin() {
 		},
 	})
 	const {
-		register,
 		control,
 		formState: { errors: err },
 	} = methods
@@ -127,45 +146,56 @@ function EditBulletin() {
 			hanldeError('Description is required', 'description')
 			valide = false
 		}
-		if (!inputs.publication_date) {
-			hanldeError('Publication date is required', 'publication_date')
+		if (!inputs.created) {
+			hanldeError('Date create is required', 'created')
 			valide = false
 		}
 
 		if (!inputs.author) {
-			hanldeError('Author is required', 'Author')
+			hanldeError('Author is required', 'author')
 			valide = false
 		}
 
-		if (!inputs.documentation) {
-			hanldeError('documentation is required', 'documentation')
+		if (!inputs.year) {
+			hanldeError('year is required', 'year')
 			valide = false
 		}
 
-		if (!inputs.category) {
-			hanldeError('Category is required', 'category')
+		if (!inputs.month) {
+			hanldeError('month is required', 'month')
 			valide = false
 		}
 
-		if (!inputs.image) {
-			hanldeError('Cover is required', 'image')
-			valide = false
-		} else {
-			const MAX_FILE_SIZE = 5120 // 5MB
-			const fileSizeKiloBytes = inputs?.image?.size / 1024
-			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-				hanldeError('Cover image is too big (max 5 mb) ', 'image')
-				valide = false
-			}
-		}
+		// if (!inputs.image) {
+		// 	hanldeError('Cover is required', 'image')
+		// 	valide = false
+		// } else {
+		// 	const MAX_FILE_SIZE = 5120 // 5MB
+		// 	const fileSizeKiloBytes = inputs?.image?.size / 1024
+		// 	if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+		// 		hanldeError('Cover image is too big (max 5 mb) ', 'image')
+		// 		valide = false
+		// 	}
+		// }
+		// if (!inputs.file) {
+		// 	hanldeError('File is required', 'file')
+		// 	valide = false
+		// } else {
+		// 	const MAX_FILE_SIZE = 5120 // 5MB
+		// 	const fileSizeKiloBytes = inputs?.file?.size / 1024
+		// 	if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+		// 		hanldeError('File is too big (max 5 mb) ', 'file')
+		// 		valide = false
+		// 	}
+		// }
 
 		if (valide) {
-			createBlogs(inputs)
+			createBulletins(inputs)
 		}
 	}
 	return (
 		<>
-			<PageBreadcrumb title="Create Bulletin" subName={t('Bulletins')} />
+			<PageBreadcrumb title="Edit Bulletin" subName={t('Bulletins')} />
 			<Row>
 				<Col xs={12}>
 					<Card>
@@ -237,26 +267,20 @@ function EditBulletin() {
 									<li className="list-group-item">
 										<Row>
 											<Col lg={4}>
-												<CustomMaskInput
+												<CustomInput
+													multiple={undefined}
+													accept={undefined}
+													onChangeCapture={undefined}
 													name=""
+													label={t('Date create')}
 													placeholder=""
-													accept={''}
-													style={{ height: 50 }}
-													mask={[
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														'/',
-														/\d/,
-														/\d/,
-														/\d/,
-														/\d/,
-													]}
-													label="Date create"
-													errors={errors.publication_date}
-													value={inputs.publication_date}
+													type="date"
+													className="form-control"
+													errors={errors.created}
+													value={inputs.created}
+													onFocus={() => {
+														hanldeError(null, 'created')
+													}}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'created')
 													}
@@ -323,18 +347,18 @@ function EditBulletin() {
 													type="select"
 													containerClass="mb-3"
 													className="form-select"
-													value={inputs.Author}
+													value={inputs.author}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'author')
 													}
-													register={register}
+													// register={register}
 													key="select"
 													errors={'error: ' + errors}
 													control={control}>
 													<option defaultValue="selected">...</option>
 													{teams?.map((item: any, index: any) => (
 														<option key={index} value={item.id}>
-															{item.full_name}
+															{item?.full_name}
 														</option>
 													))}
 												</FormInput>
@@ -393,7 +417,7 @@ function EditBulletin() {
 								<div className="card-portlets-loader"></div>
 							</div>
 						)}
-						{loadingCat && (
+						{loadingTeams && (
 							<div className="card-disabled">
 								<div className="card-portlets-loader"></div>
 							</div>

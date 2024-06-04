@@ -6,7 +6,7 @@ import { Card, Col, Container, Image, Row } from 'react-bootstrap'
 import { PageBreadcrumb } from '@/components'
 
 //images
-import authImg from '@/assets/images/auth-img.jpg'
+import authImg from '@/assets/images/blog.jpg'
 import logo from '@/assets/images/logo.png'
 import logoDark from '@/assets/images/logo-dark.png'
 import errorImg from '@/assets/images/svg/500.svg'

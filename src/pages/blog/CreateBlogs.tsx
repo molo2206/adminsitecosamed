@@ -16,7 +16,14 @@ import { PageBreadcrumb } from '@/components'
 import useAsync from '@/hooks/useAsync'
 
 function CreateBlogs() {
-	const { languages, changePageLang, pageLang, lang } = useAuthContext()
+	const {
+		languages,
+		changePageLang,
+		pageLang,
+		lang,
+		imageUrl,
+		setImageUrl,
+	} = useAuthContext()
 	const { loading } = useSettings()
 	const { data: categories, loading: loadingCat } = useAsync(() =>
 		CategoryServices.getCategoryType('Blog')
@@ -252,6 +259,21 @@ function CreateBlogs() {
 									</li>
 
 									<li className="list-group-item">
+										<span
+											className="d-block justify-content-center text-center  align-items-center mx-auto relative"
+											// onClick={pickImage}
+											role="button">
+											<img
+												src={
+													imageUrl
+														? imageUrl
+														: '../../../src/assets/images/blog.jpg'
+												}
+												className="avatar avatar-lg"
+											/>
+											<br />
+											<small className="text-center">(540 X 640)</small>
+										</span>
 										<CustomInput
 											multiple={undefined}
 											invalid={undefined}
@@ -265,9 +287,10 @@ function CreateBlogs() {
 											onFocus={() => {
 												hanldeError(null, 'image')
 											}}
-											onChangeCapture={(e: any) =>
+											onChangeCapture={(e: any) => {
+												setImageUrl(URL.createObjectURL(e.target.files[0]))
 												handleOnChange(e.target.files[0], 'image')
-											}
+											}}
 										/>
 									</li>
 									<li className="list-group-item">

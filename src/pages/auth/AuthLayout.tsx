@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react'
 
 //images
-import authImg from '@/assets/images/auth_img.jpg'
+import authImg from '@/assets/images/blog.jpg'
 import { useAuthContext } from '@/common'
 import { Card, Col, Container, Image, Row } from 'react-bootstrap'
 

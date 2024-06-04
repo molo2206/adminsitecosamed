@@ -20,7 +20,7 @@ import { Table } from '@/components'
 import { PageBreadcrumb } from '@/components'
 
 const Offres = () => {
-	const { createOffres, loading: loadingForm } = useOffres()
+	const { SaveOffre, loading: loadingForm } = useOffres()
 	const { t } = useTranslation()
 	const {
 		handleUpdate,
@@ -30,7 +30,6 @@ const Offres = () => {
 		isOpen,
 		toggleModal,
 		closeModal,
-		imageUrl,
 		setImageUrl,
 	} = useAuthContext()
 	const { data, loading } = useAsync(() => OffresServices.getOffres())
@@ -62,6 +61,13 @@ const Offres = () => {
 		{
 			Header: 'Start Date',
 			accessor: 'startdate',
+			maxWidth: 200,
+			minWidth: 200,
+			width: 200,
+		},
+		{
+			Header: 'End Date',
+			accessor: 'enddate',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
@@ -114,9 +120,13 @@ const Offres = () => {
 		useValidation({
 			title: '',
 			description: '',
-			file: '',
+			file: null,
 			price: '',
-			image: '',
+			image: null,
+			place: '',
+			startdate: '',
+			enddate: '',
+			author: '',
 		})
 
 	useEffect(() => {
@@ -127,6 +137,10 @@ const Offres = () => {
 				file: '',
 				price: selected?.price,
 				image: '',
+				place: selected?.place,
+				startdate: selected?.startdate,
+				enddate: selected?.enddate,
+				author: selected?.author,
 			})
 			setImageUrl(selected?.image)
 		}
@@ -150,6 +164,19 @@ const Offres = () => {
 			valide = false
 		}
 
+		if (!inputs.startdate) {
+			hanldeError('Start date is required', 'startdate')
+			valide = false
+		}
+		if (!inputs.enddate) {
+			hanldeError('End date is required', 'enddate')
+			valide = false
+		}
+		if (!inputs.place) {
+			hanldeError('Place is required', 'place')
+			valide = false
+		}
+
 		if (!isEdit) {
 			if (!inputs.file) {
 				hanldeError('File is required', 'file')
@@ -167,9 +194,8 @@ const Offres = () => {
 				valide = false
 			}
 		}
-
 		if (valide) {
-			createOffres(inputs)
+			SaveOffre(inputs)
 		}
 	}
 	return (
@@ -179,7 +205,7 @@ const Offres = () => {
 				size={undefined}
 				close={closeModal}
 				show={isOpen}
-				title={`${isEdit ? t('Update') : t('create')} ${t('Offres')}`}>
+				title={`${isEdit ? t('Update') : t('Create')} ${t('Offres')}`}>
 				<Form className="form-horizontal" onSubmit={validation}>
 					<div className="mt-2 mb-4 d-flex justify-content-center align-items-center">
 						<input
@@ -317,7 +343,7 @@ const Offres = () => {
 							<Table<Employee>
 								columns={columns}
 								data={data}
-								pageSize={6}
+								pageSize={7}
 								pagination={true}
 								isSearchable={true}
 							/>

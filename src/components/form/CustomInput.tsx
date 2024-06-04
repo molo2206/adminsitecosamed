@@ -15,7 +15,7 @@ interface InputProps {
 	type: any
 	placeholder: string
 	accept: any
-	onChangeCapture: any
+	onChangeCapture?: any
 	multiple: any
 }
 const CustomInput: React.FC<InputProps> = ({

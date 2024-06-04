@@ -21,7 +21,7 @@ const BlogServices = {
 		})
 	},
 	status: async (body: any, id: string) => {
-		return requests.put(`/blogs/${id}`, body, {})
+		return requests.post(`/blogs/${id}`, body, {})
 	},
 	delete: async (id: string) => {
 		return requests.delete(`/blogs/${id}`)

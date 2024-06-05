@@ -14,6 +14,7 @@ import { useAuthContext } from '@/common'
 import BlogServices from '@/services/BlogsServices'
 import BulletinsService from '@/services/BulletinsService'
 import OffresServices from '@/services/OffresServices'
+import PartenersServices from '@/services/PartenersServices'
 interface Props {
 	isOpen: any
 	close: any
@@ -92,6 +93,13 @@ const DeleteModal = ({ isOpen, close }: Props) => {
 			}
 			if (location.pathname === '/services/list') {
 				const response: any = await ServiceServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+			if (location.pathname === '/partener/listparteners') {
+				const response: any = await PartenersServices.delete(selected?.id)
 				forceUpdate()
 				successNotification(response?.data?.message)
 				toggleModalDelete()

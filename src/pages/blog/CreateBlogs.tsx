@@ -16,14 +16,8 @@ import { PageBreadcrumb } from '@/components'
 import useAsync from '@/hooks/useAsync'
 
 function CreateBlogs() {
-	const {
-		languages,
-		changePageLang,
-		pageLang,
-		lang,
-		imageUrl,
-		setImageUrl,
-	} = useAuthContext()
+	const { languages, changePageLang, pageLang, lang, imageUrl, setImageUrl } =
+		useAuthContext()
 	const { loading } = useSettings()
 	const { data: categories, loading: loadingCat } = useAsync(() =>
 		CategoryServices.getCategoryType('Blog')
@@ -243,7 +237,6 @@ function CreateBlogs() {
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'author')
 													}
-													register={register}
 													key="select"
 													errors={'error: ' + errors}
 													control={control}>

@@ -180,7 +180,7 @@ const ListBooks = () => {
 	}
 	return (
 		<>
-			<PageBreadcrumb title="Books" subName="Books" />
+			<PageBreadcrumb title="Raports" subName="Raports" />
 			<MainModal
 				size={undefined}
 				close={closeModal}
@@ -296,14 +296,14 @@ const ListBooks = () => {
 						)}
 
 						<Card.Header className="d-flex justify-content-between align-items-center">
-							<h4 className="header-title">{t('Books')}</h4>
+							<h4 className="header-title">{t('Raport')}</h4>
 							<Button
 								onClick={toggleModal}
 								style={{
 									marginRight: 20,
 								}}
 								variant={'outline-primary'}>
-								Add Book
+								Add Raport
 							</Button>
 						</Card.Header>
 						<Card.Body>

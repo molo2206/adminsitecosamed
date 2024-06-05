@@ -10,6 +10,9 @@ import ListBulletins from '@/pages/bulletin/ListBulletins'
 import CreateBulletins from '@/pages/bulletin/CreateBulletins'
 import EditBulletin from '@/pages/bulletin/EditBulletin'
 import Offres from '@/pages/offres/Offres'
+import CreateParteners from '@/pages/parteners/CreateParteners'
+import EditPartener from '@/pages/parteners/EditPartener'
+import ListParteners from '@/pages/parteners/ListParteners'
 
 // lazy load all the views
 
@@ -238,6 +241,27 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListBlogs />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Blogs', action: 'read' },
+	},
+	{
+		path: '/partener/create',
+		name: 'Partener',
+		element: <CreateParteners />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Parteners', action: 'read' },
+	},
+	{
+		path: '/partener/edit/:id',
+		name: 'Edit Partener',
+		element: <EditPartener />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Parteners', action: 'update' },
+	},
+	{
+		path: '/partener/listparteners',
+		name: 'List Parteners',
+		element: <ListParteners />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Parteners', action: 'read' },
 	},
 	{
 		path: '/settings/logo',

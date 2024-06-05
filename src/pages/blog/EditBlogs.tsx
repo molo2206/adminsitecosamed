@@ -111,17 +111,17 @@ function EditBlogs() {
 			valide = false
 		}
 
-		if (!inputs.image) {
-			hanldeError('Cover is required', 'image')
-			valide = false
-		} else {
-			const MAX_FILE_SIZE = 5120 // 5MB
-			const fileSizeKiloBytes = inputs?.image?.size / 1024
-			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-				hanldeError('Cover image is too big (max 5 mb) ', 'image')
-				valide = false
-			}
-		}
+		// if (!inputs.image) {
+		// 	hanldeError('Cover is required', 'image')
+		// 	valide = false
+		// } else {
+		// 	const MAX_FILE_SIZE = 5120 // 5MB
+		// 	const fileSizeKiloBytes = inputs?.image?.size / 1024
+		// 	if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+		// 		hanldeError('Cover image is too big (max 5 mb) ', 'image')
+		// 		valide = false
+		// 	}
+		// }
 
 		if (valide) {
 			createBlogs(inputs)

@@ -40,8 +40,10 @@ export const En = {
 	Countries: 'Countries',
 	Roles: 'Roles',
 	Ressources: 'Ressources',
-  Dashboard:"Dashboard",
-  Add:"Add"
+	Dashboard: "Dashboard",
+	Add: "Add",
+	Work: "Work",
+	Raport: "Raport"
 }
 
 export const FR = {
@@ -52,8 +54,8 @@ export const FR = {
 	Mission: 'Notre mission',
 	Team: 'Notre équipe',
 	Testimonials: 'Témoignages',
-	Blogs : 'Nos publications',
-	Author  :"Auteur",
+	Blogs: 'Nos publications',
+	Author: "Auteur",
 	Events: 'Nos évenements',
 	BecomeMember: 'Devenez membre',
 	WhatThey: "Ce qu'ils pensent",
@@ -89,8 +91,10 @@ export const FR = {
 	Countries: 'Pays',
 	Roles: 'Roles',
 	Ressources: 'Ressources',
-  Dashboard:"Tableu de bord",
-  Add:"Ajouter"
+	Dashboard: "Tableu de bord",
+	Add: "Ajouter",
+	Work: "Travail",
+	Raport: "Rapport"
 }
 export const ES = {
 	Home: 'Bienvenida',
@@ -125,7 +129,7 @@ export const ES = {
 	Login: 'Conectarse',
 	SimpleMembre: 'Miembro único',
 	PartnarMembre: 'Miembro socio',
-  Dashboard:"Panel",
+	Dashboard: "Panel",
 
 	Members: 'Miembros',
 	Categories: 'Categorías',
@@ -136,7 +140,8 @@ export const ES = {
 	Countries: 'País',
 	Roles: 'Roles',
 	Ressources: 'Recursos',
-  Add:"Agregar"
+	Add: "Agregar",
+
 }
 export const SW = {
 	Home: 'Karibu',
@@ -180,8 +185,8 @@ export const SW = {
 	Countries: 'Nchi',
 	Roles: 'Majukumu',
 	Ressources: 'Rasilimali',
-  Dashboard:"Dashibodi",
-  Add:"Ongeza"
+	Dashboard: "Dashibodi",
+	Add: "Ongeza"
 }
 export const PT = {
 	Home: 'Bem-vindo',
@@ -225,6 +230,6 @@ export const PT = {
 	Countries: 'País',
 	Roles: 'Funções',
 	Ressources: 'Recursos',
-  Dashboard:"Painel",
-  Add:"Adicionar"
+	Dashboard: "Painel",
+	Add: "Adicionar"
 }

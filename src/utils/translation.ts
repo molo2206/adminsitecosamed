@@ -43,7 +43,8 @@ export const En = {
 	Dashboard: "Dashboard",
 	Add: "Add",
 	Work: "Work",
-	Raport: "Raport"
+	Raport: "Raport",
+	Theme: "Theme"
 }
 
 export const FR = {
@@ -94,7 +95,8 @@ export const FR = {
 	Dashboard: "Tableu de bord",
 	Add: "Ajouter",
 	Work: "Travail",
-	Raport: "Rapport"
+	Raport: "Rapport",
+	Theme: "Thematiques"
 }
 export const ES = {
 	Home: 'Bienvenida',

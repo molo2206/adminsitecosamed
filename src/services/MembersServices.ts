@@ -1,35 +1,34 @@
 import requests from './Instance'
-const UserServices = {
-	getUsers: async () => {
-		return requests.get(`/users`)
-	},
-
+const MembersServices = {
+	
 	getMembers: async () => {
 		return requests.get(`/members`)
 	},
 
 	create: async (body: any) => {
-		return requests.post(`/users`, body, {})
+		return requests.post(`/members`, body, {})
+	},
+
+	oneMember: async (id: any) => {
+		return requests.get(`/members/${id}`)
 	},
 
 	update: async (body: any, id: string) => {
-		return requests.put(`/users/${id}`, body, {})
+		return requests.post(`/members/${id}`, body, {})
 	},
 
 	status: async (body: any, id: string) => {
-		return requests.put(`/users/status/${id}`, body, {})
+		return requests.post(`/member/${id}`, body, {})
 	},
 
 	delete: async (id: string) => {
-		return requests.delete(`/users/${id}`)
+		return requests.delete(`/members/${id}`)
 	},
 	
 	setPermissions: async (body: any) => {
 		return requests.post('/assign-permissions', body,{})
 	},
-	getBooks: async () => {
-		return requests.get('/public/books')
-	},
+	
 }
 
-export default UserServices
+export default MembersServices

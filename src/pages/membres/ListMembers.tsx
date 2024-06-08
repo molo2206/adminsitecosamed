@@ -1,21 +1,26 @@
-import { Button, Card, Col, Row } from 'react-bootstrap'
+import { Card, Col, Row } from 'react-bootstrap'
 import { Column } from 'react-table'
+import { Link } from 'react-router-dom'
 import { Employee } from '../ui/tables/types'
-import 'react-bootstrap-typeahead/css/Typeahead.css'
-import 'rsuite/dist/rsuite-no-reset.min.css'
-import ChangeStatus from '@/components/form/ChangeStatus'
 import { useAuthContext } from '@/common'
 import { useTranslation } from 'react-i18next'
-import UserServices from '@/services/UserServices'
 import useAsync from '@/hooks/useAsync'
+import ChangeStatus from '@/components/form/ChangeStatus'
+import 'react-bootstrap-typeahead/css/Typeahead.css'
+import 'rsuite/dist/rsuite-no-reset.min.css'
+import { Button } from 'react-bootstrap'
 import { Table } from '@/components'
+import MembersServices from '@/services/MembersServices'
 import { PageBreadcrumb } from '@/components'
 
-const ListMembers = () => {
+function ListMembers() {
 	const { t } = useTranslation()
-	const { handleUpdate, toggleModal } = useAuthContext()
-	const { data, loading } = useAsync(() => UserServices.getMembers())
-
+	const {
+		handleUpdateNavigate,
+		handleDelete,
+	} = useAuthContext()
+	const { data, loading } = useAsync(() => MembersServices.getMembers())
+	console.log(data)
 	const columns: ReadonlyArray<Column> = [
 		{
 			Header: 'ID',
@@ -35,8 +40,22 @@ const ListMembers = () => {
 			),
 		},
 		{
-			Header: 'Full name',
-			accessor: 'full_name',
+			Header: 'Name',
+			accessor: 'name',
+			maxWidth: 400,
+			minWidth: 400,
+			width: 400,
+		},
+		{
+			Header: 'Prename',
+			accessor: 'prename',
+			maxWidth: 400,
+			minWidth: 400,
+			width: 400,
+		},
+		{
+			Header: 'Sexe',
+			accessor: 'sexe',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
@@ -49,8 +68,15 @@ const ListMembers = () => {
 			width: 400,
 		},
 		{
+			Header: 'Phone',
+			accessor: 'phone',
+			maxWidth: 400,
+			minWidth: 400,
+			width: 400,
+		},
+		{
 			Header: 'Type',
-			accessor: 'type',
+			accessor: 'typemembre',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
@@ -61,10 +87,27 @@ const ListMembers = () => {
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
+			Cell: ({ cell }: any) => (
+				<span>{cell?.row?.original?.country?.name}</span>
+			),
 		},
 		{
 			Header: 'City',
-			accessor: 'town',
+			accessor: 'ville',
+			maxWidth: 400,
+			minWidth: 400,
+			width: 400,
+		},
+		{
+			Header: 'Profession',
+			accessor: 'profession',
+			maxWidth: 400,
+			minWidth: 400,
+			width: 400,
+		},
+		{
+			Header: 'CNOM',
+			accessor: 'num_ordre',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
@@ -82,36 +125,43 @@ const ListMembers = () => {
 				/>
 			),
 		},
-
 		{
 			Header: 'Actions',
 			accessor: 'actions',
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
-			Cell: ({ cell }) => (
+			Cell: ({ cell }: any) => (
 				<Row>
 					<Col>
 						<Button
-							onClick={() => handleUpdate(cell?.row?.original)}
+							onClick={() =>
+								handleUpdateNavigate(
+									cell?.row?.original,
+									'/members/edit/' + cell?.row?.original?.id
+								)
+							}
 							style={{
 								marginRight: 20,
 							}}
-							variant={'outline-primary'}>
+							className={'btn btn-primary'}>
 							Edit
 						</Button>
 
-						<Button variant={'outline-danger'}>Delete</Button>
+						<Button
+							onClick={() => handleDelete(cell?.row?.original)}
+							variant={'outline-danger'}>
+							Delete
+						</Button>
 					</Col>
 				</Row>
 			),
 		},
 	]
-
 	return (
 		<>
-			<PageBreadcrumb title="Members" subName="Members" />
-
+			<PageBreadcrumb title="List members" subName="Members" />
+			<Row></Row>
 			<Row className="mt-10">
 				<Col>
 					<Card>
@@ -122,15 +172,15 @@ const ListMembers = () => {
 						)}
 
 						<Card.Header className="d-flex justify-content-between align-items-center">
-							<h4 className="header-title">{t('Members')}</h4>
-							<Button
-								onClick={toggleModal}
+							<h4 className="header-title">{t('Blogs')}</h4>
+							<Link
+								to={'/members/create'}
 								style={{
 									marginRight: 20,
 								}}
-								variant={'outline-primary'}>
-								Add Person
-							</Button>
+								className={'btn btn-outline-primary'}>
+								Create member
+							</Link>
 						</Card.Header>
 						<Card.Body>
 							<Table<Employee>

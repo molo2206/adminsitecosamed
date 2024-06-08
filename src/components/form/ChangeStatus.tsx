@@ -13,6 +13,8 @@ import { useAuthContext } from '@/common'
 import BlogServices from '@/services/BlogsServices'
 import BulletinsService from '@/services/BulletinsService'
 import OffresServices from '@/services/OffresServices'
+import ThematiqueServices from '@/services/ThematiqueServices'
+import MembersServices from '@/services/MembersServices'
 interface StatusPprops {
 	status: any
 	id: string
@@ -55,6 +57,7 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 				forceUpdate()
 			}
 			
+			
 			if (location.pathname === '/team') {
 				const response = await TeamServices.status({ status: newStatus }, id)
 				successNotification(response?.data?.message)
@@ -70,6 +73,14 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 			}
 			if (location.pathname === '/books/list') {
 				const response = await TeamServices.statusBooks(
+					{ status: newStatus },
+					id
+				)
+				successNotification(response?.data?.message)
+				forceUpdate()
+			}
+			if (location.pathname === '/thematique/listthematique') {
+				const response = await ThematiqueServices.status(
 					{ status: newStatus },
 					id
 				)
@@ -99,6 +110,13 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 				successNotification(response?.data?.message)
 				forceUpdate()
 			}
+			if (location.pathname === '/member/list') {
+				const response = await MembersServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
+				forceUpdate()
+			}
+
+			
 			if (location.pathname === '/cities') {
 				const response = await CountryServices.statusCity(
 					{ status: newStatus },

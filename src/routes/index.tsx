@@ -13,6 +13,9 @@ import Offres from '@/pages/offres/Offres'
 import CreateParteners from '@/pages/parteners/CreateParteners'
 import EditPartener from '@/pages/parteners/EditPartener'
 import ListParteners from '@/pages/parteners/ListParteners'
+import ListThematiques from '@/pages/Thematiques/ListThematiques'
+import CreateMembers from '@/pages/membres/CreateMembers'
+import EditMembers from '@/pages/membres/EditMembers'
 
 // lazy load all the views
 
@@ -264,6 +267,13 @@ const otherRoutes: RoutesProps[] = [
 		permissions: { ressource: 'Parteners', action: 'read' },
 	},
 	{
+		path: '/thematique/listthematique',
+		name: 'List Thematiques',
+		element: <ListThematiques />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Thematiques', action: 'read' },
+	},
+	{
 		path: '/settings/logo',
 		name: 'Logos',
 		element: <SettingLogo />,
@@ -381,6 +391,20 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListMembers />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Members', action: 'read' },
+	},
+	{
+		path: '/members/create',
+		name: 'Members List',
+		element: <CreateMembers />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Members', action: 'read' },
+	},
+	{
+		path: '/members/edit/:id',
+		name: 'Edit Members',
+		element: <EditMembers />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Members', action: 'update' },
 	},
 	{
 		path: '/gallery/photo',

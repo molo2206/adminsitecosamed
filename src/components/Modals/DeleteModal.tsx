@@ -15,6 +15,8 @@ import BlogServices from '@/services/BlogsServices'
 import BulletinsService from '@/services/BulletinsService'
 import OffresServices from '@/services/OffresServices'
 import PartenersServices from '@/services/PartenersServices'
+import ThematiqueServices from '@/services/ThematiqueServices'
+import MembersServices from '@/services/MembersServices'
 interface Props {
 	isOpen: any
 	close: any
@@ -49,6 +51,21 @@ const DeleteModal = ({ isOpen, close }: Props) => {
 			}
 			if (location.pathname === '/bulletins/list') {
 				const response: any = await BulletinsService.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+			if (location.pathname === '/thematique/listthematique') {
+				const response: any = await ThematiqueServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+
+			if (location.pathname === '/members/list') {
+				const response: any = await MembersServices.delete(selected?.id)
 				forceUpdate()
 				successNotification(response?.data?.message)
 				toggleModalDelete()

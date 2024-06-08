@@ -205,14 +205,30 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		permissions: { ressource: 'Team', action: 'read' },
 	},
 
-	// {
-	// 	key: 'members',
-	// 	label: 'Members',
-	// 	isTitle: false,
-	// 	icon: 'ri-pages-line',
-	// 	permissions: { ressource: 'Members', action: 'read' },
-	// 	url: '/members/list',
-	// },
+
+	{
+		key: 'members',
+		label: 'Members',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		permissions: { ressource: 'Members', action: 'read' },
+		children: [
+			{
+				key: 'members-list',
+				label: 'Members list',
+				url: '/members/list',
+				parentKey: 'members',
+				permissions: { ressource: 'Members', action: 'read' },
+			},
+			{
+				key: 'create-members',
+				label: 'Create Members',
+				url: '/members/create',
+				parentKey: 'members',
+				permissions: { ressource: 'Members', action: 'create' },
+			},
+		],
+	},
 	{
 		key: 'pertener',
 		label: 'Parteners',
@@ -259,6 +275,14 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		icon: 'ri-pages-line',
 		url: '/category',
 		permissions: { ressource: 'Categories', action: 'read' },
+	},
+	{
+		key: 'thematiques',
+		label: 'Thematique',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		url: '/thematique/listthematique',
+		permissions: { ressource: 'Thematiques', action: 'read' },
 	},
 	{
 		key: 'services',

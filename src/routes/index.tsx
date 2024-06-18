@@ -16,6 +16,7 @@ import ListParteners from '@/pages/parteners/ListParteners'
 import ListThematiques from '@/pages/Thematiques/ListThematiques'
 import CreateMembers from '@/pages/membres/CreateMembers'
 import EditMembers from '@/pages/membres/EditMembers'
+import ListCities from '@/pages/countries/ListCities'
 
 // lazy load all the views
 
@@ -66,7 +67,7 @@ const ListCategory = React.lazy(() => import('../pages/category/ListCategory'))
 const ListCountries = React.lazy(
 	() => import('../pages/countries/ListCountries')
 )
-const ListCities = React.lazy(() => import('../pages/countries/ListCities'))
+
 const ListRessources = React.lazy(
 	() => import('../pages/permissions/ListRessources')
 )
@@ -208,7 +209,7 @@ const otherRoutes: RoutesProps[] = [
 		name: 'Cities',
 		element: <ListCities />,
 		route: PrivateRoute,
-		permissions: { ressource: 'Cities', action: 'read' },
+		permissions: { ressource: 'Countries', action: 'read' },
 	},
 	{
 		path: '/team',

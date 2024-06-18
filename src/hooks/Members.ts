@@ -32,9 +32,9 @@ const Members = () => {
         formdata.append('profession', body?.profession)
         formdata.append('corporation', body?.corporation)
         formdata.append('num_ordre', body?.num_ordre)
-        if (body?.image) {
-            formdata.append('image', body?.image)
-        }
+        // if (body?.image) {
+        //     formdata.append('image', body?.image)
+        // }
         if (
             location.pathname === `/members/edit/${location.pathname.split('/')[3]}`
         ) {

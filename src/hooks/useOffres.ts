@@ -21,16 +21,17 @@ const useOffres = () => {
 		formdata.append('title', body?.title)
 		formdata.append('description', body?.description)
 		formdata.append('place', body?.place)
-        formdata.append('startdate', body?.startdate)
-        formdata.append('enddate', body?.enddate)
+		formdata.append('startdate', body?.startdate)
+		formdata.append('enddate', body?.enddate)
+		formdata.append('poste', body?.poste)
+		formdata.append('type', body?.type)
 		if (body?.file) {
 			formdata.append('file', body?.file)
 		}
-
 		setLoading(true)
 		if (isEdit) {
 			OffresServices.update(formdata, selected?.id)
-				.then((response:any) => {
+				.then((response: any) => {
 					forceUpdate()
 					successNotification(response.data.message)
 					setLoading(false)
@@ -46,7 +47,7 @@ const useOffres = () => {
 				})
 		} else {
 			OffresServices.create(formdata)
-				.then((response:any) => {
+				.then((response: any) => {
 					setIsEdit(false)
 					setSelected(null)
 					forceUpdate()

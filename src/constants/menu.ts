@@ -362,7 +362,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 			},
 			{
 				key: 'cities',
-				label: 'Cities',
+				label: 'City',
 				isTitle: false,
 				icon: 'ri-pages-line',
 				url: '/cities',

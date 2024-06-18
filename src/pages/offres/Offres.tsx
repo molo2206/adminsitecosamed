@@ -18,6 +18,7 @@ import useAsync from '@/hooks/useAsync'
 import { Button } from 'react-bootstrap'
 import { Table } from '@/components'
 import { PageBreadcrumb } from '@/components'
+import CustomEditor from '@/components/form/CustomEditor'
 
 const Offres = () => {
 	const { SaveOffre, loading: loadingForm } = useOffres()
@@ -127,6 +128,8 @@ const Offres = () => {
 			startdate: '',
 			enddate: '',
 			author: '',
+			type: '',
+			poste: '',
 		})
 
 	useEffect(() => {
@@ -141,11 +144,13 @@ const Offres = () => {
 				startdate: selected?.startdate,
 				enddate: selected?.enddate,
 				author: selected?.author,
+				poste: selected?.poste,
+				type: selected?.type,
 			})
 			setImageUrl(selected?.image)
 		}
 	}, [isEdit])
-
+	const inputRef = useRef(null)
 	const onChangeImage = (e: any) => {
 		handleOnChange(e.target.files[0], 'image')
 		setImageUrl(URL.createObjectURL(e.target.files[0]))
@@ -161,6 +166,14 @@ const Offres = () => {
 		}
 		if (!inputs.description) {
 			hanldeError('Description is required', 'description')
+			valide = false
+		}
+		if (!inputs.type) {
+			hanldeError('Type is required', 'type')
+			valide = false
+		}
+		if (!inputs.poste) {
+			hanldeError('Poste is required', 'poste')
 			valide = false
 		}
 
@@ -194,8 +207,9 @@ const Offres = () => {
 				valide = false
 			}
 		}
+
 		if (valide) {
-			SaveOffre(inputs)
+			SaveOffre(inputs), inputRef
 		}
 	}
 	return (
@@ -216,7 +230,6 @@ const Offres = () => {
 							className="d-none"
 						/>
 					</div>
-
 					<CustomInput
 						multiple={undefined}
 						accept={undefined}
@@ -237,18 +250,46 @@ const Offres = () => {
 						multiple={undefined}
 						accept={undefined}
 						onChangeCapture={undefined}
-						name="description"
-						label={t('Description')}
+						name="poste"
+						label="Poste"
 						placeholder=""
-						type="textarea"
+						type="text"
 						className="form-control"
-						errors={errors.description}
+						errors={errors.poste}
+						value={inputs.poste}
+						onFocus={() => {
+							hanldeError(null, 'poste')
+						}}
+						onChange={(e: any) => handleOnChange(e.target.value, 'poste')}
+					/>
+					<CustomInput
+						multiple={undefined}
+						accept={undefined}
+						onChangeCapture={undefined}
+						name="type"
+						label="Type"
+						placeholder=""
+						type="text"
+						className="form-control"
+						errors={errors.type}
+						value={inputs.type}
+						onFocus={() => {
+							hanldeError(null, 'type')
+						}}
+						onChange={(e: any) => handleOnChange(e.target.value, 'type')}
+					/>
+
+					<CustomEditor
+						label={t('Description')}
+						error={errors.description}
 						value={inputs.description}
 						onFocus={() => {
 							hanldeError(null, 'description')
 						}}
-						onChange={(e: any) => handleOnChange(e.target.value, 'description')}
+						onChange={(text: any) => handleOnChange(text, 'description')}
 					/>
+					<br />
+					<br />
 					<CustomInput
 						multiple={undefined}
 						accept={undefined}

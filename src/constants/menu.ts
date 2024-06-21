@@ -127,29 +127,30 @@ const MENU_ITEMS: MenuItemTypes[] = [
 	// 		},
 	// 	],
 	// },
-	// {
-	// 	key: 'communique',
-	// 	label: 'Communiques',
-	// 	isTitle: false,
-	// 	icon: 'ri-pages-line',
-	// 	permissions: { ressource: 'Communiques', action: 'read' },
-	// 	children: [
-	// 		{
-	// 			key: 'communique-list',
-	// 			label: 'Communiques list',
-	// 			url: '/communiques/list',
-	// 			parentKey: 'communiques',
-	// 			permissions: { ressource: 'Communiques', action: 'read' },
-	// 		},
-	// 		{
-	// 			key: 'create-communiques',
-	// 			label: 'Create Communiques',
-	// 			url: '/communiques/create',
-	// 			parentKey: 'communiques',
-	// 			permissions: { ressource: 'Communiques', action: 'create' },
-	// 		},
-	// 	],
-	// },
+
+	{
+		key: 'communicated',
+		label: 'Communicated',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		permissions: { ressource: 'Communiques', action: 'read' },
+		children: [
+			{
+				key: 'communicated-list',
+				label: 'Communicated list',
+				url: '/communicated/listcommunicate',
+				parentKey: 'communicated',
+				permissions: { ressource: 'Communiques', action: 'read' },
+			},
+			{
+				key: 'create-blog',
+				label: 'Create communicated',
+				url: '/communicated/create',
+				parentKey: 'communicated',
+				permissions: { ressource: 'Communiques', action: 'create' },
+			},
+		],
+	},
 	{
 		key: 'events',
 		label: 'Events',

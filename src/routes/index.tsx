@@ -17,6 +17,9 @@ import ListThematiques from '@/pages/Thematiques/ListThematiques'
 import CreateMembers from '@/pages/membres/CreateMembers'
 import EditMembers from '@/pages/membres/EditMembers'
 import ListCities from '@/pages/countries/ListCities'
+import CreateCommunique from '@/pages/Communique/CreateCommunique'
+import ListCommunique from '@/pages/Communique/ListCommunique'
+import EditCommunique from '@/pages/Communique/EditCommunique'
 
 // lazy load all the views
 
@@ -245,6 +248,27 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListBlogs />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Blogs', action: 'read' },
+	},
+	{
+		path: '/communicated/create',
+		name: 'Create communicated',
+		element: <CreateCommunique />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Communiques', action: 'read' },
+	},
+	{
+		path: '/communicated/edit/:id',
+		name: 'Edit communicated',
+		element: <EditCommunique />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Communiques', action: 'update' },
+	},
+	{
+		path: '/communicated/listcommunicate',
+		name: 'List communicated',
+		element: <ListCommunique />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Communiques', action: 'read' },
 	},
 	{
 		path: '/partener/create',

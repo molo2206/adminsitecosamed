@@ -15,6 +15,7 @@ import BulletinsService from '@/services/BulletinsService'
 import OffresServices from '@/services/OffresServices'
 import ThematiqueServices from '@/services/ThematiqueServices'
 import MembersServices from '@/services/MembersServices'
+import CommunicatedServices from '@/services/CommunicatedServices'
 interface StatusPprops {
 	status: any
 	id: string
@@ -112,6 +113,12 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 			}
 			if (location.pathname === '/member/list') {
 				const response = await MembersServices.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
+				forceUpdate()
+			}
+
+			if (location.pathname === '/communicated/listcommunicate') {
+				const response = await CommunicatedServices.status({ status: newStatus }, id)
 				successNotification(response?.data?.message)
 				forceUpdate()
 			}

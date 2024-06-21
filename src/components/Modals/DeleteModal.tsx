@@ -17,6 +17,7 @@ import OffresServices from '@/services/OffresServices'
 import PartenersServices from '@/services/PartenersServices'
 import ThematiqueServices from '@/services/ThematiqueServices'
 import MembersServices from '@/services/MembersServices'
+import CommunicatedServices from '@/services/CommunicatedServices'
 interface Props {
 	isOpen: any
 	close: any
@@ -71,6 +72,15 @@ const DeleteModal = ({ isOpen, close }: Props) => {
 				toggleModalDelete()
                 setIsLoading(false)
 			}
+
+			if (location.pathname === '/communicated/listcommunicate') {
+				const response: any = await CommunicatedServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+
 
 			if (location.pathname === '/offres/create') {
 				const response: any = await OffresServices.delete(selected?.id)

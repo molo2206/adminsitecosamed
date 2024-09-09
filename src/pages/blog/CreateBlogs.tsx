@@ -95,6 +95,11 @@ function CreateBlogs() {
 			}
 		}
 
+		if (!inputs.images) {
+			hanldeError('Cover is required', 'images')
+			valide = false
+		}
+
 		if (valide) {
 			createBlogs(inputs)
 		}
@@ -283,6 +288,26 @@ function CreateBlogs() {
 											onChangeCapture={(e: any) => {
 												setImageUrl(URL.createObjectURL(e.target.files[0]))
 												handleOnChange(e.target.files[0], 'image')
+											}}
+										/>
+									</li>
+									<li className="list-group-item">
+										<CustomInput
+											multiple
+											invalid={undefined}
+											accept="images/*"
+											name="images"
+											label="Autres images (850 X 550)"
+											placeholder=""
+											type="file"
+											className="form-control"
+											errors={errors.images}
+											onFocus={() => {
+												hanldeError(null, 'images')
+											}}
+											onChangeCapture={(e: any) => {
+												setImageUrl(URL.createObjectURL(e.target.files[0]))
+												handleOnChange(e.target.files, 'images')
 											}}
 										/>
 									</li>

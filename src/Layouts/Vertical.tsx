@@ -65,7 +65,6 @@ const VerticalLayout = ({ children }: VerticalLayoutProps) => {
 			<div className="wrapper">
 				<Suspense fallback={<div />}>
 					<Topbar
-					// openLeftMenuCallBack={openMenu} topbarDark={topbarDark}
 					/>
 				</Suspense>
 

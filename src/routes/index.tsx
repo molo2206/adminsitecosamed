@@ -20,6 +20,12 @@ import ListCities from '@/pages/countries/ListCities'
 import CreateCommunique from '@/pages/Communique/CreateCommunique'
 import ListCommunique from '@/pages/Communique/ListCommunique'
 import EditCommunique from '@/pages/Communique/EditCommunique'
+import EditProjet from '@/pages/Projet/EditProjet'
+import ListProjet from '@/pages/Projet/ListProjet'
+import CreateProjet from '@/pages/Projet/CreateProjet'
+import CreateRepports from '@/pages/Rapport/CreateRepports'
+import EditRepports from '@/pages/Rapport/EditRepports'
+import ListRapport from '@/pages/Rapport/ListRapport'
 
 // lazy load all the views
 
@@ -163,12 +169,37 @@ const otherRoutes: RoutesProps[] = [
 		permissions: { ressource: 'Permissions', action: 'read' },
 		route: PrivateRoute,
 	},
+	
+
 	{
 		path: '/bulletins/edit/:id',
 		name: 'Edit Bulletins',
 		element: <EditBulletin />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Bulletins', action: 'update' },
+	},
+	{
+		path: '/rapport/create',
+		name: 'Rapports',
+		icon: 'list',
+		element: <CreateRepports />,
+		permissions: { ressource: 'Rapports', action: 'read' },
+		route: PrivateRoute,
+	},
+	{
+		path: '/rapport/edit/:id',
+		name: 'Edit Rapport',
+		element: <EditRepports />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Rapports', action: 'update' },
+	},
+	{
+		path: '/rapport/list',
+		name: 'Rapports',
+		icon: 'list',
+		element: <ListRapport />,
+		permissions: { ressource: 'Rapports', action: 'read' },
+		route: PrivateRoute,
 	},
 	{
 		path: '/roles/permissions',
@@ -290,6 +321,27 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListParteners />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Parteners', action: 'read' },
+	},
+	{
+		path: '/project/create',
+		name: 'Projects',
+		element: <CreateProjet />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Projets', action: 'read' },
+	},
+	{
+		path: '/projects/list',
+		name: 'ListProjet',
+		element: <ListProjet />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Projets', action: 'read' },
+	},
+	{
+		path: '/projects/edit/:id',
+		name: 'Edit Project',
+		element: <EditProjet />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Projets', action: 'update' },
 	},
 	{
 		path: '/thematique/listthematique',

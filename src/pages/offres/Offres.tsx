@@ -206,6 +206,11 @@ const Offres = () => {
 				hanldeError('File is required', 'file')
 				valide = false
 			}
+			if (!inputs.image)
+			{
+				hanldeError('Price is required', 'image')
+                valide = false
+			}
 		}
 
 		if (valide) {
@@ -355,6 +360,24 @@ const Offres = () => {
 							handleOnChange(e.target.files[0], 'file')
 						}
 					/>
+					<CustomInput
+						multiple={undefined}
+						invalid={undefined}
+						accept={undefined}
+						name="image"
+						label={t('Image')}
+						placeholder=""
+						type="file"
+						className="form-control"
+						errors={errors.image}
+						onFocus={() => {
+							hanldeError(null, 'image')
+						}}
+						onChangeCapture={(e: any) =>
+							handleOnChange(e.target.files[0], 'image')
+						}
+					/>
+
 					<CustomButton
 						loading={loadingForm}
 						label={isEdit ? 'Update' : 'Save'}

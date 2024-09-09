@@ -7,7 +7,7 @@ import useSettings from '@/hooks/useSettings'
 import useValidation from '@/hooks/useValidation'
 import { PageBreadcrumb } from '@/components'
 const SettingLogo = () => {
-	const { globalSetting, logo1, logo2, setLogo1, setLogo2 } = useAuthContext()
+	const { globalSetting, logo1, logo2,img_media, setLogo1, setLogo2,setImg_media} = useAuthContext()
 	const { t } = useTranslation()
 
 	const { errors, hanldeError } = useValidation({})
@@ -23,6 +23,11 @@ const SettingLogo = () => {
 		}
 		if (!logo2) {
 			hanldeError('Logo 2 is required', 'logo2')
+			valide = false
+		}
+
+		if (!img_media) {
+			hanldeError('Image media is required', 'img_media')
 			valide = false
 		}
 
@@ -43,7 +48,8 @@ const SettingLogo = () => {
 								<li className="list-group-item">
 									<Row>
 										<Col lg={6}>
-											<CustomInput multiple={undefined}
+											<CustomInput
+												multiple={undefined}
 												onChangeCapture={undefined}
 												onFocus={undefined}
 												name="name"
@@ -53,7 +59,7 @@ const SettingLogo = () => {
 												className="form-control"
 												errors={errors.logo1}
 												accept="image/jpeg,image/png"
-												onChange={(e:any) => {
+												onChange={(e: any) => {
 													hanldeError(null, 'logo1')
 													setLogo1(e.target.files[0])
 												}}
@@ -64,7 +70,8 @@ const SettingLogo = () => {
 											/>
 										</Col>
 										<Col lg={6}>
-											<CustomInput multiple={undefined}
+											<CustomInput
+												multiple={undefined}
 												onChangeCapture={undefined}
 												onFocus={undefined}
 												name="name"
@@ -74,7 +81,7 @@ const SettingLogo = () => {
 												className="form-control"
 												errors={errors.logo2}
 												accept="image/jpeg,image/png"
-												onChange={(e:any) => {
+												onChange={(e: any) => {
 													hanldeError(null, 'logo2')
 													setLogo2(e.target.files[0])
 												}}
@@ -82,6 +89,28 @@ const SettingLogo = () => {
 											<img
 												className="avatar avatar-sm rounded"
 												src={globalSetting?.logo2}
+											/>
+										</Col>
+										<Col lg={6}>
+											<CustomInput
+												multiple={undefined}
+												onChangeCapture={undefined}
+												onFocus={undefined}
+												name="name"
+												label={'Image Media'}
+												placeholder=""
+												type="file"
+												className="form-control"
+												errors={errors.img_media}
+												accept="image/jpeg,image/png"
+												onChange={(e: any) => {
+													hanldeError(null, 'img_media')
+													setImg_media(e.target.files[0])
+												}}
+											/>
+											<img
+												className="avatar avatar-sm rounded"
+												src={globalSetting?.img_media}
 											/>
 										</Col>
 									</Row>

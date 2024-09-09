@@ -2,69 +2,34 @@ import { Card, Col, Row, Form } from 'react-bootstrap'
 import CustomInput from '@/components/form/CustomInput'
 import { useAuthContext } from '@/common'
 import { FormInput } from '@/components'
-import useBlogs from '@/hooks/useBlogs'
+import useRepport from '@/hooks/useRepport'
 import { useForm } from 'react-hook-form'
 import CustomButton from '@/components/form/CustomButton'
-import CategoryServices from '@/services/CategoryServices'
+import TeamServices from '@/services/TeamServices'
 import { useTranslation } from 'react-i18next'
 import CustomEditor from '@/components/form/CustomEditor'
 import useSettings from '@/hooks/useSettings'
-import BlogServices from '@/services/BlogsServices'
-import { showingTranslateValue } from '@/utils/heleprs'
 import useValidation from '@/hooks/useValidation'
 import { PageBreadcrumb } from '@/components'
-import { useNavigate, useParams } from 'react-router-dom'
 import useAsync from '@/hooks/useAsync'
-import TeamServices from '@/services/TeamServices'
-import Error404 from '../error/Error404'
-import { useEffect } from 'react'
 
-function EditBlogs() {
-	const { id } = useParams()
-	const navigation = useNavigate()
-	const { languages, changePageLang, pageLang, lang, imageUrl, setImageUrl } =
-		useAuthContext()
+function CreateRepports() {
+	const { languages, changePageLang, pageLang } = useAuthContext()
 	const { loading } = useSettings()
-
-	const { data: blog, error: errorBlog } = useAsync(() =>
-		BlogServices.oneBlog(id)
-	)
-	const { data: teams, loading: loadingTeams } = useAsync(() =>
+	const { data: teams, loading: loadingCat } = useAsync(() =>
 		TeamServices.getTeam()
 	)
+	const { createRapports, loading: loadingForm } = useRepport()
 
-	const { data: categories, loading: loadingCat } = useAsync(() =>
-		CategoryServices.getCategoryType('Blog')
-	)
-
-	if (errorBlog || !blog) {
-		navigation('/', { replace: true })
-	}
 	const { t } = useTranslation()
-	const { createBlogs, loading: loadingForm } = useBlogs()
-	const { inputs, errors, handleOnChange, hanldeError, setInputs } =
-		useValidation({
-			title: '',
-			description: '',
-			documentation: '',
-			image: null,
-			category: '',
-			author: '',
-		})
-	useEffect(() => {
-		setInputs({
-			title: showingTranslateValue(blog?.translations, pageLang)?.title || '',
-			description:
-				showingTranslateValue(blog?.translations, pageLang)?.description || '',
-			publication_date: blog?.publication_date || '',
-			image: null,
-			category: blog?.category_id || '',
-			documentation:
-				showingTranslateValue(blog?.translations, pageLang)?.documentation ||
-				'',
-			author: blog?.author || '',
-		})
-	}, [blog, pageLang])
+	const { inputs, errors, handleOnChange, hanldeError } = useValidation({
+		title: '',
+		description: '',
+		created: '',
+		author: '',
+		image: null,
+		file: null,
+	})
 
 	const methods = useForm({
 		defaultValues: {
@@ -91,48 +56,47 @@ function EditBlogs() {
 			hanldeError('Description is required', 'description')
 			valide = false
 		}
-		if (!inputs.publication_date) {
-			hanldeError('Publication date is required', 'publication_date')
+		if (!inputs.created) {
+			hanldeError('Date create is required', 'created')
 			valide = false
 		}
 
 		if (!inputs.author) {
-			hanldeError('Author is required', 'Author')
+			hanldeError('Author is required', 'author')
 			valide = false
 		}
 
-		if (!inputs.documentation) {
-			hanldeError('documentation is required', 'documentation')
+		if (!inputs.image) {
+			hanldeError('Cover is required', 'image')
 			valide = false
+		} else {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = inputs?.image?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				hanldeError('Cover image is too big (max 5 mb) ', 'image')
+				valide = false
+			}
 		}
-
-		if (!inputs.category) {
-			hanldeError('Category is required', 'category')
+		if (!inputs.file) {
+			hanldeError('File is required', 'file')
 			valide = false
+		} else {
+			const MAX_FILE_SIZE = 5120 // 5MB
+			const fileSizeKiloBytes = inputs?.file?.size / 1024
+			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+				hanldeError('File is too big (max 5 mb) ', 'file')
+				valide = false
+			}
 		}
-
-		// if (!inputs.image) {
-		// 	hanldeError('Cover is required', 'image')
-		// 	valide = false
-		// } else {
-		// 	const MAX_FILE_SIZE = 5120 // 5MB
-		// 	const fileSizeKiloBytes = inputs?.image?.size / 1024
-		// 	if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-		// 		hanldeError('Cover image is too big (max 5 mb) ', 'image')
-		// 		valide = false
-		// 	}
-		// }
 
 		if (valide) {
-			createBlogs(inputs)
+			createRapports(inputs)
 		}
 	}
-	return errorBlog ? (
-		// navigation('/', { replace: true })
-		<Error404 />
-	) : (
+
+	return (
 		<>
-			<PageBreadcrumb title="blog" subName={t('Edit blog')} />
+			<PageBreadcrumb title="Create Report" subName={t('Reports')} />
 			<Row>
 				<Col xs={12}>
 					<Card>
@@ -167,42 +131,12 @@ function EditBlogs() {
 											</Col>
 										</Row>
 									</li>
-									<li className="list-group-item">
-										<FormInput
-											invalid={undefined}
-											name="select"
-											style={{
-												height: 50,
-											}}
-											label="Select Category"
-											type="select"
-											containerClass="mb-3"
-											className="form-select"
-											value={inputs.category}
-											onChange={(e: any) =>
-												handleOnChange(e.target.value, 'category')
-											}
-											register={register}
-											key="select"
-											errors={'Samuel'}
-											control={control}>
-											<option defaultValue="selected">...</option>
-											{categories?.map((item: any, index: any) => (
-												<option key={index} value={item.id}>
-													{
-														showingTranslateValue(item?.translations, lang)
-															?.name
-													}
-												</option>
-											))}
-										</FormInput>
-									</li>
+
 									<li className="list-group-item">
 										<CustomInput
 											multiple={undefined}
 											accept={undefined}
 											onChangeCapture={undefined}
-											invalid={undefined}
 											name="title"
 											label={t('Title')}
 											placeholder=""
@@ -233,7 +167,7 @@ function EditBlogs() {
 									</li>
 									<li className="list-group-item">
 										<Row>
-										<Col lg={6}>
+											<Col lg={6}>
 												<CustomInput
 													multiple={undefined}
 													accept={undefined}
@@ -243,16 +177,17 @@ function EditBlogs() {
 													placeholder=""
 													type="date"
 													className="form-control"
-													errors={errors.publication_date}
-													value={inputs.publication_date}
+													errors={errors.created}
+													value={inputs.created}
 													onFocus={() => {
-														hanldeError(null, 'publication_date')
+														hanldeError(null, 'created')
 													}}
 													onChange={(e: any) =>
-														handleOnChange(e.target.value, 'publication_date')
+														handleOnChange(e.target.value, 'created')
 													}
 												/>
 											</Col>
+											
 											<Col lg={6}>
 												<FormInput
 													invalid={undefined}
@@ -264,36 +199,44 @@ function EditBlogs() {
 													type="select"
 													containerClass="mb-3"
 													className="form-select"
-													value={inputs.author}
+													value={inputs.Author}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'author')
 													}
-													// register={register}
+													register={register}
 													key="select"
 													errors={'error: ' + errors}
 													control={control}>
 													<option defaultValue="selected">...</option>
 													{teams?.map((item: any, index: any) => (
 														<option key={index} value={item.id}>
-															{item?.full_name}
+															{item.full_name}
 														</option>
 													))}
 												</FormInput>
 											</Col>
 										</Row>
 									</li>
-
+									<li className=" list-group-item">
+										<CustomInput
+											multiple={undefined}
+											invalid={undefined}
+											accept={undefined}
+											name="file"
+											label={t('Pdf File')}
+											placeholder=""
+											type="file"
+											className="form-control"
+											errors={errors.file}
+											onFocus={() => {
+												hanldeError(null, 'file')
+											}}
+											onChangeCapture={(e: any) =>
+												handleOnChange(e.target.files[0], 'file')
+											}
+										/>
+									</li>
 									<li className="list-group-item">
-										<span
-											className="d-block justify-content-center text-center  align-items-center mx-auto relative"
-											role="button">
-											<img
-												src={imageUrl ? imageUrl : blog?.image}
-												className="avatar avatar-lg"
-											/>
-											<br />
-											<small className="text-center">(540 X 640)</small>
-										</span>
 										<CustomInput
 											multiple={undefined}
 											invalid={undefined}
@@ -307,47 +250,12 @@ function EditBlogs() {
 											onFocus={() => {
 												hanldeError(null, 'image')
 											}}
-											onChangeCapture={(e: any) => {
-												setImageUrl(URL.createObjectURL(e.target.files[0]))
+											onChangeCapture={(e: any) =>
 												handleOnChange(e.target.files[0], 'image')
-											}}
+											}
 										/>
 									</li>
-									<li className="list-group-item">
-										<CustomInput
-											multiple
-											invalid={undefined}
-											accept="images/*"
-											name="images"
-											label="Autres images (850 X 550)"
-											placeholder=""
-											type="file"
-											className="form-control"
-											errors={errors.images}
-											onFocus={() => {
-												hanldeError(null, 'images')
-											}}
-											onChangeCapture={(e: any) => {
-												setImageUrl(URL.createObjectURL(e.target.files[0]))
-												handleOnChange(e.target.files, 'images')
-											}}
-										/>
-									</li>
-									<li className="list-group-item">
-										<Col>
-											<CustomEditor
-												label={t("Documentation de l'image")}
-												error={errors.documentation}
-												value={inputs.documentation}
-												onFocus={() => {
-													hanldeError(null, 'documentation')
-												}}
-												onChange={(text: any) =>
-													handleOnChange(text, 'documentation')
-												}
-											/>
-										</Col>
-									</li>
+
 									<li className="list-group-item">
 										<Col lg={4}>
 											<CustomButton loading={loadingForm} label={'Save'} />
@@ -366,11 +274,6 @@ function EditBlogs() {
 								<div className="card-portlets-loader"></div>
 							</div>
 						)}
-						{loadingTeams && (
-							<div className="card-disabled">
-								<div className="card-portlets-loader"></div>
-							</div>
-						)}
 					</Card>
 				</Col>
 			</Row>
@@ -378,4 +281,4 @@ function EditBlogs() {
 	)
 }
 
-export default EditBlogs
+export default CreateRepports

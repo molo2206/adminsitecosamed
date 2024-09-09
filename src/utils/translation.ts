@@ -7,6 +7,11 @@ export const En = {
 	Team: 'Our Team',
 	Testimonials: 'Testimonials',
 	Events: 'Our Events',
+	Newsletter: "Newsletters",
+	Blogs: "Blogs",
+	Jobs: "Jobs",
+	Reports: "Rapports",
+	project :"projects",
 	BecomeMember: 'Become Member',
 	WhatThey: 'What they think',
 	KnowMore: 'Do you want to know more about us?',
@@ -56,6 +61,10 @@ export const FR = {
 	Team: 'Notre équipe',
 	Testimonials: 'Témoignages',
 	Blogs: 'Nos publications',
+	Newsletter: "Bulletins",
+	Jobs: "Emplois",
+	Reports: "Rapports",
+	project: "Projets",
 	Author: "Auteur",
 	Events: 'Nos évenements',
 	BecomeMember: 'Devenez membre',
@@ -92,7 +101,7 @@ export const FR = {
 	Countries: 'Pays',
 	Roles: 'Roles',
 	Ressources: 'Ressources',
-	Dashboard: "Tableu de bord",
+	Dashboard: "Tableau de bord",
 	Add: "Ajouter",
 	Work: "Travail",
 	Raport: "Rapport",
@@ -143,8 +152,8 @@ export const ES = {
 	Roles: 'Roles',
 	Ressources: 'Recursos',
 	Add: "Agregar",
-
 }
+
 export const SW = {
 	Home: 'Karibu',
 	AboutUs: 'Kuhusu sisi',
@@ -190,6 +199,7 @@ export const SW = {
 	Dashboard: "Dashibodi",
 	Add: "Ongeza"
 }
+
 export const PT = {
 	Home: 'Bem-vindo',
 	AboutUs: 'Sobre nós',

@@ -36,10 +36,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const [selected, setSelected] = useState(null)
 	const [logo1, setLogo1] = useState(null)
 	const [logo2, setLogo2] = useState(null)
+	const [img_media, setImg_media] = useState(null)
 	const [selectedRole, setSelectedRole] = useState<any>(null)
 	const [selectedType, setSelectedType] = useState<any>(null)
 	const [lang, setLang] = useState<any | null>('en')
 	const [image, setImage] = useState(null)
+	const [file, setFile] = useState(null)
 	const [image1, setImage1] = useState(null)
 	const [image2, setImage2] = useState(null)
 	const [image3, setImage3] = useState(null)
@@ -88,6 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		setIsOpen(false)
 		setImage(null)
 		setImageUrl(null)
+		setFile(null)
 	}
 
 	const handleUpdate = (data: any) => {
@@ -205,9 +208,11 @@ saveUser(_user)
 				loadingSettings,
 				logo1,
 				logo2,
+				img_media,
 				setIsOpen,
 				setLogo1,
 				setLogo2,
+				setImg_media,
 				image1,
 				image2,
 				image3,

@@ -31,7 +31,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'bulettin',
 		label: 'Bulletins',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-draft-fill',
 		permissions: { ressource: 'Bulletins', action: 'read' },
 		children: [
 			{
@@ -54,7 +54,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'blog',
 		label: 'BLogs',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-community-line',
 		permissions: { ressource: 'Blogs', action: 'read' },
 		children: [
 			{
@@ -74,10 +74,33 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		],
 	},
 	{
+		key: 'rapports',
+		label: 'Rapports de situations',
+		isTitle: false,
+		icon: 'ri-chat-forward-line',
+		permissions: { ressource: 'Rapports', action: 'read' },
+		children: [
+			{
+				key: 'Rapports-list',
+				label: 'Rapports list',
+				url: '/rapport/list',
+				parentKey: 'rapports',
+				permissions: { ressource: 'Rapports', action: 'read' },
+			},
+			{
+				key: 'create-rapports',
+				label: 'Create Rapports',
+				url: '/rapport/create',
+				parentKey: 'rapports',
+				permissions: { ressource: 'Rapports', action: 'create' },
+			},
+		],
+	},
+	{
 		key: 'offres',
 		label: 'Offres d\'emploi',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-chat-forward-line',
 		permissions: { ressource: 'Offres', action: 'read' },
 		children: [
 			// {
@@ -98,41 +121,41 @@ const MENU_ITEMS: MenuItemTypes[] = [
 	},
 	{
 		key: 'books',
-		label: 'Rapport',
+		label: 'Livres',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-steam-fill',
 		permissions: { ressource: 'Books', action: 'read' },
 		url: '/books/list',
 	},
-	// {
-	// 	key: 'rapport',
-	// 	label: 'Rapports',
-	// 	isTitle: false,
-	// 	icon: 'ri-pages-line',
-	// 	permissions: { ressource: 'Rapports', action: 'read' },
-	// 	children: [
-	// 		{
-	// 			key: 'rapports-list',
-	// 			label: 'Rapports list',
-	// 			url: '/rapports/list',
-	// 			parentKey: 'rapports',
-	// 			permissions: { ressource: 'Rapports', action: 'read' },
-	// 		},
-	// 		{
-	// 			key: 'create-rapports',
-	// 			label: 'Create Rapports',
-	// 			url: '/rapports/create',
-	// 			parentKey: 'rapports',
-	// 			permissions: { ressource: 'Rapports', action: 'create' },
-	// 		},
-	// 	],
-	// },
+	{
+		key: 'projects',
+		label: 'Projects',
+		isTitle: false,
+		icon: 'ri-bubble-chart-line',
+		permissions: { ressource: 'Projets', action: 'read' },
+		children: [
+			{
+				key: 'projects-list',
+				label: 'Projects list',
+				url: '/projects/list',
+				parentKey: 'projects',
+				permissions: { ressource: 'Projets', action: 'read' },
+			},
+			{
+				key: 'create-project',
+				label: 'Create project',
+				url: '/project/create',
+				parentKey: 'projects',
+				permissions: { ressource: 'Projets', action: 'create' },
+			},
+		],
+	},
 
 	{
 		key: 'communicated',
 		label: 'Communicated',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-customer-service-fill',
 		permissions: { ressource: 'Communiques', action: 'read' },
 		children: [
 			{
@@ -155,7 +178,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'events',
 		label: 'Events',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-calendar-event-fill',
 		permissions: { ressource: 'Events', action: 'read' },
 		children: [
 			{
@@ -174,34 +197,12 @@ const MENU_ITEMS: MenuItemTypes[] = [
 			},
 		],
 	},
-	{
-		key: 'projet',
-		label: 'Projets',
-		isTitle: false,
-		icon: 'ri-pages-line',
-		permissions: { ressource: 'Projets', action: 'read' },
-		children: [
-			{
-				key: 'projet-list',
-				label: 'Projets list',
-				url: '/projets/list',
-				parentKey: 'projets',
-				permissions: { ressource: 'Projets', action: 'read' },
-			},
-			{
-				key: 'create-projets',
-				label: 'Create Projets',
-				url: '/projet/create',
-				parentKey: 'projet',
-				permissions: { ressource: 'Projets', action: 'create' },
-			},
-		],
-	},
+	
 	{
 		key: 'team',
 		label: 'Team',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-team-line',
 		url: '/team',
 		permissions: { ressource: 'Team', action: 'read' },
 	},
@@ -211,7 +212,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'members',
 		label: 'Members',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-group-fill',
 		permissions: { ressource: 'Members', action: 'read' },
 		children: [
 			{
@@ -234,7 +235,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'pertener',
 		label: 'Parteners',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-organization-chart',
 		permissions: { ressource: 'Parteners', action: 'read' },
 		children: [
 			{
@@ -265,7 +266,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'testimonials',
 		label: 'Testimonials',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-microscope-line',
 		permissions: { ressource: 'Testimonials', action: 'read' },
 		url: '/testimonials/list',
 	},
@@ -281,7 +282,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'thematiques',
 		label: 'Thematique',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-price-tag-2-fill',
 		url: '/thematique/listthematique',
 		permissions: { ressource: 'Thematiques', action: 'read' },
 	},
@@ -289,7 +290,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'services',
 		label: 'Services',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-service-line',
 		permissions: { ressource: 'Services', action: 'read' },
 		children: [
 			{
@@ -312,7 +313,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'gallery',
 		label: 'Gallery',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-image-line',
 		//permissions: { ressource: 'Photos', action: 'read' },
 		children: [
 			{
@@ -340,16 +341,15 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'users',
 		label: 'Users',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-map-pin-user-line',
 		url: '/users',
 		permissions: { ressource: 'Users', action: 'read' },
 	},
-
 	{
 		key: 'countries',
 		label: 'Countries',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-road-map-fill',
 		permissions: { ressource: 'Countries', action: 'read' },
 		children: [
 			{
@@ -376,7 +376,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'demandes',
 		label: 'Demandes',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-git-pull-request-line',
 		permissions: { ressource: 'Requests', action: 'read' },
 		children: [
 			{
@@ -402,7 +402,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'about-us',
 		label: 'About us',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-price-tag-2-line',
 		url: '/settings/about-us',
 		permissions: { ressource: 'Settings', action: 'read' },
 	},
@@ -410,7 +410,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'settings',
 		label: 'General settings',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-settings-4-line',
 		url: '/settings/general',
 		permissions: { ressource: 'Settings', action: 'read' },
 	},
@@ -418,7 +418,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'about-us-images',
 		label: 'About us images',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-landscape-line',
 		url: '/settings/images',
 		permissions: { ressource: 'Settings', action: 'read' },
 	},
@@ -426,7 +426,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'about-us-logos',
 		label: 'About us logos',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-remixicon-line',
 		url: '/settings/logo',
 		permissions: { ressource: 'Settings', action: 'read' },
 	},
@@ -434,7 +434,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'addresses',
 		label: 'Our Addresses',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-map-2-line',
 		url: '/settings/addresses',
 		permissions: { ressource: 'Settings', action: 'read' },
 	},
@@ -442,7 +442,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		key: 'roles',
 		label: 'Roles',
 		isTitle: false,
-		icon: 'ri-pages-line',
+		icon: 'ri-function-line',
 		url: '/roles',
 		permissions: { ressource: 'Roles', action: 'read' },
 	},

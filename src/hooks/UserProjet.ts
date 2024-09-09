@@ -1,8 +1,10 @@
 import { useAuthContext } from '@/common'
-import EventServices from '@/services/BlogsServices'
+import projectedServices from '@/services/ProjetServices'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
-const useBlogs = () => {
+import ProjetServices from '@/services/ProjetServices'
+const UserProjet = () => {
+
     const {
         errorNotification,
         successNotification,
@@ -14,34 +16,29 @@ const useBlogs = () => {
         setImage,
         setImageUrl,
     } = useAuthContext()
+
     const [loading, setLoading] = useState(false)
     const navigation = useNavigate()
     const location = useLocation()
 
-    const createBlogs = (body: any) => {
+    const createProjet = (body: any) => {
         setLoading(true)
+
         const formdata = new FormData()
         formdata.append('title', body?.title)
         formdata.append('description', body?.description)
-        formdata.append('author', body?.author)
         formdata.append('locale', pageLang)
-        formdata.append('category_id', body?.category)
-        formdata.append('documentation', body?.documentation)
-        formdata.append('publication_date', body?.publication_date)
+        formdata.append('datestarted', body?.datestarted)
+        formdata.append('dateend', body?.dateend)
+
         if (body?.image) {
             formdata.append('image', body?.image)
         }
-        
-        if (body?.images?.length > 0) {
-            for(let i=0; i < body?.images?.length; i++) {
-                formdata.append('images[]', body?.images[i])
-            }
-        }
 
-        if (
-            location.pathname === `/blog/edit/${location.pathname.split('/')[3]}`
+
+        if (location.pathname === `/projects/edit/${location.pathname.split('/')[3]}`
         ) {
-            EventServices.update(formdata, location.pathname.split('/')[3])
+            projectedServices.update(formdata, location.pathname.split('/')[3])
                 .then((response: any) => {
                     setLoading(false)
                     if (response?.status === 200) {
@@ -52,14 +49,14 @@ const useBlogs = () => {
                         setImage(null)
                         setImageUrl(null)
                         closeModal()
-                        navigation('/blog/listblog', { replace: true })
-                    } else 
-                    {
+                        navigation('/projects/list', { replace: true })
+                    } else {
                         errorNotification(
                             'An error occured, please verify the image dimensions'
                         )
                     }
                 })
+
                 .catch((err) => {
                     errorNotification(
                         err?.response
@@ -71,8 +68,8 @@ const useBlogs = () => {
                     setLoading(false)
                 })
         }
-        if (location.pathname === '/blog/create') {
-            EventServices.create(formdata)
+        if (location.pathname === '/project/create') {
+            ProjetServices.create(formdata)
                 .then((response: any) => {
                     setLoading(false)
                     if (response?.status === 200) {
@@ -84,7 +81,7 @@ const useBlogs = () => {
                         setImage(null)
                         setImageUrl(null)
                         closeModal()
-                        navigation('/blog/listblog', { replace: true })
+                        navigation('/projects/list', { replace: true })
                     } else {
                         errorNotification(
                             response.data
@@ -107,8 +104,8 @@ const useBlogs = () => {
 
     return {
         loading,
-        createBlogs,
+        createProjet,
     }
 }
 
-export default useBlogs
+export default UserProjet

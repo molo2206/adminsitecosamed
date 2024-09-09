@@ -14,8 +14,9 @@ import BlogServices from '@/services/BlogsServices'
 import BulletinsService from '@/services/BulletinsService'
 import OffresServices from '@/services/OffresServices'
 import ThematiqueServices from '@/services/ThematiqueServices'
-import MembersServices from '@/services/MembersServices'
 import CommunicatedServices from '@/services/CommunicatedServices'
+import ProjetServices from '@/services/ProjetServices'
+import RepportsServices from '@/services/RepportsServices'
 interface StatusPprops {
 	status: any
 	id: string
@@ -48,6 +49,12 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 
 			if (location.pathname === '/bulletins/list') {
 				const response = await BulletinsService.status({ status: newStatus }, id)
+				successNotification(response?.data?.message)
+				forceUpdate()
+			}
+
+			if (location.pathname === '/rapport/list') {
+				const response = await RepportsServices.status({ status: newStatus }, id)
 				successNotification(response?.data?.message)
 				forceUpdate()
 			}
@@ -111,14 +118,16 @@ const ChangeStatus = ({ status, id }: StatusPprops) => {
 				successNotification(response?.data?.message)
 				forceUpdate()
 			}
-			if (location.pathname === '/member/list') {
-				const response = await MembersServices.status({ status: newStatus }, id)
+
+
+			if (location.pathname === '/communicated/listcommunicate') {
+				const response = await CommunicatedServices.status({ status: newStatus }, id)
 				successNotification(response?.data?.message)
 				forceUpdate()
 			}
 
-			if (location.pathname === '/communicated/listcommunicate') {
-				const response = await CommunicatedServices.status({ status: newStatus }, id)
+			if (location.pathname === '/projects/list') {
+				const response = await ProjetServices.status({ status: newStatus }, id)
 				successNotification(response?.data?.message)
 				forceUpdate()
 			}

@@ -7,8 +7,10 @@ const useSettings = () => {
 		errorNotification,
 		logo1,
 		logo2,
+		img_media,
 		setLogo1,
 		setLogo2,
+		setImg_media,
 		successNotification,
 		forceUpdate,
 		image1,
@@ -44,12 +46,14 @@ const useSettings = () => {
 			const data = new FormData()
 			data.append('logo1', logo1)
 			data.append('logo2', logo2)
+			data.append('img_media',img_media)
 
 			SettingServices.saveLogos(data)
 				.then((response:any) => {
 					forceUpdate()
 					setLogo1(null)
 					setLogo2(null)
+					setImg_media(null)
 					successNotification(response.data.message)
 					setLoading(false)
 				})

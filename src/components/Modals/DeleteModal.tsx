@@ -18,6 +18,8 @@ import PartenersServices from '@/services/PartenersServices'
 import ThematiqueServices from '@/services/ThematiqueServices'
 import MembersServices from '@/services/MembersServices'
 import CommunicatedServices from '@/services/CommunicatedServices'
+import ProjetServices from '@/services/ProjetServices'
+import RepportsServices from '@/services/RepportsServices'
 interface Props {
 	isOpen: any
 	close: any
@@ -84,6 +86,22 @@ const DeleteModal = ({ isOpen, close }: Props) => {
 
 			if (location.pathname === '/offres/create') {
 				const response: any = await OffresServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+			
+			if (location.pathname === '/rapport/list') {
+				const response: any = await RepportsServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+
+			if (location.pathname === '/projects/list') {
+				const response: any = await ProjetServices.delete(selected?.id)
 				forceUpdate()
 				successNotification(response?.data?.message)
 				toggleModalDelete()

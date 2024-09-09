@@ -1,8 +1,9 @@
 import { useAuthContext } from '@/common'
-import EventServices from '@/services/BlogsServices'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
-const useBlogs = () => {
+import RepportsServices from '@/services/RepportsServices'
+
+const useRepport = () => {
     const {
         errorNotification,
         successNotification,
@@ -13,35 +14,30 @@ const useBlogs = () => {
         pageLang,
         setImage,
         setImageUrl,
+        setFile,
     } = useAuthContext()
     const [loading, setLoading] = useState(false)
     const navigation = useNavigate()
     const location = useLocation()
 
-    const createBlogs = (body: any) => {
+    const createRapports = (body: any) => {
         setLoading(true)
         const formdata = new FormData()
         formdata.append('title', body?.title)
         formdata.append('description', body?.description)
         formdata.append('author', body?.author)
         formdata.append('locale', pageLang)
-        formdata.append('category_id', body?.category)
-        formdata.append('documentation', body?.documentation)
-        formdata.append('publication_date', body?.publication_date)
+        formdata.append('created', body?.created)
         if (body?.image) {
             formdata.append('image', body?.image)
         }
+    
+            formdata.append('file', body?.file)
         
-        if (body?.images?.length > 0) {
-            for(let i=0; i < body?.images?.length; i++) {
-                formdata.append('images[]', body?.images[i])
-            }
-        }
-
         if (
-            location.pathname === `/blog/edit/${location.pathname.split('/')[3]}`
+            location.pathname === `/rapport/edit/${location.pathname.split('/')[3]}`
         ) {
-            EventServices.update(formdata, location.pathname.split('/')[3])
+            RepportsServices.update(formdata, location.pathname.split('/')[3])
                 .then((response: any) => {
                     setLoading(false)
                     if (response?.status === 200) {
@@ -52,11 +48,10 @@ const useBlogs = () => {
                         setImage(null)
                         setImageUrl(null)
                         closeModal()
-                        navigation('/blog/listblog', { replace: true })
-                    } else 
-                    {
+                        navigation('/rapport/list', { replace: true })
+                    } else {
                         errorNotification(
-                            'An error occured, please verify the image dimensions'
+                            'An error occured, please verify the f dimensions'
                         )
                     }
                 })
@@ -71,8 +66,8 @@ const useBlogs = () => {
                     setLoading(false)
                 })
         }
-        if (location.pathname === '/blog/create') {
-            EventServices.create(formdata)
+        if (location.pathname === '/rapport/create') {
+            RepportsServices.create(formdata)
                 .then((response: any) => {
                     setLoading(false)
                     if (response?.status === 200) {
@@ -83,11 +78,12 @@ const useBlogs = () => {
                         setSelected(null)
                         setImage(null)
                         setImageUrl(null)
+                        setFile(null)
                         closeModal()
-                        navigation('/blog/listblog', { replace: true })
+                        navigation('/rapport/list', { replace: true })
                     } else {
                         errorNotification(
-                            response.data
+                            response.message
                         )
                     }
                 })
@@ -107,8 +103,8 @@ const useBlogs = () => {
 
     return {
         loading,
-        createBlogs,
+        createRapports,
     }
 }
 
-export default useBlogs
+export default useRepport

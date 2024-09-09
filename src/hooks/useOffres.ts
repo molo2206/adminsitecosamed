@@ -25,9 +25,15 @@ const useOffres = () => {
 		formdata.append('enddate', body?.enddate)
 		formdata.append('poste', body?.poste)
 		formdata.append('type', body?.type)
+		
 		if (body?.file) {
 			formdata.append('file', body?.file)
 		}
+
+		if (body?.image) {
+			formdata.append('image', body?.image)
+		}
+
 		setLoading(true)
 		if (isEdit) {
 			OffresServices.update(formdata, selected?.id)

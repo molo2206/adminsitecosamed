@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const [selectedType, setSelectedType] = useState<any>(null)
 	const [lang, setLang] = useState<any | null>('en')
 	const [image, setImage] = useState(null)
-	const [file, setFile] = useState(null)
+	// const [file, setFile] = useState(null)
 	const [image1, setImage1] = useState(null)
 	const [image2, setImage2] = useState(null)
 	const [image3, setImage3] = useState(null)
@@ -90,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		setIsOpen(false)
 		setImage(null)
 		setImageUrl(null)
-		setFile(null)
+		// setFile(null)
 	}
 
 	const handleUpdate = (data: any) => {

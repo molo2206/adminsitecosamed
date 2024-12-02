@@ -66,29 +66,6 @@ function CreateRepports() {
 			valide = false
 		}
 
-		if (!inputs.image) {
-			hanldeError('Cover is required', 'image')
-			valide = false
-		} else {
-			const MAX_FILE_SIZE = 5120 // 5MB
-			const fileSizeKiloBytes = inputs?.image?.size / 1024
-			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-				hanldeError('Cover image is too big (max 5 mb) ', 'image')
-				valide = false
-			}
-		}
-		if (!inputs.file) {
-			hanldeError('File is required', 'file')
-			valide = false
-		} else {
-			const MAX_FILE_SIZE = 5120 // 5MB
-			const fileSizeKiloBytes = inputs?.file?.size / 1024
-			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-				hanldeError('File is too big (max 5 mb) ', 'file')
-				valide = false
-			}
-		}
-
 		if (valide) {
 			createRapports(inputs)
 		}
@@ -164,6 +141,7 @@ function CreateRepports() {
 												handleOnChange(text, 'description')
 											}
 										/>
+										
 									</li>
 									<li className="list-group-item">
 										<Row>
@@ -187,7 +165,7 @@ function CreateRepports() {
 													}
 												/>
 											</Col>
-											
+
 											<Col lg={6}>
 												<FormInput
 													invalid={undefined}

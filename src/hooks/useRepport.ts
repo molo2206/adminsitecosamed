@@ -28,11 +28,8 @@ const useRepport = () => {
         formdata.append('author', body?.author)
         formdata.append('locale', pageLang)
         formdata.append('created', body?.created)
-        if (body?.image) {
-            formdata.append('image', body?.image)
-        }
-    
-            formdata.append('file', body?.file)
+        formdata.append('image', body?.image)
+        formdata.append('file', body?.file)
         
         if (
             location.pathname === `/rapport/edit/${location.pathname.split('/')[3]}`

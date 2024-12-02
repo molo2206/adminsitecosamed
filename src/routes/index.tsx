@@ -26,6 +26,8 @@ import CreateProjet from '@/pages/Projet/CreateProjet'
 import CreateRepports from '@/pages/Rapport/CreateRepports'
 import EditRepports from '@/pages/Rapport/EditRepports'
 import ListRapport from '@/pages/Rapport/ListRapport'
+import ListTypeMember from '@/pages/TypeMember/ListTypeMember'
+import Finance from '@/pages/Finance/Finance'
 
 // lazy load all the views
 
@@ -169,7 +171,6 @@ const otherRoutes: RoutesProps[] = [
 		permissions: { ressource: 'Permissions', action: 'read' },
 		route: PrivateRoute,
 	},
-	
 
 	{
 		path: '/bulletins/edit/:id',
@@ -200,6 +201,13 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListRapport />,
 		permissions: { ressource: 'Rapports', action: 'read' },
 		route: PrivateRoute,
+	},
+	{
+		path: '/finance/create',
+		name: 'Finance List',
+		element: <Finance />,
+		route: PrivateRoute,
+		permissions: { ressource: 'Finance', action: 'read' },
 	},
 	{
 		path: '/roles/permissions',
@@ -349,6 +357,13 @@ const otherRoutes: RoutesProps[] = [
 		element: <ListThematiques />,
 		route: PrivateRoute,
 		permissions: { ressource: 'Thematiques', action: 'read' },
+	},
+	{
+		path: '/typemembre',
+		name: 'Typemembre',
+		element: <ListTypeMember />,
+		route: Route,
+		permissions: '',
 	},
 	{
 		path: '/settings/logo',

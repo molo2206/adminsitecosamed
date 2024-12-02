@@ -31,6 +31,18 @@ function CreateBulletins() {
 		{
 			name: '2027',
 		},
+		{
+			name: '2028',
+		},
+		{
+			name: '2029',
+		},
+		{
+			name: '2030',
+		},
+		{
+			name: '2031',
+		},
 	]
 	const months = [
 		{

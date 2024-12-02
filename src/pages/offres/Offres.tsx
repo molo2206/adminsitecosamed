@@ -16,9 +16,10 @@ import CustomButton from '@/components/form/CustomButton'
 import useOffres from '@/hooks/useOffres'
 import useAsync from '@/hooks/useAsync'
 import { Button } from 'react-bootstrap'
-import { Table } from '@/components'
+import { FormInput, Table } from '@/components'
 import { PageBreadcrumb } from '@/components'
 import CustomEditor from '@/components/form/CustomEditor'
+import { useForm } from 'react-hook-form'
 
 const Offres = () => {
 	const { SaveOffre, loading: loadingForm } = useOffres()
@@ -34,6 +35,56 @@ const Offres = () => {
 		setImageUrl,
 	} = useAuthContext()
 	const { data, loading } = useAsync(() => OffresServices.getOffres())
+	const Type = [
+		{
+			value: 'Contrats à Durée Déterminée (CDD)',
+			label: 'Contrats à Durée Déterminée (CDD)',
+		},
+		{
+			value: 'Contrats à Durée Indéterminée (CDI)',
+			label: 'Contrats à Durée Indéterminée (CDI)',
+		},
+		{
+			value: 'Contrats d’Intérim',
+			label: 'Contrats d’Intérim',
+		},
+		{
+			value: 'Contrats de Stage',
+			label: 'Contrats de Stage',
+		},
+		{
+			value: 'Contrats d’Apprentissage',
+			label: 'Contrats d’Apprentissage',
+		},
+		{
+			value: 'Contrats de Professionnalisation',
+			label: 'Contrats de Professionnalisation',
+		},
+		{
+			value: 'Freelance / Indépendant',
+			label: 'Freelance / Indépendant',
+		},
+		{
+			value: 'Travail à Temps Partiel',
+			label: 'Travail à Temps Partiel',
+		},
+		{
+			value: 'Travail à Temps Plein',
+			label: 'Travail à Temps Plein',
+		},
+		{
+			value: 'Contrats Saisonnier',
+			label: 'Contrats Saisonnier',
+		},
+		{
+			value: 'Contrats Aidés',
+			label: 'Contrats Aidés',
+		},
+		{
+			value: 'Contrats Volontaires',
+			label: 'Contrats Volontaires',
+		},
+	]
 	const imageRef = useRef<any>()
 
 	const columns: ReadonlyArray<Column> = [
@@ -131,7 +182,14 @@ const Offres = () => {
 			type: '',
 			poste: '',
 		})
-
+	const methods = useForm({
+		defaultValues: {
+			password: 'password',
+			statictext: 'email@example.com',
+			color: '#727cf5',
+		},
+	})
+	const { control } = methods
 	useEffect(() => {
 		if (isEdit) {
 			setInputs({
@@ -202,15 +260,6 @@ const Offres = () => {
 					valide = false
 				}
 			}
-			if (!inputs.file) {
-				hanldeError('File is required', 'file')
-				valide = false
-			}
-			if (!inputs.image)
-			{
-				hanldeError('Price is required', 'image')
-                valide = false
-			}
 		}
 
 		if (valide) {
@@ -267,23 +316,28 @@ const Offres = () => {
 						}}
 						onChange={(e: any) => handleOnChange(e.target.value, 'poste')}
 					/>
-					<CustomInput
-						multiple={undefined}
-						accept={undefined}
-						onChangeCapture={undefined}
-						name="type"
-						label="Type"
-						placeholder=""
-						type="text"
-						className="form-control"
-						errors={errors.type}
-						value={inputs.type}
-						onFocus={() => {
-							hanldeError(null, 'type')
+					<FormInput
+						invalid={undefined}
+						name="select"
+						style={{
+							height: 50,
 						}}
+						label="Type de contrat"
+						type="select"
+						containerClass="mb-3"
+						className="form-select"
+						value={inputs.type}
 						onChange={(e: any) => handleOnChange(e.target.value, 'type')}
-					/>
-
+						key="select"
+						errors={'Molo'}
+						control={control}>
+						<option defaultValue="selected">...</option>
+						{Type?.map((item: any, index: any) => (
+							<option key={index} value={item.value}>
+								{item?.label}
+							</option>
+						))}
+					</FormInput>
 					<CustomEditor
 						label={t('Description')}
 						error={errors.description}
@@ -300,7 +354,7 @@ const Offres = () => {
 						accept={undefined}
 						onChangeCapture={undefined}
 						name="place"
-						label={t('Place')}
+						label="Lieu d'affectation"
 						placeholder=""
 						type="text"
 						className="form-control"
@@ -316,7 +370,7 @@ const Offres = () => {
 						accept={undefined}
 						onChangeCapture={undefined}
 						name="startdate"
-						label={`${t('StartDate')}`}
+						label="Date debut de validitée"
 						placeholder=""
 						type="date"
 						className="form-control"
@@ -332,7 +386,7 @@ const Offres = () => {
 						accept={undefined}
 						onChangeCapture={undefined}
 						name="enddate"
-						label={`${t('EndDate')}`}
+						label="Date finale de validitée"
 						placeholder=""
 						type="date"
 						className="form-control"

@@ -78,10 +78,10 @@ const CreateEvent = () => {
 			hanldeError('Country is required', 'country')
 			valide = false
 		}
-		if (!inputs.city) {
-			hanldeError('City is required', 'city')
-			valide = false
-		}
+		// if (!inputs.city) {
+		// 	hanldeError('City is required', 'city')
+		// 	valide = false
+		// }
 		if (!inputs.category) {
 			hanldeError('Category is required', 'category')
 			valide = false

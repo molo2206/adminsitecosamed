@@ -20,6 +20,8 @@ import MembersServices from '@/services/MembersServices'
 import CommunicatedServices from '@/services/CommunicatedServices'
 import ProjetServices from '@/services/ProjetServices'
 import RepportsServices from '@/services/RepportsServices'
+import TypeMemberService from '@/services/TypeMemberService'
+import FinanceServices from '@/services/FinanceServices'
 interface Props {
 	isOpen: any
 	close: any
@@ -67,6 +69,14 @@ const DeleteModal = ({ isOpen, close }: Props) => {
                 setIsLoading(false)
 			}
 
+			if (location.pathname === '/typemembre') {
+				const response: any = await TypeMemberService.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+
 			if (location.pathname === '/members/list') {
 				const response: any = await MembersServices.delete(selected?.id)
 				forceUpdate()
@@ -86,6 +96,13 @@ const DeleteModal = ({ isOpen, close }: Props) => {
 
 			if (location.pathname === '/offres/create') {
 				const response: any = await OffresServices.delete(selected?.id)
+				forceUpdate()
+				successNotification(response?.data?.message)
+				toggleModalDelete()
+                setIsLoading(false)
+			}
+			if (location.pathname === '/finance/create') {
+				const response: any = await FinanceServices.delete(selected?.id)
 				forceUpdate()
 				successNotification(response?.data?.message)
 				toggleModalDelete()

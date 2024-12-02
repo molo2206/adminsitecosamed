@@ -97,6 +97,22 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		],
 	},
 	{
+		key: 'finance',
+		label: 'Rapport Financier',
+		isTitle: false,
+		icon: 'ri-chat-forward-line',
+		permissions: { ressource: 'Finance', action: 'read' },
+		children: [
+			{
+				key: 'create-finance',
+				label: 'Create Finance',
+				url: '/finance/create',
+				parentKey: 'finance',
+				permissions: { ressource: 'Finance', action: 'create' },
+			},
+		],
+	},
+	{
 		key: 'offres',
 		label: 'Offres d\'emploi',
 		isTitle: false,
@@ -127,6 +143,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		permissions: { ressource: 'Books', action: 'read' },
 		url: '/books/list',
 	},
+
 	{
 		key: 'projects',
 		label: 'Projects',
@@ -197,7 +214,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 			},
 		],
 	},
-	
+
 	{
 		key: 'team',
 		label: 'Team',
@@ -454,6 +471,14 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		url: '/ressources',
 		permissions: { ressource: 'Permissions', action: 'read' },
 	},
+	{
+		key: 'typemembre',
+		label: 'Type Membre',
+		isTitle: false,
+		icon: 'ri-pages-line',
+		url: '/typemembre',
+		permissions: { ressource: 'TypeMember', action: 'read' },
+	}
 ]
 
 const HORIZONTAL_MENU_ITEMS: MenuItemTypes[] = [

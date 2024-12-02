@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Collapse } from 'react-bootstrap'
@@ -141,7 +142,7 @@ interface AppMenuProps {
 
 const AppMenu = ({ menuItems }: AppMenuProps) => {
 	const {t} = useTranslation()
-	let location = useLocation()
+	const location = useLocation()
 
 	const menuRef = useRef(null)
 
@@ -167,13 +168,13 @@ const AppMenu = ({ menuItems }: AppMenuProps) => {
 		let matchingMenuItem: HTMLElement | null = null
 
 		if (div) {
-			let items: any = div.getElementsByClassName('side-nav-link-ref')
+			const items: any = div.getElementsByClassName('side-nav-link-ref')
 			for (let i = 0; i < items.length; ++i) {
 				let trimmedURL = location?.pathname?.replaceAll(
 					process.env.PUBLIC_URL ?? '',
 					''
 				)
-				let url = items[i].pathname
+				const url = items[i].pathname
 				if (trimmedURL === process.env.PUBLIC_URL + '/') {
 					trimmedURL += 'ecommerce'
 				}
@@ -194,12 +195,12 @@ const AppMenu = ({ menuItems }: AppMenuProps) => {
 				}
 
 				setTimeout(function () {
-					var activatedItem = matchingMenuItem!
+					const activatedItem = matchingMenuItem!
 					if (activatedItem != null) {
-						var simplebarContent = document.querySelector(
+						const simplebarContent = document.querySelector(
 							'#leftside-menu-container .simplebar-content-wrapper'
 						)
-						var offset = activatedItem!.offsetTop - 300
+						const offset = activatedItem!.offsetTop - 300
 						if (simplebarContent && offset > 100) {
 							scrollTo(simplebarContent, offset, 600)
 						}
@@ -214,13 +215,16 @@ const AppMenu = ({ menuItems }: AppMenuProps) => {
 					return (-c / 2) * (t * (t - 2) - 1) + b
 				}
 				function scrollTo(element: any, to: any, duration: any) {
-					var start = element.scrollTop,
+					// eslint-disable-next-line prefer-const
+					let start = element.scrollTop,
+						// eslint-disable-next-line prefer-const
 						change = to - start,
 						currentTime = 0,
+						// eslint-disable-next-line prefer-const
 						increment = 20
-					var animateScroll = function () {
+					const animateScroll = function () {
 						currentTime += increment
-						var val = easeInOutQuad(currentTime, start, change, duration)
+						const val = easeInOutQuad(currentTime, start, change, duration)
 						element.scrollTop = val
 						if (currentTime < duration) {
 							setTimeout(animateScroll, increment)

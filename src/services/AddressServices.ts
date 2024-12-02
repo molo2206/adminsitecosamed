@@ -1,13 +1,13 @@
 import requests from './Instance'
 const AddressServices = {
 	getAddresses: async () => {
-		return requests.get(`/adresses`)
+		return requests.get(`/address`)
 	},
 	create: async (body: any) => {
-		return requests.post(`/roles`, body, {})
+		return requests.post(`/address`, body, {})
 	},
 	update: async (body: any, id: string) => {
-		return requests.put(`/roles/${id}`, body, {})
+		return requests.put(`/address/${id}`, body, {})
 	},
 	setPermissions: async (body: any) => {
 		return requests.post('/assign-permissions', body,{})

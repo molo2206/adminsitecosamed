@@ -2,7 +2,7 @@ import { Card, Col, Row } from 'react-bootstrap'
 import { Form } from 'reactstrap'
 import { Column } from 'react-table'
 import { Employee } from '../ui/tables/types'
-import usePermission from '@/hooks/usePermission'
+import Adress from '@/hooks/Adress'
 import { useState } from 'react'
 import { FormInput } from '@/components'
 import CustomInput from '@/components/form/CustomInput'
@@ -20,7 +20,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 const Addresses = () => {
-	const { createPermission, loading: loadingForm } = usePermission()
+	const { createAdress, loading: loadingForm } = Adress()
 	const {
 		handleUpdate,
 		isEdit,
@@ -33,10 +33,23 @@ const Addresses = () => {
 	const [selectedEmails, setSelectedEmail] = useState([])
 	const [selectedPhones, setSelectedPhones] = useState([])
 	const { data, loading } = useAsync(() => AddressServices.getAddresses())
+
+	const validationContry = useFormik({
+		// enableReinitialize : use this flag when initial values needs to be changed
+		enableReinitialize: true,
+		initialValues: {
+			country_id: isEdit ? selected?.country_id : '',
+		},
+		validationSchema: Yup.object({
+			country_id: Yup.string().required('Country is required'),
+		}),
+		onSubmit: (values) => {
+			createAdress(values)
+		},
+	})
 	const validation = useFormik({
 		// enableReinitialize : use this flag when initial values needs to be changed
 		enableReinitialize: true,
-
 		initialValues: {
 			city: isEdit ? selected?.city : '',
 			adresse: isEdit ? selected?.adresse : '',
@@ -46,21 +59,20 @@ const Addresses = () => {
 			adresse: Yup.string().required('Address is required'),
 		}),
 		onSubmit: (values) => {
-			createPermission(values)
+			createAdress(values)
 		},
 	})
 
 	const validationEmail = useFormik({
 		// enableReinitialize : use this flag when initial values needs to be changed
 		enableReinitialize: true,
-
 		initialValues: {
 			email: '',
 		},
 		validationSchema: Yup.object({
 			email: Yup.string().required('Email is required'),
 		}),
-		onSubmit: (values:any) => {
+		onSubmit: (values: any) => {
 			const find = selectedEmails.find((item: any) => item === values.email)
 			if (find) {
 				const arr = selectedEmails.filter((item) => item !== values.email)
@@ -81,7 +93,7 @@ const Addresses = () => {
 		validationSchema: Yup.object({
 			phone: Yup.string().required('Phone is required'),
 		}),
-		onSubmit: (values:any) => {
+		onSubmit: (values: any) => {
 			const find = selectedPhones.find((item: any) => item === values.phone)
 			if (find) {
 				const arr = selectedPhones.filter((item) => item !== values.phone)
@@ -117,7 +129,9 @@ const Addresses = () => {
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
-			Cell: ({ cell }:any) => <span>{cell?.row?.original?.country?.name}</span>,
+			Cell: ({ cell }: any) => (
+				<span>{cell?.row?.original?.country?.name}</span>
+			),
 		},
 		{
 			Header: 'City',
@@ -139,7 +153,7 @@ const Addresses = () => {
 			maxWidth: 400,
 			minWidth: 400,
 			width: 400,
-			Cell: ({ cell }:any) => (
+			Cell: ({ cell }: any) => (
 				<ChangeStatus
 					status={cell?.row?.original?.status}
 					id={cell?.row?.original?.id}
@@ -171,7 +185,6 @@ const Addresses = () => {
 			),
 		},
 	]
-
 	const methods = useForm({
 		defaultValues: {
 			password: 'password',
@@ -184,14 +197,11 @@ const Addresses = () => {
 		control,
 		formState: { errors },
 	} = methods
-
-
-	  
-
 	return (
 		<>
 			<PageBreadcrumb title="Our Addresses" subName="Our Addresses" />
-			<MainModal size={undefined}
+			<MainModal
+				size={undefined}
 				close={closeModal}
 				show={isOpen}
 				title={`${isEdit ? 'Update' : 'Create'} Address`}>
@@ -203,30 +213,33 @@ const Addresses = () => {
 						return false
 					}}>
 					<FormInput
-					invalid={undefined}
-						name="select"
+						invalid={undefined}
+						name="country_id"
 						label="Country"
 						type="select"
 						containerClass="mb-3"
 						className="form-select"
 						register={register}
 						key="select"
+						onChange={validationContry.handleChange}
+						onBlur={validationContry.handleBlur}
 						//onChange={(e) => changePageLang(e.target.value)}
 						errors={errors}
 						style={{ height: 50 }}
 						//value={pageLang}
 						control={control}>
 						<option defaultValue="selected">...</option>
-						{countries?.map((item:any, index:any) => (
+						{countries?.map((item: any, index: any) => (
 							<option key={index} value={item.id}>
 								{item.name}
 							</option>
 						))}
 					</FormInput>
-					<CustomInput multiple={undefined}
-								accept={undefined}
-								onChangeCapture={undefined}
-								onFocus={undefined}
+					<CustomInput
+						multiple={undefined}
+						accept={undefined}
+						onChangeCapture={undefined}
+						onFocus={undefined}
 						name="city"
 						label={'City'}
 						placeholder=""
@@ -240,10 +253,11 @@ const Addresses = () => {
 						}
 						errors={validation.errors.city}
 					/>
-					<CustomInput multiple={undefined}
-								accept={undefined}
-								onChangeCapture={undefined}
-								onFocus={undefined}
+					<CustomInput
+						multiple={undefined}
+						accept={undefined}
+						onChangeCapture={undefined}
+						onFocus={undefined}
 						name="adresse"
 						label={'Address'}
 						placeholder=""
@@ -265,10 +279,11 @@ const Addresses = () => {
 								e.preventDefault()
 								return false
 							}}>
-							<CustomInput multiple={undefined}
-										accept={undefined}
-										onChangeCapture={undefined}
-										onFocus={undefined}
+							<CustomInput
+								multiple={undefined}
+								accept={undefined}
+								onChangeCapture={undefined}
+								onFocus={undefined}
 								name="email"
 								label={'Email'}
 								placeholder=""
@@ -335,10 +350,11 @@ const Addresses = () => {
 								e.preventDefault()
 								return false
 							}}>
-							<CustomInput multiple={undefined}
-										accept={undefined}
-										onChangeCapture={undefined}
-										onFocus={undefined}
+							<CustomInput
+								multiple={undefined}
+								accept={undefined}
+								onChangeCapture={undefined}
+								onFocus={undefined}
 								name="phone"
 								label={'Phone'}
 								placeholder=""

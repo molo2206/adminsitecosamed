@@ -1,6 +1,6 @@
 import moment from "moment"
 export function getAllowedRoutes(routes: any, user: any) {
-	let userInfo: any = localStorage?.getItem('_DICI_AUTH')
+	const userInfo: any = localStorage?.getItem('_DICI_AUTH')
 		? JSON.parse(localStorage?.getItem('_DICI_AUTH') || '')
 		: ''
 	return routes.filter((route: any) => {
@@ -17,8 +17,8 @@ export function getAllowedRoutes(routes: any, user: any) {
 }
 
 export const showingTranslateValue = (data: any, lang: any) => {
-	let langue = lang == 'fr-FR' ? 'fr' : lang
-	let result = data?.find((item: any) => item.locale === langue)
+	const langue = lang == 'fr-FR' ? 'fr' : lang
+	const result = data?.find((item: any) => item.locale === langue)
 	if (result) {
 		return result
 	} else {

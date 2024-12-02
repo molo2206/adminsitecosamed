@@ -1,3 +1,5 @@
+import Typemember from "@/hooks/Typemember"
+
 export const En = {
 	Home: 'Home',
 	AboutUs: 'About us',
@@ -49,7 +51,8 @@ export const En = {
 	Add: "Add",
 	Work: "Work",
 	Raport: "Raport",
-	Theme: "Theme"
+	Theme: "Theme",
+	Typemember:"Member type"
 }
 
 export const FR = {
@@ -105,7 +108,8 @@ export const FR = {
 	Add: "Ajouter",
 	Work: "Travail",
 	Raport: "Rapport",
-	Theme: "Thematiques"
+	Theme: "Thematiques",
+	Typemember:"Type member"
 }
 export const ES = {
 	Home: 'Bienvenida',

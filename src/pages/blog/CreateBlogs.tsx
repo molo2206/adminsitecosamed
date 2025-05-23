@@ -1,4 +1,5 @@
 import { Card, Col, Row, Form } from 'react-bootstrap'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 import CustomInput from '@/components/form/CustomInput'
 import { useAuthContext } from '@/common'
 import { FormInput } from '@/components'
@@ -14,6 +15,8 @@ import { showingTranslateValue } from '@/utils/heleprs'
 import useValidation from '@/hooks/useValidation'
 import { PageBreadcrumb } from '@/components'
 import useAsync from '@/hooks/useAsync'
+import { useRef, useState } from 'react'
+import { compressImage } from '@/utils/compressImage'
 
 function CreateBlogs() {
 	const { languages, changePageLang, pageLang, lang, imageUrl, setImageUrl } =
@@ -25,6 +28,33 @@ function CreateBlogs() {
 	const { data: teams, loading: loadingTeams } = useAsync(() =>
 		TeamServices.getTeam()
 	)
+
+	const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+	const [imageUrls, setImageUrls] = useState<string[]>([])
+	const [progressList, setProgressList] = useState<number[]>([])
+
+	const removeImageUrl = (index: number) => {
+		// Supprimer l'aperçu
+		setImageUrls((prev) => prev.filter((_, i) => i !== index))
+
+		// Supprimer l'image de l'input logique
+		if (Array.isArray(inputs.images)) {
+			const updatedImages = inputs.images.filter(
+				(_: any, i: any) => i !== index
+			)
+			handleOnChange(updatedImages.length ? updatedImages : null, 'images')
+		}
+
+		// Supprimer la progression
+		setProgressList((prev) => prev.filter((_, i) => i !== index))
+
+		// Réinitialiser complètement l'input (donc vider le nom de fichier)
+		if (fileInputRef.current) {
+			fileInputRef.current.value = ''
+		}
+	}
+
 	const { createBlogs, loading: loadingForm } = useBlogs()
 	const { t } = useTranslation()
 
@@ -38,25 +68,15 @@ function CreateBlogs() {
 		category: '',
 	})
 
-	const methods = useForm({
-		defaultValues: {
-			password: 'password',
-			statictext: 'email@example.com',
-			color: '#727cf5',
-		},
-	})
-	const {
-		register,
-		control,
-		formState: { errors: err },
-	} = methods
+	const methods = useForm()
+	const { control } = methods
 
 	const validation = (e: any) => {
 		e.preventDefault()
 
 		let valide = true
 		if (!inputs.title) {
-			hanldeError('Title us is required', 'title')
+			hanldeError('Title is required', 'title')
 			valide = false
 		}
 		if (!inputs.description) {
@@ -67,37 +87,27 @@ function CreateBlogs() {
 			hanldeError('Publication date is required', 'publication_date')
 			valide = false
 		}
-
 		if (!inputs.author) {
-			hanldeError('Author is required', 'Author')
+			hanldeError('Author is required', 'author')
 			valide = false
 		}
-
 		if (!inputs.documentation) {
-			hanldeError('documentation is required', 'documentation')
+			hanldeError('Documentation is required', 'documentation')
 			valide = false
 		}
-
 		if (!inputs.category) {
 			hanldeError('Category is required', 'category')
 			valide = false
 		}
-
 		if (!inputs.image) {
 			hanldeError('Cover is required', 'image')
 			valide = false
 		} else {
-			const MAX_FILE_SIZE = 5120 // 5MB
-			const fileSizeKiloBytes = inputs?.image?.size / 1024
-			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-				hanldeError('Cover image is too big (max 5 mb) ', 'image')
+			const sizeInKB = inputs.image.size / 1024
+			if (sizeInKB > 500) {
+				hanldeError('Cover image exceeds 500 KB', 'image')
 				valide = false
 			}
-		}
-
-		if (!inputs.images) {
-			hanldeError('Cover is required', 'images')
-			valide = false
 		}
 
 		if (valide) {
@@ -111,240 +121,226 @@ function CreateBlogs() {
 			<Row>
 				<Col xs={12}>
 					<Card>
-						<Card.Header></Card.Header>
 						<Card.Body>
-							<Form className="form-horizontal" onSubmit={validation}>
-								<ul className="list-group list-group-flush">
-									<li className="list-group-item">
-										<Row>
-											<Col lg={12}>
-												<FormInput
-													invalid={undefined}
-													name="select"
-													style={{
-														height: 50,
-													}}
-													label="Select database Language"
-													type="select"
-													containerClass="mb-3"
-													className="form-select"
-													key="select"
-													onChange={(e) => changePageLang(e.target.value)}
-													errors={err}
-													value={pageLang}>
-													<option defaultValue="selected">...</option>
-													{languages?.map((item: any, index: any) => (
-														<option key={index} value={item.iso}>
-															{item.name}
-														</option>
-													))}
-												</FormInput>
-											</Col>
-										</Row>
-									</li>
-									<li className="list-group-item">
+							<Form onSubmit={validation}>
+								<FormInput
+									invalid={undefined}
+									style={{
+										height: 50,
+									}}
+									name="selectLang"
+									label="Select database Language"
+									type="select"
+									className="form-select mb-3"
+									placeholder=""
+									value={pageLang}
+									onChange={(e) => changePageLang(e.target.value)}>
+									<option value="">...</option>
+									{languages?.map((item: any, index: any) => (
+										<option key={index} value={item.iso}>
+											{item.name}
+										</option>
+									))}
+								</FormInput>
+
+								<FormInput
+									invalid={undefined}
+									style={{
+										height: 50,
+									}}
+									name="category"
+									label="Select Category"
+									type="select"
+									className="form-select mb-3"
+									value={inputs.category}
+									onChange={(e: any) =>
+										handleOnChange(e.target.value, 'category')
+									}
+									control={control}>
+									<option value="">...</option>
+									{categories?.map((item: any, index: any) => (
+										<option key={index} value={item.id}>
+											{showingTranslateValue(item?.translations, lang)?.name}
+										</option>
+									))}
+								</FormInput>
+
+								<CustomInput
+									multiple={undefined}
+									accept={undefined}
+									onChangeCapture={undefined}
+									name="title"
+									label={t('Title')}
+									placeholder=""
+									type="text"
+									className="form-control"
+									errors={errors.title}
+									value={inputs.title}
+									onFocus={() => {
+										hanldeError(null, 'title')
+									}}
+									onChange={(e: any) => handleOnChange(e.target.value, 'title')}
+								/>
+
+								<CustomEditor
+									label={t('Description')}
+									value={inputs.description}
+									error={errors.description}
+									onFocus={() => hanldeError(null, 'description')}
+									onChange={(val: string) => handleOnChange(val, 'description')}
+								/>
+
+								<Row>
+									<Col lg={6}>
+										<CustomInput
+											multiple={undefined}
+											accept={undefined}
+											onChangeCapture={undefined}
+											name="publication_date"
+											label={t('Publication Date')}
+											type="date"
+											placeholder=""
+											className="form-control"
+											value={inputs.publication_date}
+											errors={errors.publication_date}
+											onFocus={() => hanldeError(null, 'publication_date')}
+											onChange={(e: any) =>
+												handleOnChange(e.target.value, 'publication_date')
+											}
+										/>
+									</Col>
+									<Col lg={6}>
 										<FormInput
 											invalid={undefined}
 											name="select"
 											style={{
 												height: 50,
 											}}
-											label="Select Category"
+											label="Select Author"
 											type="select"
 											containerClass="mb-3"
 											className="form-select"
-											value={inputs.category}
+											value={inputs.Author}
 											onChange={(e: any) =>
-												handleOnChange(e.target.value, 'category')
+												handleOnChange(e.target.value, 'author')
 											}
-											register={register}
 											key="select"
-											errors={'Samuel'}
+											errors={'error: ' + errors}
 											control={control}>
 											<option defaultValue="selected">...</option>
-											{categories?.map((item: any, index: any) => (
+											{teams?.map((item: any, index: any) => (
 												<option key={index} value={item.id}>
-													{
-														showingTranslateValue(item?.translations, lang)
-															?.name
-													}
+													{item.full_name}
 												</option>
 											))}
 										</FormInput>
-									</li>
-									<li className="list-group-item">
-										<CustomInput
-											multiple={undefined}
-											accept={undefined}
-											onChangeCapture={undefined}
-											name="title"
-											label={t('Title')}
-											placeholder=""
-											type="text"
-											className="form-control"
-											errors={errors.title}
-											value={inputs.title}
-											onFocus={() => {
-												hanldeError(null, 'title')
-											}}
-											onChange={(e: any) =>
-												handleOnChange(e.target.value, 'title')
-											}
-										/>
-									</li>
-									<li className="list-group-item">
-										<CustomEditor
-											label={t('Description')}
-											error={errors.description}
-											value={inputs.description}
-											onFocus={() => {
-												hanldeError(null, 'description')
-											}}
-											onChange={(text: any) =>
-												handleOnChange(text, 'description')
-											}
-										/>
-									</li>
-									<li className="list-group-item">
-										<Row>
-											<Col lg={6}>
-												<CustomInput
-													multiple={undefined}
-													accept={undefined}
-													onChangeCapture={undefined}
-													name="publication_date"
-													label={t('Publication Date')}
-													placeholder=""
-													type="date"
-													className="form-control"
-													errors={errors.publication_date}
-													value={inputs.publication_date}
-													onFocus={() => {
-														hanldeError(null, 'publication_date')
-													}}
-													onChange={(e: any) =>
-														handleOnChange(e.target.value, 'publication_date')
-													}
-												/>
-											</Col>
-											<Col lg={6}>
-												<FormInput
-													invalid={undefined}
-													name="select"
-													style={{
-														height: 50,
-													}}
-													label="Select Author"
-													type="select"
-													containerClass="mb-3"
-													className="form-select"
-													value={inputs.author}
-													onChange={(e: any) =>
-														handleOnChange(e.target.value, 'author')
-													}
-													key="select"
-													errors={'error: ' + errors}
-													control={control}>
-													<option defaultValue="selected">...</option>
-													{teams?.map((item: any, index: any) => (
-														<option key={index} value={item.id}>
-															{item.full_name}
-														</option>
-													))}
-												</FormInput>
-											</Col>
-										</Row>
-									</li>
+									</Col>
+								</Row>
 
-									<li className="list-group-item">
-										<span
-											className="d-block justify-content-center text-center  align-items-center mx-auto relative"
-											// onClick={pickImage}
-											role="button">
+								<CustomInput
+									multiple={undefined}
+									accept={undefined}
+									name="image"
+									label={t('Cover')}
+									type="file"
+									className="form-control"
+									placeholder=""
+									errors={errors.image}
+									onFocus={() => hanldeError(null, 'image')}
+									onChangeCapture={async (e: any) => {
+										const file = e.target.files[0]
+										if (!file) return
+										const compressed = await compressImage(file, 500)
+										setImageUrl(URL.createObjectURL(compressed))
+										handleOnChange(compressed, 'image')
+									}}
+								/>
+								<div className="mb-3">
+									<img
+										src={imageUrl || '/default.jpg'}
+										className="img-fluid rounded"
+										alt="Cover Preview"
+										style={{ maxHeight: 200 }}
+									/>
+								</div>
+
+								<CustomInput
+									name="images"
+									label="Autres images"
+									type="file"
+									placeholder=""
+									className="form-control"
+									ref={fileInputRef}
+									multiple
+									accept="image/*"
+									errors={errors.images}
+									onFocus={() => hanldeError(null, 'images')}
+									onChangeCapture={async (e: any) => {
+										const files = Array.from(e.target.files ?? [])
+										const urls: string[] = []
+										const compressedFiles: File[] = []
+										const progressArray: number[] = []
+
+										for (const file of files) {
+											const compressed = await compressImage(file, 500)
+											urls.push(URL.createObjectURL(compressed))
+											compressedFiles.push(compressed)
+											progressArray.push(100) // simulate completed
+										}
+
+										if (compressedFiles.length > 0) {
+											setImageUrls((prev) => [...prev, ...urls])
+											setProgressList((prev) => [...prev, ...progressArray])
+											handleOnChange(compressedFiles, 'images')
+										}
+									}}
+								/>
+								<Row className="my-2">
+									{imageUrls.map((url, index) => (
+										<Col
+											key={index}
+											xs={6}
+											md={3}
+											className="position-relative mb-3">
 											<img
-												src={
-													imageUrl
-														? imageUrl
-														: '../../../src/assets/images/blog.jpg'
-												}
-												className="avatar avatar-lg"
-											/>
-											<br />
-											<small className="text-center">(540 X 640)</small>
-										</span>
-										<CustomInput
-											multiple={undefined}
-											invalid={undefined}
-											accept={undefined}
-											name="image"
-											label={t('Cover') + ' (850 X 550)'}
-											placeholder=""
-											type="file"
-											className="form-control"
-											errors={errors.image}
-											onFocus={() => {
-												hanldeError(null, 'image')
-											}}
-											onChangeCapture={(e: any) => {
-												setImageUrl(URL.createObjectURL(e.target.files[0]))
-												handleOnChange(e.target.files[0], 'image')
-											}}
-										/>
-									</li>
-									<li className="list-group-item">
-										<CustomInput
-											multiple
-											invalid={undefined}
-											accept="images/*"
-											name="images"
-											label="Autres images (850 X 550)"
-											placeholder=""
-											type="file"
-											className="form-control"
-											errors={errors.images}
-											onFocus={() => {
-												hanldeError(null, 'images')
-											}}
-											onChangeCapture={(e: any) => {
-												setImageUrl(URL.createObjectURL(e.target.files[0]))
-												handleOnChange(e.target.files, 'images')
-											}}
-										/>
-									</li>
-									<li className="list-group-item">
-										<Col>
-											<CustomEditor
-												label={t("Documentation de l'image")}
-												error={errors.documentation}
-												value={inputs.documentation}
-												onFocus={() => {
-													hanldeError(null, 'documentation')
+												src={url}
+												className="img-fluid rounded border"
+												style={{
+													maxHeight: 150,
+													objectFit: 'cover',
+													width: '100%',
 												}}
-												onChange={(text: any) =>
-													handleOnChange(text, 'documentation')
-												}
 											/>
+											<ProgressBar
+												now={progressList[index] || 0}
+												className="mt-2"
+											/>
+											<button
+												type="button"
+												className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+												onClick={() => removeImageUrl(index)}>
+												✕
+											</button>
 										</Col>
-									</li>
-									<li className="list-group-item">
-										<Col lg={4}>
-											<CustomButton loading={loadingForm} label={'Save'} />
-										</Col>
-									</li>
-								</ul>
+									))}
+								</Row>
+
+								<CustomEditor
+									label={t("Documentation de l'image")}
+									value={inputs.documentation}
+									error={errors.documentation}
+									onFocus={() => hanldeError(null, 'documentation')}
+									onChange={(val: string) =>
+										handleOnChange(val, 'documentation')
+									}
+								/>
+
+								<Col lg={4}>
+									<CustomButton loading={loadingForm} label={'Save'} />
+								</Col>
 							</Form>
 						</Card.Body>
-						{loading && (
-							<div className="card-disabled">
-								<div className="card-portlets-loader"></div>
-							</div>
-						)}
-						{loadingCat && (
-							<div className="card-disabled">
-								<div className="card-portlets-loader"></div>
-							</div>
-						)}
-						{loadingTeams && (
+						{(loading || loadingCat || loadingTeams) && (
 							<div className="card-disabled">
 								<div className="card-portlets-loader"></div>
 							</div>

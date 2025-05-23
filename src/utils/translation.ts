@@ -1,5 +1,3 @@
-import Typemember from "@/hooks/Typemember"
-
 export const En = {
 	Home: 'Home',
 	AboutUs: 'About us',

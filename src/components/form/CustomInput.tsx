@@ -11,6 +11,7 @@ interface InputProps {
 	onChange?: any
 	invalid?: any
 	errors: any
+	ref?: any
 	name: string
 	type: any
 	placeholder: string
@@ -23,6 +24,7 @@ const CustomInput: React.FC<InputProps> = ({
 	label,
 	value,
 	onBlur,
+	ref,
 	onChange,
 	invalid,
 	errors,
@@ -48,6 +50,7 @@ const CustomInput: React.FC<InputProps> = ({
 				style={{
 					height: 50,
 				}}
+				ref={ref}
 				multiple={multiple}
 				accept={accept}
 				onBlur={onBlur}

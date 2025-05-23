@@ -26,10 +26,12 @@ const BlogServices = {
 	delete: async (id: string) => {
 		return requests.delete(`/blogs/${id}`)
 	},
+
+	deleteImage: async (id: string) => {
+		return requests.delete(`/image-blog/${id}`)
+	},
 	setPermissions: async (body: any) => {
-		return requests.post('/assign-permissions', body, {
-			
-		})
+		return requests.post('/assign-permissions', body, {})
 	},
 	getBooks: async () => {
 		return requests.get('/public/books')

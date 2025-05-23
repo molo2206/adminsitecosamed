@@ -51,6 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [modalDelete, showModalDelete] = useState(false)
 	const [imageUrl, setImageUrl] = useState(null)
+	
 	// const { i18n } = useTranslation();
 	const [dropDownOpen, setDropDownOpen] = useState<boolean>(false)
 	const navigation = useNavigate()

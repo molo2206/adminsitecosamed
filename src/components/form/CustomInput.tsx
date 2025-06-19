@@ -15,10 +15,12 @@ interface InputProps {
 	name: string
 	type: any
 	placeholder: string
-	accept: any
+	accept?: any
 	onChangeCapture?: any
-	multiple: any
+	multiple?: boolean
+	disabled?: boolean // ✅ Ajouté pour supporter les inputs désactivés
 }
+
 const CustomInput: React.FC<InputProps> = ({
 	className,
 	label,
@@ -35,6 +37,7 @@ const CustomInput: React.FC<InputProps> = ({
 	onChangeCapture,
 	onFocus,
 	multiple,
+	disabled, // ✅ récupéré ici
 	...props
 }) => {
 	return (
@@ -47,9 +50,7 @@ const CustomInput: React.FC<InputProps> = ({
 				className="form-control"
 				id="validationCustom02"
 				onChange={onChange}
-				style={{
-					height: 50,
-				}}
+				style={{ height: 50 }}
 				ref={ref}
 				multiple={multiple}
 				accept={accept}
@@ -58,6 +59,7 @@ const CustomInput: React.FC<InputProps> = ({
 				invalid={invalid}
 				onChangeCapture={onChangeCapture}
 				onFocus={onFocus}
+				disabled={disabled} // ✅ appliqué ici
 				{...props}
 			/>
 			{errors ? (

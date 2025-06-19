@@ -9,71 +9,35 @@ import { useTranslation } from 'react-i18next'
 import CustomEditor from '@/components/form/CustomEditor'
 import useSettings from '@/hooks/useSettings'
 import BulletinsService from '@/services/BulletinsService'
-import { showingTranslateValue } from '@/utils/heleprs'
+import {
+	formatBytes,
+	getEditors,
+	months,
+	showingTranslateValue,
+	years,
+} from '@/utils/heleprs'
 import useValidation from '@/hooks/useValidation'
 import { PageBreadcrumb } from '@/components'
 import useAsync from '@/hooks/useAsync'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import TeamServices from '@/services/TeamServices'
 import { useNavigate, useParams } from 'react-router-dom'
+import { compressImage } from '@/utils/compressImage'
 
 function EditBulletin() {
-	const years = [
-		{
-			name: '2023',
-		},
-		{
-			name: '2024',
-		},
-		{
-			name: '2025',
-		},
-		{
-			name: '2026',
-		},
-		{
-			name: '2027',
-		},
-	]
-	const months = [
-		{
-			name: 'January',
-		},
-		{
-			name: 'February',
-		},
-		{
-			name: 'March',
-		},
-		{
-			name: 'April',
-		},
-		{
-			name: 'May',
-		},
+	const [fileSize, setFileSize] = useState<number | null>(null)
 
-		{
-			name: 'Jun',
-		},
-		{
-			name: 'July',
-		},
-		{
-			name: 'August',
-		},
-		{
-			name: 'September',
-		},
-		{
-			name: 'November',
-		},
-		{
-			name: 'December',
-		},
-	]
+	const handleFileChange = (file: File, field: string) => {
+		if (field === 'file' && file) {
+			const size = file.size
+			setFileSize(size)
+			handleOnChange(file, field)
+			handleOnChange(size, 'size')
+		}
+	}
 	const { id } = useParams()
 	const navigation = useNavigate()
-	const { languages, changePageLang, pageLang } =
+	const { languages, changePageLang, pageLang, imageUrl, setImageUrl } =
 		useAuthContext()
 	const { loading } = useSettings()
 
@@ -99,6 +63,9 @@ function EditBulletin() {
 			image: null,
 			month: '',
 			file: null,
+			page_number: '',
+			editor: '',
+			size: '',
 		})
 	useEffect(() => {
 		setInputs({
@@ -109,7 +76,7 @@ function EditBulletin() {
 				'',
 			created:
 				showingTranslateValue(bulletin?.translations, pageLang)?.created || '',
-			image: null,
+			image: bulletin?.image || null,
 			year: showingTranslateValue(bulletin?.translations, pageLang)?.year || '',
 			month:
 				showingTranslateValue(bulletin?.translations, pageLang)?.month || '',
@@ -119,7 +86,13 @@ function EditBulletin() {
 				showingTranslateValue(bulletin?.translations, pageLang)
 					?.documentation || '',
 			author: bulletin?.author || '',
+			editor: bulletin?.editor || '',
+			page_number: bulletin?.page_number || '',
+			size: bulletin?.size || '',
 		})
+		if (bulletin.image) {
+			setImageUrl(bulletin.image)
+		}
 	}, [bulletin, pageLang])
 
 	const methods = useForm({
@@ -166,28 +139,20 @@ function EditBulletin() {
 			valide = false
 		}
 
-		// if (!inputs.image) {
-		// 	hanldeError('Cover is required', 'image')
-		// 	valide = false
-		// } else {
-		// 	const MAX_FILE_SIZE = 5120 // 5MB
-		// 	const fileSizeKiloBytes = inputs?.image?.size / 1024
-		// 	if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-		// 		hanldeError('Cover image is too big (max 5 mb) ', 'image')
-		// 		valide = false
-		// 	}
-		// }
-		// if (!inputs.file) {
-		// 	hanldeError('File is required', 'file')
-		// 	valide = false
-		// } else {
-		// 	const MAX_FILE_SIZE = 5120 // 5MB
-		// 	const fileSizeKiloBytes = inputs?.file?.size / 1024
-		// 	if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-		// 		hanldeError('File is too big (max 5 mb) ', 'file')
-		// 		valide = false
-		// 	}
-		// }
+		if (!inputs.page_number) {
+			hanldeError('page_number is required', 'page_number')
+			valide = false
+		}
+
+		if (!inputs.editor) {
+			hanldeError('editor is required', 'editor')
+			valide = false
+		}
+
+		if (!inputs.size) {
+			hanldeError('size is required', 'size')
+			valide = false
+		}
 
 		if (valide) {
 			createBulletins(inputs)
@@ -266,7 +231,7 @@ function EditBulletin() {
 									</li>
 									<li className="list-group-item">
 										<Row>
-											<Col lg={4}>
+											<Col lg={2}>
 												<CustomInput
 													multiple={undefined}
 													accept={undefined}
@@ -301,12 +266,11 @@ function EditBulletin() {
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'year')
 													}
-													errors={err}
+													errors={errors.year}
 													value={inputs.year}>
-													<option defaultValue="selected">...</option>
 													{years?.map((item: any, index: any) => (
-														<option key={index} value={item.name}>
-															{item.name}
+														<option key={index} value={item.value}>
+															{item.label}
 														</option>
 													))}
 												</FormInput>
@@ -326,17 +290,61 @@ function EditBulletin() {
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'month')
 													}
-													errors={err}
+													errors={errors.month}
 													value={inputs.month}>
-													<option defaultValue="selected">...</option>
 													{months?.map((item: any, index: any) => (
-														<option key={index} value={item.name}>
-															{item.name}
+														<option key={index} value={item.value}>
+															{item.label}
 														</option>
 													))}
 												</FormInput>
 											</Col>
-											<Col lg={4}>
+											<Col lg={2}>
+												<FormInput
+													invalid={undefined}
+													name="select"
+													style={{
+														height: 50,
+													}}
+													label="Select Editor"
+													type="select"
+													containerClass="mb-3"
+													className="form-select"
+													key="select"
+													onChange={(e: any) =>
+														handleOnChange(e.target.value, 'editor')
+													}
+													errors={errors.editor}
+													value={inputs.editor}>
+													<option defaultValue="selected">...</option>
+													{getEditors?.map((item: any, index: any) => (
+														<option key={index} value={item.value}>
+															{item.label}
+														</option>
+													))}
+												</FormInput>
+											</Col>
+											<Col lg={2}>
+												<CustomInput
+													multiple={undefined}
+													accept={undefined}
+													onChangeCapture={undefined}
+													name="page_number"
+													label="Nombre de pages"
+													placeholder=""
+													type="number"
+													className="form-control"
+													errors={errors.page_number}
+													value={inputs.page_number}
+													onFocus={() => {
+														hanldeError(null, 'page_number')
+													}}
+													onChange={(e: any) =>
+														handleOnChange(e.target.value, 'page_number')
+													}
+												/>
+											</Col>
+											<Col lg={2}>
 												<FormInput
 													invalid={undefined}
 													name="select"
@@ -347,61 +355,100 @@ function EditBulletin() {
 													type="select"
 													containerClass="mb-3"
 													className="form-select"
-													value={inputs.author}
+													value={inputs.Author}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'author')
 													}
-													// register={register}
 													key="select"
 													errors={'error: ' + errors}
 													control={control}>
-													<option defaultValue="selected">...</option>
 													{teams?.map((item: any, index: any) => (
 														<option key={index} value={item.id}>
-															{item?.full_name}
+															{item.full_name}
 														</option>
 													))}
 												</FormInput>
 											</Col>
 										</Row>
 									</li>
-									<li className=" list-group-item">
-										<CustomInput
-											multiple={undefined}
-											invalid={undefined}
-											accept={undefined}
-											name="file"
-											label={t('Pdf File')}
-											placeholder=""
-											type="file"
-											className="form-control"
-											errors={errors.file}
-											onFocus={() => {
-												hanldeError(null, 'file')
-											}}
-											onChangeCapture={(e: any) =>
-												handleOnChange(e.target.files[0], 'file')
-											}
-										/>
-									</li>
 									<li className="list-group-item">
-										<CustomInput
-											multiple={undefined}
-											invalid={undefined}
-											accept={undefined}
-											name="image"
-											label={t('Cover') + ' (850 X 550)'}
-											placeholder=""
-											type="file"
-											className="form-control"
-											errors={errors.image}
-											onFocus={() => {
-												hanldeError(null, 'image')
-											}}
-											onChangeCapture={(e: any) =>
-												handleOnChange(e.target.files[0], 'image')
-											}
-										/>
+										<Row className="align-items-start">
+											{/* Upload fichier PDF */}
+											<Col lg={4} className="mb-3">
+												<CustomInput
+													name="file"
+													label={t('Pdf File')}
+													placeholder=""
+													type="file"
+													className="form-control"
+													errors={errors.file}
+													onFocus={() => hanldeError(null, 'file')}
+													accept=".pdf"
+													onChangeCapture={(
+														e: React.ChangeEvent<HTMLInputElement>
+													) => {
+														const file = e.target.files?.[0]
+														if (file) handleFileChange(file, 'file')
+													}}
+												/>
+												{!inputs.file && inputs.size && (
+													<CustomInput
+														name="size"
+														label={t('Taille du fichier')}
+														placeholder=""
+														type="text"
+														className="form-control"
+														errors={errors.size}
+														value={inputs.size}
+														onFocus={() => hanldeError(null, 'size')}
+														onChange={(e: any) =>
+															handleOnChange(e.target.value, 'size')
+														}
+														disabled={true} // Désactive la saisie, car c’est une info affichée
+													/>
+												)}
+											</Col>
+
+											{/* Upload image couverture */}
+											<Col lg={4} className="mb-3">
+												<CustomInput
+													multiple={undefined}
+													invalid={undefined}
+													accept={undefined}
+													name="image"
+													label={t('Cover')}
+													placeholder=""
+													type="file"
+													className="form-control"
+													errors={errors.image}
+													onFocus={() => {
+														hanldeError(null, 'image')
+													}}
+													onChangeCapture={async (
+														e: React.ChangeEvent<HTMLInputElement>
+													) => {
+														const file = e.target.files?.[0]
+														if (!file) return
+
+														const compressed = await compressImage(file, 500)
+														setImageUrl(URL.createObjectURL(compressed))
+														handleOnChange(compressed, 'image')
+													}}
+												/>
+											</Col>
+
+											{/* Aperçu image */}
+											<Col lg={4} className="mb-3">
+												<div className="text-center">
+													<img
+														src={imageUrl || '/default.jpg'}
+														className="img-fluid rounded shadow-sm border"
+														alt="Cover Preview"
+														style={{ maxHeight: '200px', maxWidth: '100%' }}
+													/>
+												</div>
+											</Col>
+										</Row>
 									</li>
 
 									<li className="list-group-item">

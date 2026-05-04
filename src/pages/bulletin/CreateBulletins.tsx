@@ -21,12 +21,13 @@ function CreateBulletins() {
 		useAuthContext()
 	const [fileSize, setFileSize] = useState<number | null>(null)
 
+	// ✅ Gère la taille du fichier et stocke l’entier
 	const handleFileChange = (file: File, field: string) => {
 		if (field === 'file' && file) {
-			const size = file.size
-			setFileSize(size)
+			const sizeInBytes = file.size
+			setFileSize(sizeInBytes)
 			handleOnChange(file, field)
-			handleOnChange(size, 'size')
+			handleOnChange(sizeInBytes, 'size') // stocke le nombre d’octets
 		}
 	}
 
@@ -48,7 +49,7 @@ function CreateBulletins() {
 		file: null,
 		page_number: '',
 		editor: '',
-		size: '',
+		size: '', // sera un nombre (octets)
 	})
 
 	const methods = useForm({
@@ -69,7 +70,7 @@ function CreateBulletins() {
 
 		let valide = true
 		if (!inputs.title) {
-			hanldeError('Title us is required', 'title')
+			hanldeError('Title is required', 'title')
 			valide = false
 		}
 		if (!inputs.description) {
@@ -80,37 +81,30 @@ function CreateBulletins() {
 			hanldeError('Date create is required', 'created')
 			valide = false
 		}
-
 		if (!inputs.author) {
 			hanldeError('Author is required', 'author')
 			valide = false
 		}
-
 		if (!inputs.year) {
-			hanldeError('year is required', 'year')
+			hanldeError('Year is required', 'year')
 			valide = false
 		}
-
 		if (!inputs.month) {
-			hanldeError('month is required', 'month')
+			hanldeError('Month is required', 'month')
 			valide = false
 		}
-
 		if (!inputs.page_number) {
-			hanldeError('page_number is required', 'page_number')
+			hanldeError('Number of pages is required', 'page_number')
 			valide = false
 		}
-
 		if (!inputs.editor) {
-			hanldeError('editor is required', 'editor')
+			hanldeError('Editor is required', 'editor')
 			valide = false
 		}
-
 		if (!inputs.size) {
-			hanldeError('size is required', 'size')
+			hanldeError('File size is required', 'size')
 			valide = false
 		}
-
 		if (!inputs.image) {
 			hanldeError('Cover is required', 'image')
 			valide = false
@@ -118,24 +112,31 @@ function CreateBulletins() {
 			const MAX_FILE_SIZE = 5120 // 5MB
 			const fileSizeKiloBytes = inputs?.image?.size / 1024
 			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-				hanldeError('Cover image is too big (max 5 mb) ', 'image')
+				hanldeError('Cover image is too big (max 5 MB)', 'image')
 				valide = false
 			}
 		}
 		if (!inputs.file) {
-			hanldeError('File is required', 'file')
+			hanldeError('PDF file is required', 'file')
 			valide = false
 		} else {
-			const MAX_FILE_SIZE = 5120 // 5MB
+			// ✅ Augmentation à 10 Mo pour les rapports / bulletins
+			const MAX_FILE_SIZE = 10240 // 10 MB
 			const fileSizeKiloBytes = inputs?.file?.size / 1024
 			if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-				hanldeError('File is too big (max 5 mb) ', 'file')
+				hanldeError('File is too big (max 10 MB)', 'file')
 				valide = false
 			}
 		}
 
 		if (valide) {
-			createBulletins(inputs)
+			// Convertir page_number en entier (si nécessaire pour l’API)
+			const payload = {
+				...inputs,
+				page_number: parseInt(inputs.page_number, 10) || 0,
+				size: inputs.size, // déjà un nombre
+			}
+			createBulletins(payload)
 		}
 	}
 
@@ -155,9 +156,7 @@ function CreateBulletins() {
 												<FormInput
 													invalid={undefined}
 													name="select"
-													style={{
-														height: 50,
-													}}
+													style={{ height: 50 }}
 													label="Select database Language"
 													type="select"
 													containerClass="mb-3"
@@ -189,9 +188,7 @@ function CreateBulletins() {
 											className="form-control"
 											errors={errors.title}
 											value={inputs.title}
-											onFocus={() => {
-												hanldeError(null, 'title')
-											}}
+											onFocus={() => hanldeError(null, 'title')}
 											onChange={(e: any) =>
 												handleOnChange(e.target.value, 'title')
 											}
@@ -202,9 +199,7 @@ function CreateBulletins() {
 											label={t('Description')}
 											error={errors.description}
 											value={inputs.description}
-											onFocus={() => {
-												hanldeError(null, 'description')
-											}}
+											onFocus={() => hanldeError(null, 'description')}
 											onChange={(text: any) =>
 												handleOnChange(text, 'description')
 											}
@@ -217,16 +212,14 @@ function CreateBulletins() {
 													multiple={undefined}
 													accept={undefined}
 													onChangeCapture={undefined}
-													name=""
+													name="created"
 													label={t('Date create')}
 													placeholder=""
 													type="date"
 													className="form-control"
 													errors={errors.created}
 													value={inputs.created}
-													onFocus={() => {
-														hanldeError(null, 'created')
-													}}
+													onFocus={() => hanldeError(null, 'created')}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'created')
 													}
@@ -235,15 +228,13 @@ function CreateBulletins() {
 											<Col lg={2}>
 												<FormInput
 													invalid={undefined}
-													name="select"
-													style={{
-														height: 50,
-													}}
+													name="year"
+													style={{ height: 50 }}
 													label="Select Year"
 													type="select"
 													containerClass="mb-3"
 													className="form-select"
-													key="select"
+													key="year"
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'year')
 													}
@@ -259,15 +250,13 @@ function CreateBulletins() {
 											<Col lg={2}>
 												<FormInput
 													invalid={undefined}
-													name="select"
-													style={{
-														height: 50,
-													}}
+													name="month"
+													style={{ height: 50 }}
 													label="Select Month"
 													type="select"
 													containerClass="mb-3"
 													className="form-select"
-													key="select"
+													key="month"
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'month')
 													}
@@ -283,15 +272,13 @@ function CreateBulletins() {
 											<Col lg={2}>
 												<FormInput
 													invalid={undefined}
-													name="select"
-													style={{
-														height: 50,
-													}}
+													name="editor"
+													style={{ height: 50 }}
 													label="Select Editor"
 													type="select"
 													containerClass="mb-3"
 													className="form-select"
-													key="select"
+													key="editor"
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'editor')
 													}
@@ -310,15 +297,13 @@ function CreateBulletins() {
 													accept={undefined}
 													onChangeCapture={undefined}
 													name="page_number"
-													label="Nombre de pages"
+													label={t('Number of pages')}
 													placeholder=""
 													type="number"
 													className="form-control"
 													errors={errors.page_number}
 													value={inputs.page_number}
-													onFocus={() => {
-														hanldeError(null, 'page_number')
-													}}
+													onFocus={() => hanldeError(null, 'page_number')}
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'page_number')
 													}
@@ -327,21 +312,19 @@ function CreateBulletins() {
 											<Col lg={2}>
 												<FormInput
 													invalid={undefined}
-													name="select"
-													style={{
-														height: 50,
-													}}
+													name="author"
+													style={{ height: 50 }}
 													label="Select Author"
 													type="select"
 													containerClass="mb-3"
 													className="form-select"
-													value={inputs.Author}
+													value={inputs.author} // ✅ corrigé
 													onChange={(e: any) =>
 														handleOnChange(e.target.value, 'author')
 													}
 													register={register}
-													key="select"
-													errors={'error: ' + errors}
+													key="author"
+													errors={errors.author} // ✅ corrigé
 													control={control}>
 													<option defaultValue="selected">...</option>
 													{teams?.map((item: any, index: any) => (
@@ -376,17 +359,15 @@ function CreateBulletins() {
 												{fileSize !== null && (
 													<CustomInput
 														name="size"
-														label={t('Taille du fichier')}
+														label={t('File size')}
 														placeholder=""
 														type="text"
 														className="form-control"
 														errors={errors.size}
 														value={formatBytes(fileSize)}
 														onFocus={() => hanldeError(null, 'size')}
-														onChange={(e: any) =>
-															handleOnChange(e.target.value, 'size')
-														}
-														// disabled={true}
+														onChange={() => {}} // ✅ ne rien faire
+														disabled={true} // ✅ empêche la modification manuelle
 													/>
 												)}
 											</Col>
